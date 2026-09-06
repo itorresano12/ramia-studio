@@ -25,17 +25,13 @@ const hasClip = product.closureOptions.includes('clip');
 ---
 
 <article
-  class="product-card group relative flex flex-col bg-white/60 border border-neutral-200/50
-         rounded-3xl overflow-hidden
-         shadow-[0_2px_20px_0_rgba(0,0,0,0.05)]
-         hover:shadow-[0_8px_40px_0_rgba(0,0,0,0.10)]
-         transition-shadow duration-500 ease-out backdrop-blur-sm"
+  class="product-card group relative flex flex-col bg-white rounded-3xl p-3 border border-neutral-200/70 shadow-sm hover:shadow-md transition-all duration-300"
   data-category={product.category}
   data-clip={hasClip ? 'true' : 'false'}
 >
   <!-- ── Media ── -->
   <a href={lang === 'es' ? `/producto/${product.slug}` : `/en/product/${product.slug}`}
-     class="relative w-full overflow-hidden block" style={`aspect-ratio:4/5; background:${fallbackBg};`}>
+     class="relative w-full overflow-hidden block rounded-2xl" style={`aspect-ratio:4/5; background:${fallbackBg};`}>
 
     <!-- Static image -->
     <img
@@ -63,15 +59,16 @@ const hasClip = product.closureOptions.includes('clip');
 
     <!-- Weight badge -->
     <div class="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none">
-      <span class="inline-flex items-center gap-1.5 backdrop-blur-md bg-white/80
-                   border border-white/90 text-neutral-700
+      <span class="inline-flex items-center gap-1.5 backdrop-blur-md bg-white/90
+                   border border-neutral-200/50 text-neutral-800
                    text-[10px] font-body font-medium tracking-[0.12em] uppercase
                    px-3 py-1.5 rounded-full shadow-sm select-none">
         {product.weightGrams}g&ensp;·&ensp;{t.guarantees.ultralight.split(' ')[0]}
       </span>
       {hasClip && (
-        <span class="inline-flex items-center gap-1 backdrop-blur-md bg-neutral-900/85
-                     text-white text-[9px] font-body font-medium tracking-[0.12em] uppercase
+        <span class="inline-flex items-center gap-1 backdrop-blur-md bg-white/90
+                     border border-neutral-200/50 text-neutral-800
+                     text-[9px] font-body font-medium tracking-[0.12em] uppercase
                      px-2.5 py-1 rounded-full shadow-sm select-none">
           ✦ {t.filters.clip.split('(')[0].trim()}
         </span>
@@ -90,7 +87,7 @@ const hasClip = product.closureOptions.includes('clip');
   </a>
 
   <!-- ── Info ── -->
-  <div class="flex flex-col gap-1 px-5 pt-5 pb-6">
+  <div class="flex flex-col gap-1 pt-4 px-2 pb-2">
     <!-- Closure type -->
     <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-0.5">
       {product.closureType[lang]}

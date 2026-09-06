@@ -110,21 +110,25 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
             </p>
             <p class={`font-display text-xl font-light leading-tight ${w.highlight ? 'text-neutral-900' : 'text-neutral-400'}`}>
               {w.grams}g
+            <p class={`font-body text-[11px] font-semibold tracking-wide ${item.highlight ? 'text-neutral-900' : 'text-neutral-600'}`}>
+              {item.label}
             </p>
-            <p class="font-body text-[10px] text-neutral-400 tracking-wide">
-              {w.note}
+            <p class={`font-display text-2xl font-normal leading-tight ${item.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
+              {item.grams}g
+            </p>
+            <p class="font-body text-[10px] text-neutral-500 tracking-wide font-medium">
+              {item.note}
             </p>
           </div>
 
-          <!-- Bar -->
-          <div class="flex-1 h-9 rounded-full overflow-hidden bg-neutral-100/60">
-            <div
-              class={`h-full rounded-full transition-all duration-700 ${
-                w.highlight
-                  ? 'bg-gradient-to-r from-neutral-200 via-white to-neutral-100 border border-neutral-200 shadow-[0_0_20px_rgba(200,190,240,0.4)]'
-                  : 'bg-neutral-200'
-              }`}
-              style={`width:${(w.grams / maxWeight) * 100}%`}
+          <!-- Rail -->
+          <div class="relative w-full h-10 lg:h-12 bg-stone-200 rounded-r-full flex items-center group overflow-hidden shadow-inner">
+            <!-- Animated Bar -->
+            <div 
+              class={`absolute left-0 top-0 h-full rounded-r-full transition-all duration-1000 ease-out origin-left flex items-center
+                ${item.highlight ? 'bg-neutral-900 text-white shadow-md' : 'bg-neutral-400 text-white'}
+              `}
+              style={`width:${(item.grams / maxWeight) * 100}%`}
             ></div>
           </div>
         </div>
@@ -156,7 +160,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
           class="filter-btn shrink-0 text-[10px] font-body font-medium tracking-[0.15em]
                  uppercase px-4 py-2 rounded-full border transition-all duration-200
                  whitespace-nowrap
-                 border-neutral-200 text-neutral-500 hover:border-neutral-900 hover:text-neutral-900"
+                 border-transparent bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
           data-filter={f.id}
           aria-label={f.label}
         >
@@ -182,23 +186,14 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
   <!-- ═══════════════════════════════════════════
        MANIFESTO
   ══════════════════════════════════════════════ -->
-  <section id="manifiesto" class="max-w-2xl mx-auto px-6 py-20 text-center border-t border-neutral-100">
-    <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-300 mb-6">
+  <section id="manifiesto" class="max-w-3xl mx-auto px-6 py-20 text-center border-t border-neutral-200/60 mt-10">
+    <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-400 mb-8">
       {t.nav.manifesto}
     </p>
-    <blockquote class="font-display italic text-2xl md:text-3xl font-light text-neutral-800 leading-relaxed">
+    <blockquote class="font-display italic text-3xl md:text-4xl font-light text-neutral-800 leading-relaxed">
       "{lang === 'es' ? 'Cada pieza nace de la convicción de que la joyería más poderosa es la que no se siente.' : 'Every piece is born from the conviction that the most powerful jewelry is the one you do not feel.'}"
     </blockquote>
   </section>
-
-  <!-- ═══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════ -->
-  <footer class="w-full text-center py-10 border-t border-neutral-100">
-    <p class="font-body text-[10px] text-neutral-300 tracking-[0.25em] uppercase">
-      © {new Date().getFullYear()}&ensp;Ramia Studio&ensp;·&ensp;{lang === 'es' ? 'Todos los derechos reservados' : 'All rights reserved'}
-    </p>
-  </footer>
 
 </Layout>
 
@@ -223,9 +218,9 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
         const isActive = btn.dataset.filter === filterId;
         btn.classList.toggle('bg-neutral-900',  isActive);
         btn.classList.toggle('text-white',       isActive);
-        btn.classList.toggle('border-neutral-900', isActive);
-        btn.classList.toggle('text-neutral-500',  !isActive);
-        btn.classList.toggle('border-neutral-200', !isActive);
+        btn.classList.toggle('bg-neutral-100', !isActive);
+        btn.classList.toggle('text-neutral-700',  !isActive);
+        btn.classList.toggle('hover:bg-neutral-200', !isActive);
       });
 
       // Show/hide cards
