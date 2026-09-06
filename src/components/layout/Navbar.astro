@@ -105,21 +105,28 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
 <script>
   import { openCart, cartCount } from '../../stores/cart';
 
-  const cartBtn = document.getElementById('cart-btn');
-  const cartBadge = document.getElementById('cart-count');
+  let navbarUnsubs: Array<() => void> = [];
 
-  cartBtn?.addEventListener('click', () => {
-    openCart();
-  });
+  document.addEventListener('astro:page-load', () => {
+    navbarUnsubs.forEach(unsub => unsub());
+    navbarUnsubs = [];
 
-  cartCount.subscribe(count => {
-    if (cartBadge) {
-      if (count > 0) {
-        cartBadge.textContent = count.toString();
-        cartBadge.classList.remove('hidden');
-      } else {
-        cartBadge.classList.add('hidden');
+    const cartBtn = document.getElementById('cart-btn');
+    const cartBadge = document.getElementById('cart-count');
+
+    cartBtn?.addEventListener('click', () => {
+      openCart();
+    });
+
+    navbarUnsubs.push(cartCount.subscribe(count => {
+      if (cartBadge) {
+        if (count > 0) {
+          cartBadge.textContent = count.toString();
+          cartBadge.classList.remove('hidden');
+        } else {
+          cartBadge.classList.add('hidden');
+        }
       }
-    }
+    }));
   });
 </script>

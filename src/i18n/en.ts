@@ -1,27 +1,27 @@
 export const en = {
   nav: {
     collection: "Collection",
-    manifesto: "The Manifesto",
+    manifesto: "The Studio",
     materials: "The Atelier & Materials",
-    cart: "Cart"
+    cart: "Bag"
   },
   hero: {
-    preTitle: "LIMITED EDITION 2026 • HANDCRAFTED",
-    title: "Sculptures of light and weightlessness",
-    subtitle: "The weightlessness of acrylic fused with the absolute purity of hypoallergenic surgical stainless steel. Pieces that do not weigh on the wearer, but on the beholder.",
+    preTitle: "LIMITED EDITION • DESIGNED & CRAFTED IN SPAIN",
+    title: "Statement acrylic jewelry for people who love color.",
+    subtitle: "Featherlight pieces, precision-cut and assembled by hand in our studio. Designed to turn heads while feeling weightless.",
     cta: "Discover Collection"
   },
   filters: {
-    all: "All pieces",
-    maxi: "Maxi Sculptural",
-    hoops: "Hoops & Essentials",
-    party: "Party / Guest Edition",
+    all: "All",
+    earrings: "Earrings",
+    necklaces: "Necklaces",
+    charms: "Charms & Mix",
     clip: "Clip-on Option Available"
   },
   guarantees: {
-    ultralight: "Featherweight (2g - 4g)",
-    titanium: "Surgical Anti-allergic Steel",
-    noDamage: "Zero Earlobe Damage",
+    ultralight: "Under 3 grams (featherlight wear)",
+    titanium: "Hypoallergenic surgical steel (itch-free)",
+    noDamage: "Handcrafted layered acrylic",
     shipping: "Insured Shipping"
   },
   product: {

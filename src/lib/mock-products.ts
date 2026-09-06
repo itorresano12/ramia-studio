@@ -4,11 +4,11 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod-001',
     title: {
-      es: 'Geometría del Alma',
-      en: 'Geometry of the Soul'
+      es: 'Tucán Tropical Glitter',
+      en: 'Tropical Glitter Toucan'
     },
-    slug: 'geometria-del-alma',
-    price: 18.00,
+    slug: 'tucan-tropical-glitter',
+    price: 32.00,
     weightGrams: 2.6,
     weightComparison: {
       es: 'Pesa menos que una moneda de 10 céntimos',
@@ -20,29 +20,29 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     closureOptions: ['titanio', 'clip'],
     description: {
-      es: 'Pendientes asimétricos de metacrilato en tonos translúcidos que juegan con la luz para crear reflejos únicos. Su diseño ultraligero permite lucir volumen sin comprometer la comodidad.',
-      en: 'Asymmetric acrylic earrings in translucent tones that play with light to create unique reflections. Their ultralight design allows you to wear volume without compromising comfort.'
+      es: 'Un tucán de tres capas ensamblado a mano: pico en metacrilato espejo naranja, cuerpo en negro sólido y detalles en glitter incrustado. Tan vibrante que no necesita filtros.',
+      en: 'A three-layer hand-assembled toucan: orange mirror acrylic beak, solid black body, and embedded glitter details. So vibrant it needs no filters.'
     },
     story: {
-      es: 'Inspirados en la arquitectura brutalista y suavizados por la fluidez de la luz natural. Geometría del Alma nace para demostrar que la presencia y la ligereza pueden coexistir en una misma pieza.',
-      en: 'Inspired by brutalist architecture and softened by the fluidity of natural light. Geometry of the Soul was born to prove that presence and lightness can coexist in the same piece.'
+      es: 'Llevar a nuestro Tucán Tropical es una declaración de intenciones. Nació una tarde de verano jugando con recortes de purpurina y rápidamente se convirtió en un icono del estudio.',
+      en: 'Wearing our Tropical Toucan is a statement of intent. It was born one summer afternoon playing with glitter offcuts and quickly became a studio icon.'
     },
-    category: 'maxi',
-    colorPalette: ['#e8e0f0', '#f0e8e0'],
+    category: 'earrings',
+    colorPalette: ['#FFA500', '#000000', '#FFD700'],
     imageStatic: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/geometria-alma-hover.webm',
-    earScaleImage: '/images/products/geometria-del-alma-scale.webp',
+    videoHover: '',
+    earScaleImage: '',
     dimensions: '6.0 cm × 2.5 cm',
     inStock: true,
   },
   {
     id: 'prod-002',
     title: {
-      es: 'Ecos de Obsidiana',
-      en: 'Echoes of Obsidian'
+      es: 'Monstera Efecto Espejo',
+      en: 'Mirror Effect Monstera'
     },
-    slug: 'ecos-de-obsidiana',
-    price: 22.00,
+    slug: 'monstera-efecto-espejo',
+    price: 28.00,
     weightGrams: 3.2,
     weightComparison: {
       es: 'Pesa menos que una llave estándar',
@@ -54,67 +54,67 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     closureOptions: ['titanio'],
     description: {
-      es: 'Aros escultóricos en metacrilato con acabado pulido a mano. Un clásico reinventado mediante la manipulación térmica del material.',
-      en: 'Sculptural hoops in acrylic with a hand-polished finish. A classic reinvented through thermal manipulation of the material.'
+      es: 'Hojas de Monstera Deliciosa grabadas en láser sobre metacrilato efecto espejo verde esmeralda. Reflejan la luz en cada movimiento.',
+      en: 'Monstera Deliciosa leaves laser-engraved on emerald green mirror effect acrylic. They reflect light with every movement.'
     },
     story: {
-      es: 'La colección Ecos surge del silencio y la oscuridad elegante. Cada curva es doblada artesanalmente a 160°, haciendo que ninguna pieza sea exactamente igual a la anterior.',
-      en: 'The Echoes collection arises from silence and elegant darkness. Each curve is hand-bent at 160°, making no piece exactly like the previous one.'
+      es: 'Para las plant lovers que quieren llevar su jungla a todas partes. La ligereza de esta pieza te permite usarla desde el café de la mañana hasta el concierto de la noche.',
+      en: 'For plant lovers who want to take their jungle everywhere. The lightness of this piece lets you wear it from morning coffee to the evening concert.'
     },
-    category: 'aros',
-    colorPalette: ['#1a1a2e', '#16213e'],
+    category: 'earrings',
+    colorPalette: ['#50C878', '#FFFFFF'],
     imageStatic: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/ecos-obsidiana-hover.webm',
-    earScaleImage: '/images/products/ecos-de-obsidiana-scale.webp',
+    videoHover: '',
+    earScaleImage: '',
     dimensions: '5.0 cm diámetro',
     inStock: true,
   },
   {
     id: 'prod-003',
     title: {
-      es: 'Alba en Tensión',
-      en: 'Dawn in Tension'
+      es: 'Collar Margarita Pop',
+      en: 'Pop Daisy Necklace'
     },
-    slug: 'alba-en-tension',
-    price: 25.00,
-    weightGrams: 2.1,
+    slug: 'collar-margarita-pop',
+    price: 35.00,
+    weightGrams: 4.1,
     weightComparison: {
-      es: 'Pesa menos que una hoja de papel',
-      en: 'Weighs less than a sheet of paper'
+      es: 'Pesa menos que un sobre de azúcar',
+      en: 'Weighs less than a sugar packet'
     },
     closureType: {
-      es: 'Acero inoxidable quirúrgico',
-      en: 'Surgical stainless steel'
+      es: 'Cadena de acero inoxidable quirúrgico regulable',
+      en: 'Adjustable surgical stainless steel chain'
     },
-    closureOptions: ['titanio', 'clip'],
+    closureOptions: ['titanio'],
     description: {
-      es: 'Estructura minimalista de metacrilato iridiscente sostenida por finos hilos. Cambia de color sutilmente según el ángulo de visión.',
-      en: 'Minimalist structure of iridescent acrylic supported by fine threads. It subtly changes color depending on the viewing angle.'
+      es: 'Maxi colgante con una margarita de estética 60s. Pétalos de metacrilato blanco opalescente y centro en amarillo neón UV que brilla bajo luz negra.',
+      en: 'Maxi pendant with a 60s aesthetic daisy. Opalescent white acrylic petals and a UV neon yellow center that glows under black light.'
     },
     story: {
-      es: 'Diseñados para capturar la esencia del primer rayo de sol. Alba en Tensión es un ejercicio de minimalismo estructural donde lo invisible es tan importante como lo visible.',
-      en: 'Designed to capture the essence of the first ray of sun. Dawn in Tension is an exercise in structural minimalism where the invisible is as important as the visible.'
+      es: 'Un homenaje a la época más pop. Queríamos diseñar un amuleto alegre que aportara un extra de vitamina C a tus looks básicos.',
+      en: 'A tribute to the most pop era. We wanted to design a cheerful amulet that would add extra vitamin C to your basic looks.'
     },
-    category: 'esenciales',
-    colorPalette: ['#fff1eb', '#f9f0ff'],
+    category: 'necklaces',
+    colorPalette: ['#FFFFFF', '#FFFF00'],
     imageStatic: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/alba-tension-hover.webm',
-    earScaleImage: '/images/products/alba-en-tension-scale.webp',
-    dimensions: '4.5 cm × 1.8 cm',
+    videoHover: '',
+    earScaleImage: '',
+    dimensions: 'Margarita: 4.5 cm / Cadena: 40-45 cm',
     inStock: true,
   },
   {
     id: 'prod-004',
     title: {
-      es: 'Caudal de Luz',
-      en: 'Flow of Light'
+      es: 'Calavera Confeti',
+      en: 'Confetti Skull'
     },
-    slug: 'caudal-de-luz',
-    price: 32.00,
-    weightGrams: 3.8,
+    slug: 'calavera-confeti',
+    price: 24.00,
+    weightGrams: 2.8,
     weightComparison: {
-      es: 'Pesa la mitad que un pendiente tradicional de su tamaño',
-      en: 'Weighs half as much as a traditional earring of its size'
+      es: 'Súper ligera y divertida',
+      en: 'Super light and fun'
     },
     closureType: {
       es: 'Acero inoxidable quirúrgico hipoalergénico',
@@ -122,63 +122,63 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     closureOptions: ['titanio', 'clip'],
     description: {
-      es: 'Pieza statement de gran formato con formas orgánicas fluidas. Sus ondas capturan la luz y crean destellos deslumbrantes perfectos para eventos de noche.',
-      en: 'Large format statement piece with fluid organic shapes. Its waves capture light and create dazzling sparkles perfect for evening events.'
+      es: 'Pendiente asimétrico con base de resina transparente incrustada de confeti de colores flúor y grabado frontal con forma de calavera sonriente.',
+      en: 'Asymmetric earring with a transparent resin base embedded with neon confetti and a smiling skull front engraving.'
     },
     story: {
-      es: 'Inspirado en el movimiento del agua al reflejar la luna. Una pieza concebida para ser la protagonista absoluta de cualquier estilismo de invitada.',
-      en: 'Inspired by the movement of water reflecting the moon. A piece conceived to be the absolute protagonist of any guest styling.'
+      es: 'Un guiño a celebrar la vida todos los días. Porque hasta las calaveras pueden ser el alma de la fiesta si están hechas de confeti.',
+      en: 'A nod to celebrating life every day. Because even skulls can be the life of the party if they are made of confetti.'
     },
-    category: 'invitada',
-    colorPalette: ['#f0e8e0', '#d8c8b8'],
+    category: 'earrings',
+    colorPalette: ['#FF1493', '#00FFFF', '#FFFF00'],
     imageStatic: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/caudal-luz-hover.webm',
-    earScaleImage: '/images/products/caudal-de-luz-scale.webp',
-    dimensions: '8.0 cm × 4.0 cm',
+    videoHover: '',
+    earScaleImage: '',
+    dimensions: '3.5 cm × 2.0 cm',
     inStock: true,
   },
   {
     id: 'prod-005',
     title: {
-      es: 'Esencia Fragmentada',
-      en: 'Fragmented Essence'
+      es: 'Charm Rayo Iridiscente',
+      en: 'Iridescent Lightning Charm'
     },
-    slug: 'esencia-fragmentada',
+    slug: 'charm-rayo-iridiscente',
     price: 15.00,
-    weightGrams: 2.2,
+    weightGrams: 1.2,
     weightComparison: {
       es: 'Imperceptible al llevarlo',
       en: 'Imperceptible when worn'
     },
     closureType: {
-      es: 'Acero inoxidable quirúrgico',
-      en: 'Surgical stainless steel'
+      es: 'Mosquetón mini de acero quirúrgico',
+      en: 'Surgical steel mini clasp'
     },
     closureOptions: ['titanio'],
     description: {
-      es: 'Pequeñas piezas geométricas facetadas a mano que actúan como prismas. El fondo perfecto para el día a día sin renunciar al diseño.',
-      en: 'Small hand-faceted geometric pieces that act as prisms. The perfect background for day-to-day without sacrificing design.'
+      es: 'Añade un toque de energía a tus aros básicos. Charm de metacrilato dicroico que cambia de color del azul hielo al rosa magenta según le dé la luz.',
+      en: 'Add a touch of energy to your basic hoops. Dichroic acrylic charm that changes color from ice blue to magenta pink depending on the light.'
     },
     story: {
-      es: 'La belleza de lo pequeño. Hemos tomado los recortes de nuestras piezas maxi y los hemos pulido hasta convertirlos en joyas esenciales, minimizando el residuo a cero.',
-      en: 'The beauty of the small. We have taken the offcuts of our maxi pieces and polished them into essential jewels, minimizing waste to zero.'
+      es: 'Diseñados como complemento mix & match para que construyas tu propia joya. La magia del metacrilato dicroico no se puede explicar, hay que vivirla.',
+      en: 'Designed as a mix & match accessory for you to build your own jewel. The magic of dichroic acrylic cannot be explained, it must be experienced.'
     },
-    category: 'esenciales',
-    colorPalette: ['#transparent', '#ffffff'],
+    category: 'charms',
+    colorPalette: ['#transparent', '#ff00ff'],
     imageStatic: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/esencia-fragmentada-hover.webm',
-    earScaleImage: '/images/products/esencia-fragmentada-scale.webp',
-    dimensions: '1.5 cm × 1.5 cm',
+    videoHover: '',
+    earScaleImage: '',
+    dimensions: '2.5 cm × 1.0 cm',
     inStock: true,
   },
   {
     id: 'prod-006',
     title: {
-      es: 'Eclipse Escultural',
-      en: 'Sculptural Eclipse'
+      es: 'Pendientes Abstract Carei',
+      en: 'Abstract Tortoiseshell Earrings'
     },
-    slug: 'eclipse-escultural',
-    price: 35.00,
+    slug: 'abstract-carei',
+    price: 30.00,
     weightGrams: 3.5,
     weightComparison: {
       es: 'Sorprendentemente ligero para su volumen',
@@ -190,19 +190,19 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     closureOptions: ['titanio', 'clip'],
     description: {
-      es: 'Doble círculo superpuesto en metacrilato. Una estructura tridimensional que desafía la gravedad y aporta un dramatismo sofisticado.',
-      en: 'Double overlapping circle in acrylic. A three-dimensional structure that defies gravity and provides sophisticated drama.'
+      es: 'Bloques geométricos en metacrilato con patrón de concha de carey ámbar y negro brillante. Dos piezas articuladas que oscilan a tu ritmo.',
+      en: 'Geometric blocks in acrylic with an amber and gloss black tortoiseshell pattern. Two articulated pieces that swing to your rhythm.'
     },
     story: {
-      es: 'El contraste entre el misterio de la sombra y la claridad del brillo. Una joya pensada para las personalidades más audaces que buscan arte portable.',
-      en: 'The contrast between the mystery of the shadow and the clarity of the shine. A jewel designed for the boldest personalities looking for wearable art.'
+      es: 'Nos encanta coger un estampado clásico y darle un giro de tuerca con formas abstractas y rotundas. Pura arquitectura retro.',
+      en: 'We love taking a classic print and giving it a twist with abstract and bold shapes. Pure retro architecture.'
     },
-    category: 'maxi',
-    colorPalette: ['#000000', '#f5f5f5'],
+    category: 'earrings',
+    colorPalette: ['#A52A2A', '#000000'],
     imageStatic: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=900&auto=format&fit=crop',
-    videoHover: 'https://cdn.sanity.io/files/placeholder/production/eclipse-escultural-hover.webm',
-    earScaleImage: '/images/products/eclipse-escultural-scale.webp',
-    dimensions: '7.0 cm × 5.0 cm',
+    videoHover: '',
+    earScaleImage: '',
+    dimensions: '7.0 cm × 3.0 cm',
     inStock: false,
   }
 ];

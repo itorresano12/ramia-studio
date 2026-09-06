@@ -82,151 +82,158 @@ const isEs = lang === 'es';
 <script>
   import { isCartOpen, cartItems, cartTotal, cartCount, freeShippingProgress, closeCart, updateQuantity, removeItem, freeShippingThreshold } from '../../stores/cart';
 
-  const lang = document.documentElement.lang;
-  const isEs = lang === 'es';
+  let unsubs: Array<() => void> = [];
 
-  // DOM Elements
-  const overlay = document.getElementById('cart-overlay');
-  const drawer = document.getElementById('cart-drawer');
-  const closeBtn = document.getElementById('close-cart-btn');
-  const continueBtn = document.getElementById('continue-shopping-btn');
-  
-  const headerCount = document.getElementById('cart-header-count');
-  const subtotalEl = document.getElementById('cart-subtotal');
-  const itemsContainer = document.getElementById('cart-items-container');
-  const emptyState = document.getElementById('cart-empty-state');
-  const footer = document.getElementById('cart-footer');
-  
-  const shippingMsg = document.getElementById('shipping-msg');
-  const shippingProgress = document.getElementById('shipping-progress');
+  document.addEventListener('astro:page-load', () => {
+    const lang = document.documentElement.lang;
+    const isEs = lang === 'es';
 
-  // Drawer Toggle Logic
-  isCartOpen.subscribe(open => {
-    if (open) {
-      overlay?.classList.remove('opacity-0', 'pointer-events-none');
-      overlay?.classList.add('opacity-100', 'pointer-events-auto');
-      drawer?.classList.remove('translate-x-full');
-      document.body.style.overflow = 'hidden';
-    } else {
-      overlay?.classList.add('opacity-0', 'pointer-events-none');
-      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
-      drawer?.classList.add('translate-x-full');
-      document.body.style.overflow = '';
-    }
-  });
+    // Clean up previous subscriptions
+    unsubs.forEach(unsub => unsub());
+    unsubs = [];
 
-  closeBtn?.addEventListener('click', closeCart);
-  overlay?.addEventListener('click', closeCart);
-  continueBtn?.addEventListener('click', closeCart);
-
-  // Derived state subscriptions
-  cartCount.subscribe(count => {
-    if (headerCount) headerCount.textContent = `(${count})`;
+    // DOM Elements
+    const overlay = document.getElementById('cart-overlay');
+    const drawer = document.getElementById('cart-drawer');
+    const closeBtn = document.getElementById('close-cart-btn');
+    const continueBtn = document.getElementById('continue-shopping-btn');
     
-    if (count === 0) {
-      itemsContainer?.classList.add('hidden');
-      footer?.classList.add('hidden');
-      emptyState?.classList.remove('hidden');
-      emptyState?.classList.add('flex');
-    } else {
-      itemsContainer?.classList.remove('hidden');
-      footer?.classList.remove('hidden');
-      emptyState?.classList.add('hidden');
-      emptyState?.classList.remove('flex');
-    }
-  });
-
-  cartTotal.subscribe(total => {
-    if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}€`;
+    const headerCount = document.getElementById('cart-header-count');
+    const subtotalEl = document.getElementById('cart-subtotal');
+    const itemsContainer = document.getElementById('cart-items-container');
+    const emptyState = document.getElementById('cart-empty-state');
+    const footer = document.getElementById('cart-footer');
     
-    // Update shipping message
-    const remaining = freeShippingThreshold - total;
-    if (shippingMsg) {
-      if (remaining > 0) {
-        shippingMsg.textContent = isEs 
-          ? `Faltan ${remaining.toFixed(2)}€ para envío gratuito` 
-          : `Add ${remaining.toFixed(2)}€ for free shipping`;
+    const shippingMsg = document.getElementById('shipping-msg');
+    const shippingProgress = document.getElementById('shipping-progress');
+
+    // Drawer Toggle Logic
+    unsubs.push(isCartOpen.subscribe(open => {
+      if (open) {
+        overlay?.classList.remove('opacity-0', 'pointer-events-none');
+        overlay?.classList.add('opacity-100', 'pointer-events-auto');
+        drawer?.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
       } else {
-        shippingMsg.textContent = isEs 
-          ? `¡Tienes envío gratuito asegurado!` 
-          : `You have secured free shipping!`;
+        overlay?.classList.add('opacity-0', 'pointer-events-none');
+        overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+        drawer?.classList.add('translate-x-full');
+        document.body.style.overflow = '';
       }
-    }
-  });
+    }));
 
-  freeShippingProgress.subscribe(progress => {
-    if (shippingProgress) shippingProgress.style.width = `${progress}%`;
-  });
+    closeBtn?.addEventListener('click', closeCart);
+    overlay?.addEventListener('click', closeCart);
+    continueBtn?.addEventListener('click', closeCart);
 
-  // Render Cart Items
-  cartItems.subscribe(items => {
-    if (!itemsContainer) return;
-    
-    itemsContainer.innerHTML = '';
-    
-    items.forEach(item => {
-      const title = isEs ? item.titleEs : item.titleEn;
-      const closureLabel = item.closureSelected === 'clip' 
-        ? (isEs ? 'Opción Clip' : 'Clip Option')
-        : (isEs ? 'Acero Inoxidable' : 'Stainless Steel');
-
-      const itemEl = document.createElement('div');
-      itemEl.className = 'flex gap-4 py-4 border-b border-neutral-100 last:border-0';
+    // Derived state subscriptions
+    unsubs.push(cartCount.subscribe(count => {
+      if (headerCount) headerCount.textContent = `(${count})`;
       
-      itemEl.innerHTML = `
-        <div class="w-20 h-24 shrink-0 bg-neutral-100 rounded-lg overflow-hidden">
-          <img src="${item.image}" alt="${title}" class="w-full h-full object-cover" />
-        </div>
-        <div class="flex flex-col flex-1 justify-between py-0.5">
-          <div>
-            <div class="flex justify-between items-start gap-2">
-              <h3 class="font-display text-lg text-neutral-900 leading-tight">${title}</h3>
-              <button class="remove-item-btn text-neutral-400 hover:text-neutral-900 p-1 -mr-1 transition-colors" data-id="${item.id}" aria-label="Remove item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M18 6 6 18M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            <p class="text-[10px] font-body text-neutral-400 uppercase tracking-widest mt-1">${closureLabel}</p>
-          </div>
-          
-          <div class="flex justify-between items-end">
-            <div class="flex items-center gap-3 border border-neutral-200 rounded-full px-3 py-1">
-              <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="minus" aria-label="Decrease quantity">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
-              </button>
-              <span class="font-body text-xs font-medium text-neutral-900 min-w-[12px] text-center">${item.quantity}</span>
-              <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="plus" aria-label="Increase quantity">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-              </button>
-            </div>
-            <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}€</span>
-          </div>
-        </div>
-      `;
-      itemsContainer.appendChild(itemEl);
-    });
+      if (count === 0) {
+        itemsContainer?.classList.add('hidden');
+        footer?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        emptyState?.classList.add('flex');
+      } else {
+        itemsContainer?.classList.remove('hidden');
+        footer?.classList.remove('hidden');
+        emptyState?.classList.add('hidden');
+        emptyState?.classList.remove('flex');
+      }
+    }));
 
-    // Attach event listeners
-    itemsContainer.querySelectorAll('.remove-item-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = (e.currentTarget as HTMLElement).dataset.id;
-        if (id) removeItem(id);
-      });
-    });
-
-    itemsContainer.querySelectorAll('.qty-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const target = e.currentTarget as HTMLElement;
-        const id = target.dataset.id;
-        const action = target.dataset.action;
-        if (!id || !action) return;
-        
-        const item = items.find(i => i.id === id);
-        if (item) {
-          updateQuantity(id, action === 'plus' ? item.quantity + 1 : item.quantity - 1);
+    unsubs.push(cartTotal.subscribe(total => {
+      if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}€`;
+      
+      const remaining = freeShippingThreshold - total;
+      if (shippingMsg) {
+        if (remaining > 0) {
+          shippingMsg.textContent = isEs 
+            ? `Faltan ${remaining.toFixed(2)}€ para envío gratuito` 
+            : `Add ${remaining.toFixed(2)}€ for free shipping`;
+        } else {
+          shippingMsg.textContent = isEs 
+            ? `¡Tienes envío gratuito asegurado!` 
+            : `You have secured free shipping!`;
         }
+      }
+    }));
+
+    unsubs.push(freeShippingProgress.subscribe(progress => {
+      if (shippingProgress) shippingProgress.style.width = `${progress}%`;
+    }));
+
+    // Render Cart Items
+    unsubs.push(cartItems.subscribe(items => {
+      if (!itemsContainer) return;
+      
+      itemsContainer.innerHTML = '';
+      
+      items.forEach(item => {
+        const title = isEs ? item.titleEs : item.titleEn;
+        const closureLabel = item.closureSelected === 'clip' 
+          ? (isEs ? 'Opción Clip' : 'Clip Option')
+          : (isEs ? 'Acero Inoxidable' : 'Stainless Steel');
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'flex gap-4 py-4 border-b border-neutral-100 last:border-0';
+        
+        itemEl.innerHTML = `
+          <div class="w-20 h-24 shrink-0 bg-neutral-100 rounded-lg overflow-hidden shadow-sm">
+            <img src="${item.image}" alt="${title}" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex flex-col flex-1 justify-between py-0.5">
+            <div>
+              <div class="flex justify-between items-start gap-2">
+                <h3 class="font-display text-lg text-neutral-900 leading-tight">${title}</h3>
+                <button class="remove-item-btn text-neutral-400 hover:text-neutral-900 p-1 -mr-1 transition-colors" data-id="${item.id}" aria-label="Remove item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="text-[10px] font-body text-neutral-400 uppercase tracking-widest mt-1">${closureLabel}</p>
+            </div>
+            
+            <div class="flex justify-between items-end">
+              <div class="flex items-center gap-3 border border-neutral-200 rounded-full px-3 py-1 bg-white">
+                <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="minus" aria-label="Decrease quantity">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+                </button>
+                <span class="font-body text-xs font-medium text-neutral-900 min-w-[12px] text-center">${item.quantity}</span>
+                <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="plus" aria-label="Increase quantity">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
+              <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}€</span>
+            </div>
+          </div>
+        `;
+        itemsContainer.appendChild(itemEl);
       });
-    });
+
+      // Attach event listeners
+      itemsContainer.querySelectorAll('.remove-item-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).dataset.id;
+          if (id) removeItem(id);
+        });
+      });
+
+      itemsContainer.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const id = target.dataset.id;
+          const action = target.dataset.action;
+          if (!id || !action) return;
+          
+          const item = items.find(i => i.id === id);
+          if (item) {
+            updateQuantity(id, action === 'plus' ? item.quantity + 1 : item.quantity - 1);
+          }
+        });
+      });
+    }));
   });
 </script>

@@ -24,7 +24,7 @@ export interface Product {
     es: string;
     en: string;
   };
-  category: 'maxi' | 'aros' | 'esenciales' | 'invitada';
+  category: 'earrings' | 'necklaces' | 'charms' | 'all';
   colorPalette: string[];
   imageStatic: string;
   videoHover: string;

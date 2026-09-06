@@ -20,10 +20,10 @@ const guarantees = [
 
 const filters = [
   { id: 'all',      label: t.filters.all },
-  { id: 'maxi',     label: t.filters.maxi },
-  { id: 'aros',     label: t.filters.hoops },
-  { id: 'invitada', label: t.filters.party },
-  { id: 'clip',     label: t.filters.clip },
+  { id: 'earrings', label: t.filters.earrings },
+  { id: 'necklaces', label: t.filters.necklaces },
+  { id: 'charms',   label: t.filters.charms },
+  { id: 'clip',     label: t.filters.clip.split(' ')[0] + ' ✦' },
 ];
 
 const weights = [
@@ -133,7 +133,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
 
     <!-- Authority note -->
     <blockquote class="mt-10 text-center font-display italic text-base text-neutral-400 border-t border-neutral-100 pt-8">
-      "{lang === 'es' ? 'Diseñados para olvidar que los llevas puestos durante más de 12 horas seguidas.' : 'Designed to make you forget you are wearing them for over 12 hours straight.'}"
+      "{lang === 'es' ? 'Pesan menos que una moneda de 50 céntimos. Atraer miradas, todas.' : 'They weigh less than a 50-cent coin. They turn heads, every time.'}"
     </blockquote>
   </section>
 
@@ -206,71 +206,75 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
      COLLECTION FILTER — client-side JS
 ══════════════════════════════════════════════ -->
 <script>
-  type FilterId = 'all' | 'maxi' | 'aros' | 'esenciales' | 'invitada' | 'clip';
+  type FilterId = 'all' | 'earrings' | 'necklaces' | 'charms' | 'clip';
 
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const cards      = document.querySelectorAll<HTMLElement>('.product-card');
-  const emptyState = document.getElementById('empty-state');
+  document.addEventListener('astro:page-load', () => {
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards      = document.querySelectorAll<HTMLElement>('.product-card');
+    const emptyState = document.getElementById('empty-state');
 
-  let activeFilter: FilterId = 'all';
+    let activeFilter: FilterId = 'all';
 
-  function applyFilter(filterId: FilterId) {
-    activeFilter = filterId;
+    function applyFilter(filterId: FilterId) {
+      activeFilter = filterId;
 
-    // Update button styles
-    filterBtns.forEach(btn => {
-      const isActive = btn.dataset.filter === filterId;
-      btn.classList.toggle('bg-neutral-900',  isActive);
-      btn.classList.toggle('text-white',       isActive);
-      btn.classList.toggle('border-neutral-900', isActive);
-      btn.classList.toggle('text-neutral-500',  !isActive);
-      btn.classList.toggle('border-neutral-200', !isActive);
-    });
+      // Update button styles
+      filterBtns.forEach(btn => {
+        const isActive = btn.dataset.filter === filterId;
+        btn.classList.toggle('bg-neutral-900',  isActive);
+        btn.classList.toggle('text-white',       isActive);
+        btn.classList.toggle('border-neutral-900', isActive);
+        btn.classList.toggle('text-neutral-500',  !isActive);
+        btn.classList.toggle('border-neutral-200', !isActive);
+      });
 
-    // Show/hide cards
-    let visible = 0;
-    cards.forEach(card => {
-      const category = card.dataset.category as string;
-      const hasClip  = card.dataset.clip === 'true';
+      // Show/hide cards
+      let visible = 0;
+      cards.forEach(card => {
+        const category = card.dataset.category as string;
+        const hasClip  = card.dataset.clip === 'true';
 
-      const show =
-        filterId === 'all' ||
-        (filterId === 'clip' && hasClip) ||
-        category === filterId;
+        const show =
+          filterId === 'all' ||
+          (filterId === 'clip' && hasClip) ||
+          category === filterId;
 
-      card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
-      if (show) {
-        card.style.opacity    = '1';
-        card.style.transform  = 'scale(1)';
-        card.style.pointerEvents = 'auto';
-        card.style.display    = 'flex';
-        visible++;
-      } else {
-        card.style.opacity    = '0';
-        card.style.transform  = 'scale(0.97)';
-        card.style.pointerEvents = 'none';
-        // Collapse after transition
-        setTimeout(() => {
-          if (activeFilter !== 'all' && !card.style.opacity.startsWith('1')) {
-            card.style.display = 'none';
-          }
-        }, 320);
+        if (show) {
+          card.style.opacity    = '1';
+          card.style.transform  = 'scale(1)';
+          card.style.pointerEvents = 'auto';
+          card.style.display    = 'flex';
+          visible++;
+        } else {
+          card.style.opacity    = '0';
+          card.style.transform  = 'scale(0.97)';
+          card.style.pointerEvents = 'none';
+          // Collapse after transition
+          setTimeout(() => {
+            if (activeFilter !== 'all' && !card.style.opacity.startsWith('1')) {
+              card.style.display = 'none';
+            }
+          }, 320);
+        }
+      });
+
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visible > 0);
       }
-    });
-
-    if (emptyState) {
-      emptyState.classList.toggle('hidden', visible > 0);
     }
-  }
 
-  // Set first button active on load
-  applyFilter('all');
+    if (filterBtns.length > 0) {
+      // Set first button active on load
+      applyFilter('all');
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyFilter(btn.dataset.filter as FilterId);
-    });
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          applyFilter(btn.dataset.filter as FilterId);
+        });
+      });
+    }
   });
 </script>
 

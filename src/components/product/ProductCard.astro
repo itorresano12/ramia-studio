@@ -132,15 +132,20 @@ const hasClip = product.closureOptions.includes('clip');
   import { addItem } from '../../stores/cart';
   import type { Product } from '../../types/product';
 
-  const buttons = document.querySelectorAll('.add-to-cart-btn');
-  buttons.forEach(btn => {
-    // avoid attaching multiple times if hydrated multiple times, but astro script runs once
-    btn.addEventListener('click', (e) => {
-      const target = e.currentTarget as HTMLButtonElement;
-      if (target.dataset.product) {
-        const product: Product = JSON.parse(target.dataset.product);
-        addItem(product, 'acero');
-      }
+  document.addEventListener('astro:page-load', () => {
+    const buttons = document.querySelectorAll('.add-to-cart-btn');
+    buttons.forEach(btn => {
+      // Clone and replace to avoid duplicate listeners if page-load fires multiple times
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode?.replaceChild(newBtn, btn);
+      
+      newBtn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        if (target.dataset.product) {
+          const product: Product = JSON.parse(target.dataset.product);
+          addItem(product, 'acero');
+        }
+      });
     });
   });
 </script>

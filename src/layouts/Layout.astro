@@ -32,7 +32,7 @@ const { title, lang, productSlug } = Astro.props;
 
     <ClientRouter />
   </head>
-  <body>
+  <body class="bg-[#FAF8F5]">
     <Navbar lang={lang} productSlug={productSlug} />
     <slot />
     <CartDrawer lang={lang} />
