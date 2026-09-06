@@ -1,9 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import '../styles/global.css';
+import Navbar from '../components/layout/Navbar.astro';
 
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -11,16 +11,69 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Tu estilo comienza aquí" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<ClientRouter />
-	</head>
-	<body class="bg-white text-black font-sans antialiased font-light selection:bg-black selection:text-white">
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Ramia Studio — Joyas de autor en metacrilato. Ultraligeras, hipoalergénicas, irrepetibles." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- Google Fonts: Cormorant Garamond (display) + Plus Jakarta Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <ClientRouter />
+  </head>
+  <body>
+    <Navbar />
+    <slot />
+  </body>
 </html>
+
+<style is:global>
+  /* ── Base reset ── */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+    --color-bg:     #FAF9F6;
+    --color-ink:    #1a1a1a;
+    --color-muted:  #9a9590;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+
+    /* ── Ambient light background — organic aurora on acrylic ── */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 10%,  rgba(230,222,210,0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 5%,   rgba(210,218,230,0.30) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 35% at 50% 90%,  rgba(218,210,230,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 30% at 90% 60%,  rgba(235,230,220,0.20) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 5%  70%,  rgba(220,228,235,0.20) 0%, transparent 55%);
+  }
+
+  /* ── Typography helpers ── */
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+</style>

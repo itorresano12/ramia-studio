@@ -2,35 +2,93 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/product/ProductCard.astro';
 import { MOCK_PRODUCTS } from '../lib/mock-products';
+
+const highlights = [
+  { icon: '✦', label: 'Cero Peso en Lóbulo' },
+  { icon: '✦', label: 'Hipoalergénico 100%' },
+  { icon: '✦', label: 'Corte Láser de Precisión' },
+];
 ---
 
 <Layout title="Ramia — Joyas de autor en metacrilato">
 
-  <!-- Hero / Header -->
-  <header class="w-full pt-16 pb-10 text-center px-4">
-    <p class="text-[11px] tracking-[0.25em] uppercase text-neutral-400 mb-4">
-      Joyas de autor en metacrilato
+  <!-- ══════════════════════════════════════
+       HERO — Editorial asymmetric header
+  ══════════════════════════════════════ -->
+  <section class="relative overflow-hidden pt-14 pb-20 px-6 text-center">
+
+    <!-- Decorative ambient blob -->
+    <div class="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full opacity-30"
+         style="background: radial-gradient(ellipse at center, rgba(210,200,240,0.5) 0%, transparent 70%); filter: blur(60px);"
+         aria-hidden="true"></div>
+
+    <!-- Pre-title -->
+    <p class="font-body text-[10px] tracking-[0.35em] uppercase text-neutral-400 mb-8">
+      Edición&nbsp;Limitada&nbsp;2026&ensp;·&ensp;Hecho&nbsp;a&nbsp;Mano
     </p>
-    <h1 class="text-6xl md:text-8xl font-extralight tracking-tighter text-neutral-900 leading-none mb-5">
+
+    <!-- Main title -->
+    <h1 class="font-display text-[clamp(4rem,12vw,9rem)] font-light leading-[0.92] tracking-[-0.02em] text-neutral-900 mb-8">
       Ramia
     </h1>
-    <p class="text-sm text-neutral-400 tracking-[0.15em] uppercase">
-      Tu estilo comienza aquí
-    </p>
-    <!-- Thin divider -->
-    <div class="mx-auto mt-10 w-12 h-px bg-neutral-200"></div>
-  </header>
 
-  <!-- Catalog grid -->
-  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 py-12">
-    {MOCK_PRODUCTS.map((product) => (
-      <ProductCard product={product} />
-    ))}
+    <!-- Manifesto -->
+    <p class="font-display italic text-lg md:text-xl font-light text-neutral-500 max-w-xl mx-auto leading-relaxed mb-10">
+      La ingravidez del metacrilato fundida con la pureza absoluta del titanio.<br/>
+      Piezas que no pesan sobre quien las lleva, sino sobre quien las mira.
+    </p>
+
+    <!-- Micro-capsules -->
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      {highlights.map(h => (
+        <span class="inline-flex items-center gap-2
+                     backdrop-blur-md bg-white/70 border border-neutral-200/60
+                     text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-600
+                     px-4 py-2 rounded-full shadow-sm select-none">
+          <span class="text-neutral-300 text-[8px]">{h.icon}</span>
+          {h.label}
+        </span>
+      ))}
+    </div>
+
+    <!-- Thin divider -->
+    <div class="mx-auto mt-14 w-10 h-px bg-neutral-200" aria-hidden="true"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CATALOG GRID
+  ══════════════════════════════════════ -->
+  <main id="coleccion" class="max-w-6xl mx-auto px-4 pb-24">
+
+    <!-- Section label -->
+    <p class="text-center font-body text-[10px] tracking-[0.3em] uppercase text-neutral-400 mb-12">
+      Colección&ensp;·&ensp;{MOCK_PRODUCTS.length}&nbsp;piezas disponibles
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {MOCK_PRODUCTS.map((product) => (
+        <ProductCard product={product} />
+      ))}
+    </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="w-full text-center py-10 text-[11px] text-neutral-300 tracking-widest uppercase">
-    © {new Date().getFullYear()} Ramia Studio. Todos los derechos reservados.
+  <!-- ══════════════════════════════════════
+       MANIFESTO SECTION
+  ══════════════════════════════════════ -->
+  <section id="manifiesto" class="max-w-2xl mx-auto px-6 py-24 text-center">
+    <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-300 mb-6">El Manifiesto</p>
+    <blockquote class="font-display italic text-2xl md:text-3xl font-light text-neutral-800 leading-relaxed">
+      "Cada pieza nace de la convicción de que la joyería más poderosa es la que no se siente."
+    </blockquote>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="w-full text-center py-10 border-t border-neutral-100">
+    <p class="font-body text-[10px] text-neutral-300 tracking-[0.25em] uppercase">
+      © {new Date().getFullYear()}&ensp;Ramia Studio&ensp;·&ensp;Todos los derechos reservados
+    </p>
   </footer>
 
 </Layout>
