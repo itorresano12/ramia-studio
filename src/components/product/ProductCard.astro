@@ -7,25 +7,32 @@ interface Props {
 
 const { product } = Astro.props;
 
-// Iridescent fallback gradient (changes per product via id hash)
+// Iridescent CSS fallback gradient per product
 const gradients: Record<string, string> = {
-  'prod-001': 'linear-gradient(135deg, #e8e0f0 0%, #f0e8e0 40%, #e0f0ee 100%)',
+  'prod-001': 'linear-gradient(135deg, #ede8f5 0%, #f5ede8 40%, #e8f5f2 100%)',
   'prod-002': 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-  'prod-003': 'linear-gradient(135deg, #fff1eb 0%, #f9f0ff 40%, #e8f4f8 100%)',
+  'prod-003': 'linear-gradient(135deg, #fff4ee 0%, #f7efff 40%, #eaf6fb 100%)',
+  'prod-004': 'linear-gradient(135deg, #f5ede0 0%, #e8ddd0 50%, #f0e8e0 100%)',
+  'prod-005': 'linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 40%, #f5f5f5 100%)',
+  'prod-006': 'linear-gradient(135deg, #111111 0%, #282828 50%, #1a1a1a 100%)',
 };
 const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%, #e8edf0 100%)';
+const hasClip = product.closureOptions.includes('clip');
 ---
 
-<article class="group relative flex flex-col bg-white/60 border border-neutral-200/50 rounded-3xl overflow-hidden
-                shadow-[0_2px_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_8px_40px_0_rgba(0,0,0,0.10)]
-                transition-shadow duration-500 ease-out backdrop-blur-sm">
+<article
+  class="product-card group relative flex flex-col bg-white/60 border border-neutral-200/50
+         rounded-3xl overflow-hidden
+         shadow-[0_2px_20px_0_rgba(0,0,0,0.05)]
+         hover:shadow-[0_8px_40px_0_rgba(0,0,0,0.10)]
+         transition-shadow duration-500 ease-out backdrop-blur-sm"
+  data-category={product.category}
+  data-clip={hasClip ? 'true' : 'false'}
+>
+  <!-- ── Media ── -->
+  <div class="relative w-full overflow-hidden" style={`aspect-ratio:4/5; background:${fallbackBg};`}>
 
-  <!-- ── Media block ── -->
-  <div
-    class="relative w-full overflow-hidden"
-    style={`aspect-ratio: 4/5; background: ${fallbackBg};`}
-  >
-    <!-- Static image with zoom -->
+    <!-- Static image -->
     <img
       src={product.imageStatic}
       alt={product.title.es}
@@ -38,42 +45,49 @@ const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%,
     <!-- Hover video -->
     <video
       src={product.videoHover}
-      autoplay
-      loop
-      muted
-      playsinline
-      class="absolute inset-0 w-full h-full object-cover opacity-0
-             transition-opacity duration-500 ease-out group-hover:opacity-100"
+      autoplay loop muted playsinline
+      class="absolute inset-0 w-full h-full object-cover
+             opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
       aria-hidden="true"
     ></video>
 
-    <!-- Iridescent overlay at bottom -->
-    <div class="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
-         style="background: linear-gradient(to top, rgba(250,249,246,0.85) 0%, transparent 100%);"></div>
+    <!-- Bottom fade -->
+    <div class="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+         style="background:linear-gradient(to top,rgba(250,249,246,0.9) 0%,transparent 100%)"
+         aria-hidden="true"></div>
 
     <!-- Weight badge -->
-    <div class="absolute top-4 left-4 z-10">
-      <span class="inline-flex items-center gap-1.5
-                   backdrop-blur-md bg-white/80 border border-white/90
-                   text-neutral-700 text-[10px] font-medium tracking-[0.12em] uppercase
-                   px-3 py-1.5 rounded-full select-none shadow-sm">
+    <div class="absolute top-4 left-4 z-10 flex flex-col gap-1.5">
+      <span class="inline-flex items-center gap-1.5 backdrop-blur-md bg-white/80
+                   border border-white/90 text-neutral-700
+                   text-[10px] font-body font-medium tracking-[0.12em] uppercase
+                   px-3 py-1.5 rounded-full shadow-sm select-none">
         {product.weightGrams}g&ensp;·&ensp;Ultraligero
       </span>
+      {hasClip && (
+        <span class="inline-flex items-center gap-1 backdrop-blur-md bg-neutral-900/85
+                     text-white text-[9px] font-body font-medium tracking-[0.12em] uppercase
+                     px-2.5 py-1 rounded-full shadow-sm select-none">
+          ✦ Opción Clip
+        </span>
+      )}
     </div>
 
     <!-- Out-of-stock -->
     {!product.inStock && (
-      <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-20">
-        <span class="text-xs tracking-widest uppercase text-neutral-400 font-medium font-body">Agotado</span>
+      <div class="absolute inset-0 bg-white/60 backdrop-blur-sm
+                  flex items-center justify-center z-20">
+        <span class="text-xs tracking-widest uppercase text-neutral-400 font-body font-medium">
+          Agotado
+        </span>
       </div>
     )}
   </div>
 
-  <!-- ── Info block ── -->
+  <!-- ── Info ── -->
   <div class="flex flex-col gap-1 px-5 pt-5 pb-6">
-
     <!-- Closure type -->
-    <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-1">
+    <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-0.5">
       {product.closureType.es}
     </p>
 
@@ -92,24 +106,21 @@ const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%,
       <span class="font-display text-2xl font-light text-neutral-900 tracking-tight">
         {product.price.toFixed(2)}<span class="text-base ml-0.5">€</span>
       </span>
-
       <button
         class="flex-shrink-0 text-[10px] font-body font-medium tracking-[0.18em] uppercase
-               bg-neutral-900 text-white hover:bg-neutral-700
-               active:scale-95
-               px-5 py-2.5 rounded-full
-               transition-all duration-200 ease-out
-               shadow-sm hover:shadow-md"
+               bg-neutral-900 text-white hover:bg-neutral-700 active:scale-95
+               px-5 py-2.5 rounded-full transition-all duration-200 ease-out
+               shadow-sm hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label={`Añadir ${product.title.es} a la bolsa`}
+        disabled={!product.inStock}
       >
-        Añadir a la Bolsa
+        {product.inStock ? 'Añadir a la Bolsa' : 'Agotado'}
       </button>
     </div>
   </div>
 </article>
 
 <style>
-  /* Disable video on touch devices */
   @media (hover: none) {
     video { display: none; }
     img   { opacity: 1 !important; transform: none !important; }
