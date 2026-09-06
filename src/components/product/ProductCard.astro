@@ -1,0 +1,92 @@
+---
+import type { Product } from '../../types/product';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<article class="group relative flex flex-col bg-white border border-neutral-200/70 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
+
+  <!-- Media block: static image + hover video -->
+  <div class="relative w-full overflow-hidden" style="aspect-ratio: 4/5;">
+
+    <!-- Static image -->
+    <img
+      src={product.imageStatic}
+      alt={product.title}
+      class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-out group-hover:opacity-0 only-hover:block"
+      loading="lazy"
+    />
+
+    <!-- Hover video (non-touch devices only via CSS) -->
+    <video
+      src={product.videoHover}
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+      aria-hidden="true"
+    ></video>
+
+    <!-- Weight badge -->
+    <div class="absolute bottom-3 left-3 z-10">
+      <span class="inline-flex items-center gap-1 backdrop-blur-md bg-white/80 border border-white/90 text-neutral-700 text-[11px] font-medium tracking-wide px-3 py-1 rounded-full select-none">
+        {product.weightGrams}g&nbsp;•&nbsp;Ultraligero
+      </span>
+    </div>
+
+    <!-- Out-of-stock overlay -->
+    {!product.inStock && (
+      <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-20">
+        <span class="text-xs tracking-widest uppercase text-neutral-400 font-medium">Agotado</span>
+      </div>
+    )}
+  </div>
+
+  <!-- Info block -->
+  <div class="flex flex-col gap-1 px-4 pt-4 pb-5">
+    <!-- Title -->
+    <h2 class="text-sm font-semibold text-neutral-900 tracking-tight leading-snug">
+      {product.title}
+    </h2>
+
+    <!-- Closure type -->
+    <p class="text-xs text-neutral-400 tracking-wide">
+      {product.closureType}
+    </p>
+
+    <!-- Dimensions -->
+    <p class="text-[11px] text-neutral-300 mt-0.5 tracking-wide">
+      {product.dimensions}
+    </p>
+
+    <!-- Price row -->
+    <div class="flex items-baseline justify-between mt-3">
+      <span class="text-base font-light text-neutral-900 tracking-tight">
+        {product.price.toFixed(2)}&nbsp;<span class="text-sm">€</span>
+      </span>
+      <button
+        class="text-[11px] font-medium tracking-widest uppercase text-neutral-500 hover:text-neutral-900 border border-neutral-200 hover:border-neutral-900 rounded-full px-4 py-1.5 transition-colors duration-200"
+        aria-label={`Añadir ${product.title} al carrito`}
+      >
+        Añadir
+      </button>
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Only show video on hover for non-touch devices */
+  @media (hover: none) {
+    video {
+      display: none;
+    }
+    img {
+      opacity: 1 !important;
+    }
+  }
+</style>
