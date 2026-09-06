@@ -1,0 +1,232 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+const isEs = lang === 'es';
+---
+
+<!-- Overlay -->
+<div id="cart-overlay" 
+     class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-500 ease-out"
+     aria-hidden="true"></div>
+
+<!-- Drawer -->
+<aside id="cart-drawer"
+       class="fixed inset-y-0 right-0 max-w-md w-full bg-white/90 backdrop-blur-2xl border-l border-neutral-200/80 shadow-2xl z-50 translate-x-full transition-transform duration-500 ease-out flex flex-col"
+       aria-label={isEs ? "Tu Bolsa" : "Your Bag"}>
+       
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-5 border-b border-neutral-200/60">
+    <h2 class="font-display text-2xl font-light text-neutral-900">
+      {isEs ? "Tu Bolsa" : "Your Bag"}
+      <span id="cart-header-count" class="text-neutral-400 text-lg ml-1">(0)</span>
+    </h2>
+    <button id="close-cart-btn"
+            class="text-neutral-400 hover:text-neutral-900 transition-colors p-2 -mr-2"
+            aria-label={isEs ? "Cerrar bolsa" : "Close bag"}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="px-6 py-4 bg-neutral-50/50 border-b border-neutral-200/60">
+    <p id="shipping-msg" class="text-[11px] font-body font-medium tracking-wide text-neutral-600 mb-2 uppercase">
+      <!-- Injected via JS -->
+    </p>
+    <div class="h-1.5 w-full bg-neutral-200 rounded-full overflow-hidden">
+      <div id="shipping-progress" class="h-full bg-neutral-900 transition-all duration-700 ease-out" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Cart Items Scroll Area -->
+  <div class="flex-1 overflow-y-auto px-6 py-6" id="cart-items-container">
+    <!-- Items injected via JS -->
+  </div>
+  
+  <!-- Empty State (hidden by default) -->
+  <div id="cart-empty-state" class="hidden flex-col items-center justify-center flex-1 px-6 text-center">
+    <p class="font-display italic text-2xl text-neutral-400 mb-4">
+      {isEs ? "Tu bolsa está vacía." : "Your bag is empty."}
+    </p>
+    <button id="continue-shopping-btn" class="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-900 hover:text-neutral-500 transition-colors underline underline-offset-4">
+      {isEs ? "Explorar la colección" : "Explore the collection"}
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer id="cart-footer" class="border-t border-neutral-200/60 bg-white/50 px-6 py-6 backdrop-blur-md">
+    <div class="flex items-center justify-between mb-4">
+      <span class="font-body text-sm text-neutral-500 uppercase tracking-widest">{isEs ? "Subtotal" : "Subtotal"}</span>
+      <span id="cart-subtotal" class="font-display text-2xl font-light text-neutral-900">0.00€</span>
+    </div>
+    
+    <p class="text-[10px] text-neutral-400 font-body mb-6">
+      {isEs ? "IVA incluido. Gastos de envío calculados en el siguiente paso." : "VAT included. Shipping costs calculated at checkout."}
+      <br/>
+      <span class="text-neutral-500 italic font-display text-sm block mt-1">
+        {isEs ? "Diseñados para no pesar." : "Designed to be weightless."}
+      </span>
+    </p>
+
+    <button class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
+      {isEs ? "Tramitar Pedido" : "Checkout"}
+    </button>
+  </footer>
+
+</aside>
+
+<script>
+  import { isCartOpen, cartItems, cartTotal, cartCount, freeShippingProgress, closeCart, updateQuantity, removeItem, freeShippingThreshold } from '../../stores/cart';
+
+  const lang = document.documentElement.lang;
+  const isEs = lang === 'es';
+
+  // DOM Elements
+  const overlay = document.getElementById('cart-overlay');
+  const drawer = document.getElementById('cart-drawer');
+  const closeBtn = document.getElementById('close-cart-btn');
+  const continueBtn = document.getElementById('continue-shopping-btn');
+  
+  const headerCount = document.getElementById('cart-header-count');
+  const subtotalEl = document.getElementById('cart-subtotal');
+  const itemsContainer = document.getElementById('cart-items-container');
+  const emptyState = document.getElementById('cart-empty-state');
+  const footer = document.getElementById('cart-footer');
+  
+  const shippingMsg = document.getElementById('shipping-msg');
+  const shippingProgress = document.getElementById('shipping-progress');
+
+  // Drawer Toggle Logic
+  isCartOpen.subscribe(open => {
+    if (open) {
+      overlay?.classList.remove('opacity-0', 'pointer-events-none');
+      overlay?.classList.add('opacity-100', 'pointer-events-auto');
+      drawer?.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    } else {
+      overlay?.classList.add('opacity-0', 'pointer-events-none');
+      overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+      drawer?.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+  });
+
+  closeBtn?.addEventListener('click', closeCart);
+  overlay?.addEventListener('click', closeCart);
+  continueBtn?.addEventListener('click', closeCart);
+
+  // Derived state subscriptions
+  cartCount.subscribe(count => {
+    if (headerCount) headerCount.textContent = `(${count})`;
+    
+    if (count === 0) {
+      itemsContainer?.classList.add('hidden');
+      footer?.classList.add('hidden');
+      emptyState?.classList.remove('hidden');
+      emptyState?.classList.add('flex');
+    } else {
+      itemsContainer?.classList.remove('hidden');
+      footer?.classList.remove('hidden');
+      emptyState?.classList.add('hidden');
+      emptyState?.classList.remove('flex');
+    }
+  });
+
+  cartTotal.subscribe(total => {
+    if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}€`;
+    
+    // Update shipping message
+    const remaining = freeShippingThreshold - total;
+    if (shippingMsg) {
+      if (remaining > 0) {
+        shippingMsg.textContent = isEs 
+          ? `Faltan ${remaining.toFixed(2)}€ para envío gratuito` 
+          : `Add ${remaining.toFixed(2)}€ for free shipping`;
+      } else {
+        shippingMsg.textContent = isEs 
+          ? `¡Tienes envío gratuito asegurado!` 
+          : `You have secured free shipping!`;
+      }
+    }
+  });
+
+  freeShippingProgress.subscribe(progress => {
+    if (shippingProgress) shippingProgress.style.width = `${progress}%`;
+  });
+
+  // Render Cart Items
+  cartItems.subscribe(items => {
+    if (!itemsContainer) return;
+    
+    itemsContainer.innerHTML = '';
+    
+    items.forEach(item => {
+      const title = isEs ? item.titleEs : item.titleEn;
+      const closureLabel = item.closureSelected === 'clip' 
+        ? (isEs ? 'Opción Clip' : 'Clip Option')
+        : (isEs ? 'Acero Inoxidable' : 'Stainless Steel');
+
+      const itemEl = document.createElement('div');
+      itemEl.className = 'flex gap-4 py-4 border-b border-neutral-100 last:border-0';
+      
+      itemEl.innerHTML = `
+        <div class="w-20 h-24 shrink-0 bg-neutral-100 rounded-lg overflow-hidden">
+          <img src="${item.image}" alt="${title}" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col flex-1 justify-between py-0.5">
+          <div>
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="font-display text-lg text-neutral-900 leading-tight">${title}</h3>
+              <button class="remove-item-btn text-neutral-400 hover:text-neutral-900 p-1 -mr-1 transition-colors" data-id="${item.id}" aria-label="Remove item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <p class="text-[10px] font-body text-neutral-400 uppercase tracking-widest mt-1">${closureLabel}</p>
+          </div>
+          
+          <div class="flex justify-between items-end">
+            <div class="flex items-center gap-3 border border-neutral-200 rounded-full px-3 py-1">
+              <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="minus" aria-label="Decrease quantity">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+              </button>
+              <span class="font-body text-xs font-medium text-neutral-900 min-w-[12px] text-center">${item.quantity}</span>
+              <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="plus" aria-label="Increase quantity">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </div>
+            <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}€</span>
+          </div>
+        </div>
+      `;
+      itemsContainer.appendChild(itemEl);
+    });
+
+    // Attach event listeners
+    itemsContainer.querySelectorAll('.remove-item-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.currentTarget as HTMLElement).dataset.id;
+        if (id) removeItem(id);
+      });
+    });
+
+    itemsContainer.querySelectorAll('.qty-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const id = target.dataset.id;
+        const action = target.dataset.action;
+        if (!id || !action) return;
+        
+        const item = items.find(i => i.id === id);
+        if (item) {
+          updateQuantity(id, action === 'plus' ? item.quantity + 1 : item.quantity - 1);
+        }
+      });
+    });
+  });
+</script>

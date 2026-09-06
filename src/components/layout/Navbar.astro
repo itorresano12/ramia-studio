@@ -97,3 +97,25 @@ const isEs = lang === 'es';
 
 <!-- Spacer below sticky nav -->
 <div class="h-6" aria-hidden="true"></div>
+
+<script>
+  import { openCart, cartCount } from '../../stores/cart';
+
+  const cartBtn = document.getElementById('cart-btn');
+  const cartBadge = document.getElementById('cart-count');
+
+  cartBtn?.addEventListener('click', () => {
+    openCart();
+  });
+
+  cartCount.subscribe(count => {
+    if (cartBadge) {
+      if (count > 0) {
+        cartBadge.textContent = count.toString();
+        cartBadge.classList.remove('hidden');
+      } else {
+        cartBadge.classList.add('hidden');
+      }
+    }
+  });
+</script>

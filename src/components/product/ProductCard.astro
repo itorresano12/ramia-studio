@@ -111,18 +111,36 @@ const hasClip = product.closureOptions.includes('clip');
         {product.price.toFixed(2)}<span class="text-base ml-0.5">€</span>
       </span>
       <button
-        class="flex-shrink-0 text-[10px] font-body font-medium tracking-[0.18em] uppercase
+        class="add-to-cart-btn flex-shrink-0 text-[10px] font-body font-medium tracking-[0.18em] uppercase
                bg-neutral-900 text-white hover:bg-neutral-700 active:scale-95
                px-5 py-2.5 rounded-full transition-all duration-200 ease-out
                shadow-sm hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label={`${t.product.addToBag} - ${product.title[lang]}`}
         disabled={!product.inStock}
+        data-product={JSON.stringify(product)}
       >
         {product.inStock ? t.product.addToBag : (lang === 'es' ? 'Agotado' : 'Sold Out')}
       </button>
     </div>
   </div>
 </article>
+
+<script>
+  import { addItem } from '../../stores/cart';
+  import type { Product } from '../../types/product';
+
+  const buttons = document.querySelectorAll('.add-to-cart-btn');
+  buttons.forEach(btn => {
+    // avoid attaching multiple times if hydrated multiple times, but astro script runs once
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLButtonElement;
+      if (target.dataset.product) {
+        const product: Product = JSON.parse(target.dataset.product);
+        addItem(product, 'acero');
+      }
+    });
+  });
+</script>
 
 <style>
   @media (hover: none) {

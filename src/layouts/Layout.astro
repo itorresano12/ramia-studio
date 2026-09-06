@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Navbar from '../components/layout/Navbar.astro';
+import CartDrawer from '../components/cart/CartDrawer.astro';
 
 interface Props {
   title: string;
@@ -33,6 +34,7 @@ const { title, lang } = Astro.props;
   <body>
     <Navbar lang={lang} />
     <slot />
+    <CartDrawer lang={lang} />
   </body>
 </html>
 
