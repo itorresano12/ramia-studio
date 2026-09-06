@@ -1,0 +1,15 @@
+---
+import { MOCK_PRODUCTS } from '../../lib/mock-products';
+import ProductDetailView from '../../components/product/ProductDetailView.astro';
+
+export function getStaticPaths() {
+  return MOCK_PRODUCTS.map(product => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<ProductDetailView product={product} lang="es" />

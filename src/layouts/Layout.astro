@@ -6,9 +6,10 @@ import CartDrawer from '../components/cart/CartDrawer.astro';
 interface Props {
   title: string;
   lang: 'es' | 'en';
+  productSlug?: string;
 }
 
-const { title, lang } = Astro.props;
+const { title, lang, productSlug } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const { title, lang } = Astro.props;
     <ClientRouter />
   </head>
   <body>
-    <Navbar lang={lang} />
+    <Navbar lang={lang} productSlug={productSlug} />
     <slot />
     <CartDrawer lang={lang} />
   </body>

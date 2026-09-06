@@ -4,12 +4,16 @@ import { en } from '../../i18n/en';
 
 interface Props {
   lang: 'es' | 'en';
+  productSlug?: string;
 }
-const { lang } = Astro.props;
+const { lang, productSlug } = Astro.props;
 const t = lang === 'es' ? es : en;
 
 // Language links depending on current route
 const isEs = lang === 'es';
+
+const esUrl = productSlug ? `/producto/${productSlug}` : '/';
+const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
 ---
 
 <div class="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
@@ -55,13 +59,13 @@ const isEs = lang === 'es';
 
       <!-- Lang switcher -->
       <div class="hidden sm:flex items-center gap-1 text-[10px] font-body font-medium tracking-[0.12em]">
-        <a href="/"
+        <a href={esUrl}
            class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
            aria-label="Cambiar a español">
           ES
         </a>
         <span class="text-neutral-300 select-none">|</span>
-        <a href="/en"
+        <a href={enUrl}
            class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${!isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
            aria-label="Switch to English">
           EN

@@ -1,0 +1,213 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import type { Product } from '../../types/product';
+import { es } from '../../i18n/es';
+import { en } from '../../i18n/en';
+
+interface Props {
+  product: Product;
+  lang: 'es' | 'en';
+}
+
+const { product, lang } = Astro.props;
+const t = lang === 'es' ? es : en;
+const isEs = lang === 'es';
+const hasClip = product.closureOptions.includes('clip');
+---
+
+<Layout title={`${product.title[lang]} | Ramia Studio`} lang={lang} productSlug={product.slug}>
+  <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+    
+    <!-- ── Left Column: Media Gallery (7 cols) ── -->
+    <div class="lg:col-span-7 flex flex-col gap-6">
+      
+      <!-- Breadcrumb -->
+      <a href={isEs ? '/#coleccion' : '/en#coleccion'} 
+         class="inline-flex items-center gap-2 text-[10px] font-body font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-neutral-900 transition-colors w-max mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        {isEs ? 'Volver a la colección' : 'Back to collection'}
+      </a>
+
+      <!-- Main Image -->
+      <div class="relative w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-xl bg-neutral-100">
+        <img src={product.imageStatic} alt={product.title[lang]} class="w-full h-full object-cover" />
+        
+        <!-- Hover Video overlay (optional if available) -->
+        {product.videoHover && (
+          <video src={product.videoHover} autoplay loop muted playsinline 
+                 class="absolute inset-0 w-full h-full object-cover opacity-0 hover:opacity-100 transition-opacity duration-700 ease-out cursor-crosshair"></video>
+        )}
+
+        <!-- Floating Weight Badge -->
+        <div class="absolute bottom-6 right-6 backdrop-blur-xl bg-white/70 border border-white/50 text-neutral-900 text-xs font-body font-medium tracking-widest uppercase px-4 py-2 rounded-full shadow-lg">
+          {product.weightGrams}g &bull; {t.guarantees.ultralight.split(' ')[0]}
+        </div>
+      </div>
+      
+      <!-- Scale Image (if available) -->
+      {product.earScaleImage && (
+        <div class="w-full aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-100">
+          <img src={product.earScaleImage} alt={`${product.title[lang]} in scale`} class="w-full h-full object-cover" loading="lazy" />
+        </div>
+      )}
+    </div>
+
+    <!-- ── Right Column: Storytelling & Cart (5 cols) ── -->
+    <div class="lg:col-span-5 flex flex-col pt-4 lg:pt-12 sticky top-24 h-max">
+      
+      <!-- Title & Price -->
+      <h1 class="font-display text-4xl lg:text-5xl font-light text-neutral-900 leading-[1.1] tracking-tight mb-4">
+        {product.title[lang]}
+      </h1>
+      <p class="font-display text-3xl font-light text-neutral-900 mb-6">
+        {product.price.toFixed(2)}€ <span class="text-sm font-body text-neutral-400 align-middle ml-2">{isEs ? '(IVA incl.)' : '(VAT incl.)'}</span>
+      </p>
+
+      <!-- Availability -->
+      <p class="flex items-center gap-2 text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-500 mb-8">
+        <span class={`w-1.5 h-1.5 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></span>
+        {product.inStock ? (isEs ? 'En stock • Envío en 24/48h' : 'In stock • Dispatched in 24/48h') : (isEs ? 'Agotado Temporalmente' : 'Temporarily Out of Stock')}
+      </p>
+
+      <!-- Description & Story -->
+      <div class="prose prose-neutral prose-sm font-body text-neutral-600 mb-10 leading-relaxed">
+        <p>{product.description[lang]}</p>
+        <p class="italic text-neutral-500">{product.story[lang]}</p>
+      </div>
+
+      <!-- Closure Selector -->
+      <div class="mb-8">
+        <p class="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-400 mb-3">
+          {isEs ? 'Selecciona el tipo de cierre' : 'Select closure type'}
+        </p>
+        <div class="flex flex-col gap-2" id="closure-selector">
+          <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all duration-200 border-neutral-900 bg-neutral-50">
+            <input type="radio" name="closure" value="acero" checked class="peer sr-only" />
+            <div class="flex flex-col">
+              <span class="font-body text-sm font-medium text-neutral-900 uppercase tracking-wide">{isEs ? 'Aro Acero Quirúrgico' : 'Surgical Steel Hoop'}</span>
+              <span class="font-body text-xs text-neutral-500 mt-0.5">{isEs ? 'Hipoalergénico • Para lóbulo perforado' : 'Hypoallergenic • For pierced lobes'}</span>
+            </div>
+            <div class="w-4 h-4 rounded-full border-2 border-neutral-900 bg-neutral-900 shadow-[inset_0_0_0_3px_#fff]"></div>
+          </label>
+          
+          {hasClip && (
+            <label class="relative flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all duration-200 border-neutral-200 hover:border-neutral-400 bg-white opacity-60">
+              <input type="radio" name="closure" value="clip" class="peer sr-only" />
+              <div class="flex flex-col">
+                <span class="font-body text-sm font-medium text-neutral-900 uppercase tracking-wide">{isEs ? 'Opción Clip' : 'Clip-on Option'}</span>
+                <span class="font-body text-xs text-neutral-500 mt-0.5">{isEs ? 'Sistema a presión • Sin agujero' : 'Pressure system • Non-pierced'}</span>
+              </div>
+              <div class="w-4 h-4 rounded-full border-2 border-neutral-300"></div>
+            </label>
+          )}
+        </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <button 
+        id="detail-add-cart-btn"
+        class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mb-10 flex items-center justify-center gap-3"
+        disabled={!product.inStock}
+        data-product={JSON.stringify(product)}
+      >
+        {product.inStock ? `${t.product.addToBag} — ${product.price.toFixed(2)}€` : (isEs ? 'Agotado' : 'Sold Out')}
+      </button>
+
+      <!-- Accordions -->
+      <div class="border-t border-neutral-200 divide-y divide-neutral-200">
+        <!-- Materials -->
+        <details class="group py-4" open>
+          <summary class="flex justify-between items-center font-body text-sm font-medium tracking-wide uppercase text-neutral-900 cursor-pointer list-none select-none">
+            {isEs ? 'Materiales & Cuidados' : 'Materials & Care'}
+            <span class="transition group-open:rotate-180">
+              <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="font-body text-sm text-neutral-600 mt-4 leading-relaxed pb-2">
+            {isEs 
+              ? 'Metacrilato de alta calidad cortado a láser y acero inoxidable quirúrgico 316L. Limpiar con paño de microfibra seco; no aplicar alcohol ni perfumes directamente.'
+              : 'High quality laser-cut acrylic and 316L surgical stainless steel. Clean with a dry microfiber cloth; do not apply alcohol or perfumes directly.'}
+          </div>
+        </details>
+        
+        <!-- Specs -->
+        <details class="group py-4">
+          <summary class="flex justify-between items-center font-body text-sm font-medium tracking-wide uppercase text-neutral-900 cursor-pointer list-none select-none">
+            {isEs ? 'Dimensiones & Peso' : 'Dimensions & Weight'}
+            <span class="transition group-open:rotate-180">
+              <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="font-body text-sm text-neutral-600 mt-4 leading-relaxed pb-2 flex flex-col gap-2">
+            <p><strong>{isEs ? 'Dimensiones:' : 'Dimensions:'}</strong> {product.dimensions}</p>
+            <p><strong>{isEs ? 'Peso unitario:' : 'Unit weight:'}</strong> {product.weightGrams}g ({product.weightComparison[lang]})</p>
+          </div>
+        </details>
+        
+        <!-- Shipping -->
+        <details class="group py-4">
+          <summary class="flex justify-between items-center font-body text-sm font-medium tracking-wide uppercase text-neutral-900 cursor-pointer list-none select-none">
+            {isEs ? 'Envíos & Devoluciones' : 'Shipping & Returns'}
+            <span class="transition group-open:rotate-180">
+              <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="font-body text-sm text-neutral-600 mt-4 leading-relaxed pb-2">
+            {isEs 
+              ? 'Entrega rápida en 24/48h en Península. Envío gratuito en compras superiores a 40€. Dispones de 14 días para cambios o devoluciones.'
+              : 'Fast delivery in 24/48h within mainland. Free shipping on orders over 40€. You have 14 days for exchanges or returns.'}
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { addItem } from '../../stores/cart';
+  import type { Product } from '../../types/product';
+
+  // Closure Selection Logic
+  const radios = document.querySelectorAll<HTMLInputElement>('input[name="closure"]');
+  radios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      
+      // Reset all styles
+      radios.forEach(r => {
+        const label = r.closest('label');
+        const indicator = label?.querySelector('div.rounded-full');
+        if (label && indicator) {
+          label.classList.remove('border-neutral-900', 'bg-neutral-50');
+          label.classList.add('border-neutral-200', 'bg-white', 'opacity-60');
+          indicator.className = 'w-4 h-4 rounded-full border-2 border-neutral-300';
+        }
+      });
+
+      // Apply active style
+      if (target.checked) {
+        const label = target.closest('label');
+        const indicator = label?.querySelector('div.rounded-full');
+        if (label && indicator) {
+          label.classList.remove('border-neutral-200', 'bg-white', 'opacity-60');
+          label.classList.add('border-neutral-900', 'bg-neutral-50');
+          indicator.className = 'w-4 h-4 rounded-full border-2 border-neutral-900 bg-neutral-900 shadow-[inset_0_0_0_3px_#fff]';
+        }
+      }
+    });
+  });
+
+  // Add to Cart Logic
+  const btn = document.getElementById('detail-add-cart-btn');
+  btn?.addEventListener('click', () => {
+    const rawData = btn.dataset.product;
+    if (rawData) {
+      const product: Product = JSON.parse(rawData);
+      const selectedClosure = document.querySelector<HTMLInputElement>('input[name="closure"]:checked')?.value as 'acero' | 'clip' || 'acero';
+      addItem(product, selectedClosure);
+    }
+  });
+</script>
