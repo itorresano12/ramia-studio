@@ -1,0 +1,281 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../product/ProductCard.astro';
+import { MOCK_PRODUCTS } from '../../lib/mock-products';
+import { es } from '../../i18n/es';
+import { en } from '../../i18n/en';
+
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = lang === 'es' ? es : en;
+
+const guarantees = [
+  { label: t.guarantees.titanium },
+  { label: t.guarantees.ultralight },
+  { label: t.guarantees.noDamage },
+];
+
+const filters = [
+  { id: 'all',      label: t.filters.all },
+  { id: 'maxi',     label: t.filters.maxi },
+  { id: 'aros',     label: t.filters.hoops },
+  { id: 'invitada', label: t.filters.party },
+  { id: 'clip',     label: t.filters.clip },
+];
+
+const weights = [
+  { label: lang === 'es' ? 'Pendiente Ramia' : 'Ramia Earring', grams: 2.8, note: lang === 'es' ? 'ultraligero' : 'ultralight', highlight: true },
+  { label: lang === 'es' ? 'Moneda 50 céntimos' : '50 Cent Coin', grams: 7.8, note: lang === 'es' ? '2.8× más pesada' : '2.8× heavier', highlight: false },
+  { label: lang === 'es' ? 'Moneda 2 euros' : '2 Euro Coin', grams: 8.5, note: lang === 'es' ? '3× más pesada' : '3× heavier', highlight: false },
+];
+const maxWeight = Math.max(...weights.map(w => w.grams));
+---
+
+<Layout title={`Ramia — ${t.hero.title}`} lang={lang}>
+
+  <!-- ═══════════════════════════════════════════
+       HERO — Editorial asymmetric header
+  ══════════════════════════════════════════════ -->
+  <section class="relative overflow-hidden px-6 pt-10 pb-20 text-center">
+
+    <!-- Ambient blob -->
+    <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2
+                w-[800px] h-[500px] rounded-full opacity-25"
+         style="background:radial-gradient(ellipse at center,rgba(200,188,240,0.6) 0%,transparent 68%);filter:blur(72px);"
+         aria-hidden="true"></div>
+    <div class="pointer-events-none absolute top-40 -right-32
+                w-[400px] h-[400px] rounded-full opacity-15"
+         style="background:radial-gradient(ellipse at center,rgba(200,220,240,0.5) 0%,transparent 70%);filter:blur(60px);"
+         aria-hidden="true"></div>
+
+    <!-- Pre-label -->
+    <p class="font-body text-[10px] tracking-[0.35em] uppercase text-neutral-400 mb-8 select-none">
+      {t.hero.preTitle}
+    </p>
+
+    <!-- Main title -->
+    <h1 class="font-display font-light leading-[0.9] tracking-[-0.02em]
+               text-[clamp(2.8rem,9vw,7.5rem)] text-neutral-900 mb-7" set:html={t.hero.title.replace('e ingravidez', '<em class="not-italic text-neutral-400">e ingravidez</em>').replace('and weightlessness', '<em class="not-italic text-neutral-400">and weightlessness</em>')}>
+    </h1>
+
+    <!-- Manifesto lines -->
+    <p class="font-display italic text-lg md:text-xl font-light text-neutral-500
+              max-w-xl mx-auto leading-relaxed mb-10">
+      {t.hero.subtitle}
+    </p>
+
+    <!-- Guarantee pills -->
+    <div class="flex flex-wrap items-center justify-center gap-2.5 mb-3">
+      {guarantees.map(g => (
+        <span class="inline-flex items-center gap-2 backdrop-blur-md bg-white/70
+                     border border-neutral-200/60 text-[10px] font-body font-medium
+                     tracking-[0.16em] uppercase text-neutral-600 px-4 py-2 rounded-full
+                     shadow-sm select-none">
+          <span class="text-neutral-300 text-[8px]">✦</span>
+          {g.label}
+        </span>
+      ))}
+    </div>
+
+    <!-- Divider -->
+    <div class="mx-auto mt-12 w-10 h-px bg-neutral-200" aria-hidden="true"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       WEIGHT REASSURANCE MODULE
+  ══════════════════════════════════════════════ -->
+  <section id="material" class="max-w-3xl mx-auto px-6 py-16">
+    <div class="text-center mb-10">
+      <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-400 mb-3">
+        {lang === 'es' ? 'Comparador de Ligereza' : 'Lightness Comparator'}
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl font-light text-neutral-900 mb-4" set:html={lang === 'es' ? '¿Cuánto pesan realmente<br/>tus Ramia?' : 'How much do your<br/>Ramia earrings weigh?'}>
+      </h2>
+      <p class="font-body text-sm text-neutral-500 max-w-md mx-auto">
+        {lang === 'es' ? 'Diseñados para olvidar que los llevas puestos durante más de 12 horas seguidas.' : 'Designed to make you forget you are wearing them for over 12 hours straight.'}
+      </p>
+    </div>
+
+    <!-- Weight bars -->
+    <div class="flex flex-col gap-5">
+      {weights.map(w => (
+        <div class="flex items-center gap-4">
+          <!-- Label + grams -->
+          <div class="w-44 shrink-0 text-right">
+            <p class={`font-body text-xs font-medium ${w.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
+              {w.label}
+            </p>
+            <p class={`font-display text-xl font-light leading-tight ${w.highlight ? 'text-neutral-900' : 'text-neutral-400'}`}>
+              {w.grams}g
+            </p>
+            <p class="font-body text-[10px] text-neutral-400 tracking-wide">
+              {w.note}
+            </p>
+          </div>
+
+          <!-- Bar -->
+          <div class="flex-1 h-9 rounded-full overflow-hidden bg-neutral-100/60">
+            <div
+              class={`h-full rounded-full transition-all duration-700 ${
+                w.highlight
+                  ? 'bg-gradient-to-r from-neutral-200 via-white to-neutral-100 border border-neutral-200 shadow-[0_0_20px_rgba(200,190,240,0.4)]'
+                  : 'bg-neutral-200'
+              }`}
+              style={`width:${(w.grams / maxWeight) * 100}%`}
+            ></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Authority note -->
+    <blockquote class="mt-10 text-center font-display italic text-base text-neutral-400 border-t border-neutral-100 pt-8">
+      "{lang === 'es' ? 'Diseñados para olvidar que los llevas puestos durante más de 12 horas seguidas.' : 'Designed to make you forget you are wearing them for over 12 hours straight.'}"
+    </blockquote>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       COLLECTION FILTERS + GRID
+  ══════════════════════════════════════════════ -->
+  <section id="coleccion" class="max-w-6xl mx-auto px-4 pb-28">
+
+    <!-- Section label -->
+    <div class="text-center mb-8">
+      <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-400">
+        {t.nav.collection}&ensp;·&ensp;{MOCK_PRODUCTS.length}&nbsp;{lang === 'es' ? 'piezas disponibles' : 'pieces available'}
+      </p>
+    </div>
+
+    <!-- Filter pills -->
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-10 scrollbar-hide justify-start md:justify-center">
+      {filters.map(f => (
+        <button
+          class="filter-btn shrink-0 text-[10px] font-body font-medium tracking-[0.15em]
+                 uppercase px-4 py-2 rounded-full border transition-all duration-200
+                 whitespace-nowrap
+                 border-neutral-200 text-neutral-500 hover:border-neutral-900 hover:text-neutral-900"
+          data-filter={f.id}
+          aria-label={f.label}
+        >
+          {f.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grid -->
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {MOCK_PRODUCTS.map(product => (
+        <ProductCard product={product} lang={lang} />
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <p id="empty-state"
+       class="hidden text-center font-display italic text-neutral-400 text-lg py-20">
+      {lang === 'es' ? 'No hay piezas en esta categoría.' : 'There are no pieces in this category.'}
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MANIFESTO
+  ══════════════════════════════════════════════ -->
+  <section id="manifiesto" class="max-w-2xl mx-auto px-6 py-20 text-center border-t border-neutral-100">
+    <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-300 mb-6">
+      {t.nav.manifesto}
+    </p>
+    <blockquote class="font-display italic text-2xl md:text-3xl font-light text-neutral-800 leading-relaxed">
+      "{lang === 'es' ? 'Cada pieza nace de la convicción de que la joyería más poderosa es la que no se siente.' : 'Every piece is born from the conviction that the most powerful jewelry is the one you do not feel.'}"
+    </blockquote>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer class="w-full text-center py-10 border-t border-neutral-100">
+    <p class="font-body text-[10px] text-neutral-300 tracking-[0.25em] uppercase">
+      © {new Date().getFullYear()}&ensp;Ramia Studio&ensp;·&ensp;{lang === 'es' ? 'Todos los derechos reservados' : 'All rights reserved'}
+    </p>
+  </footer>
+
+</Layout>
+
+<!-- ═══════════════════════════════════════════
+     COLLECTION FILTER — client-side JS
+══════════════════════════════════════════════ -->
+<script>
+  type FilterId = 'all' | 'maxi' | 'aros' | 'esenciales' | 'invitada' | 'clip';
+
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards      = document.querySelectorAll<HTMLElement>('.product-card');
+  const emptyState = document.getElementById('empty-state');
+
+  let activeFilter: FilterId = 'all';
+
+  function applyFilter(filterId: FilterId) {
+    activeFilter = filterId;
+
+    // Update button styles
+    filterBtns.forEach(btn => {
+      const isActive = btn.dataset.filter === filterId;
+      btn.classList.toggle('bg-neutral-900',  isActive);
+      btn.classList.toggle('text-white',       isActive);
+      btn.classList.toggle('border-neutral-900', isActive);
+      btn.classList.toggle('text-neutral-500',  !isActive);
+      btn.classList.toggle('border-neutral-200', !isActive);
+    });
+
+    // Show/hide cards
+    let visible = 0;
+    cards.forEach(card => {
+      const category = card.dataset.category as string;
+      const hasClip  = card.dataset.clip === 'true';
+
+      const show =
+        filterId === 'all' ||
+        (filterId === 'clip' && hasClip) ||
+        category === filterId;
+
+      card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+      if (show) {
+        card.style.opacity    = '1';
+        card.style.transform  = 'scale(1)';
+        card.style.pointerEvents = 'auto';
+        card.style.display    = 'flex';
+        visible++;
+      } else {
+        card.style.opacity    = '0';
+        card.style.transform  = 'scale(0.97)';
+        card.style.pointerEvents = 'none';
+        // Collapse after transition
+        setTimeout(() => {
+          if (activeFilter !== 'all' && !card.style.opacity.startsWith('1')) {
+            card.style.display = 'none';
+          }
+        }, 320);
+      }
+    });
+
+    if (emptyState) {
+      emptyState.classList.toggle('hidden', visible > 0);
+    }
+  }
+
+  // Set first button active on load
+  applyFilter('all');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyFilter(btn.dataset.filter as FilterId);
+    });
+  });
+</script>
+
+<style>
+  /* Hide scrollbar on filter row */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

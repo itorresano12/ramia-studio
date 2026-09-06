@@ -1,11 +1,15 @@
 ---
 import type { Product } from '../../types/product';
+import { es } from '../../i18n/es';
+import { en } from '../../i18n/en';
 
 interface Props {
   product: Product;
+  lang: 'es' | 'en';
 }
 
-const { product } = Astro.props;
+const { product, lang } = Astro.props;
+const t = lang === 'es' ? es : en;
 
 // Iridescent CSS fallback gradient per product
 const gradients: Record<string, string> = {
@@ -35,7 +39,7 @@ const hasClip = product.closureOptions.includes('clip');
     <!-- Static image -->
     <img
       src={product.imageStatic}
-      alt={product.title.es}
+      alt={product.title[lang]}
       class="absolute inset-0 w-full h-full object-cover
              transition-all duration-700 ease-out
              group-hover:scale-105 group-hover:opacity-0"
@@ -62,13 +66,13 @@ const hasClip = product.closureOptions.includes('clip');
                    border border-white/90 text-neutral-700
                    text-[10px] font-body font-medium tracking-[0.12em] uppercase
                    px-3 py-1.5 rounded-full shadow-sm select-none">
-        {product.weightGrams}g&ensp;·&ensp;Ultraligero
+        {product.weightGrams}g&ensp;·&ensp;{t.guarantees.ultralight.split(' ')[0]}
       </span>
       {hasClip && (
         <span class="inline-flex items-center gap-1 backdrop-blur-md bg-neutral-900/85
                      text-white text-[9px] font-body font-medium tracking-[0.12em] uppercase
                      px-2.5 py-1 rounded-full shadow-sm select-none">
-          ✦ Opción Clip
+          ✦ {t.filters.clip.split('(')[0].trim()}
         </span>
       )}
     </div>
@@ -78,7 +82,7 @@ const hasClip = product.closureOptions.includes('clip');
       <div class="absolute inset-0 bg-white/60 backdrop-blur-sm
                   flex items-center justify-center z-20">
         <span class="text-xs tracking-widest uppercase text-neutral-400 font-body font-medium">
-          Agotado
+          {lang === 'es' ? 'Agotado' : 'Sold Out'}
         </span>
       </div>
     )}
@@ -88,12 +92,12 @@ const hasClip = product.closureOptions.includes('clip');
   <div class="flex flex-col gap-1 px-5 pt-5 pb-6">
     <!-- Closure type -->
     <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-0.5">
-      {product.closureType.es}
+      {product.closureType[lang]}
     </p>
 
     <!-- Title -->
     <h2 class="font-display text-xl font-light text-neutral-900 leading-snug tracking-tight">
-      {product.title.es}
+      {product.title[lang]}
     </h2>
 
     <!-- Dimensions -->
@@ -111,10 +115,10 @@ const hasClip = product.closureOptions.includes('clip');
                bg-neutral-900 text-white hover:bg-neutral-700 active:scale-95
                px-5 py-2.5 rounded-full transition-all duration-200 ease-out
                shadow-sm hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
-        aria-label={`Añadir ${product.title.es} a la bolsa`}
+        aria-label={`${t.product.addToBag} - ${product.title[lang]}`}
         disabled={!product.inStock}
       >
-        {product.inStock ? 'Añadir a la Bolsa' : 'Agotado'}
+        {product.inStock ? t.product.addToBag : (lang === 'es' ? 'Agotado' : 'Sold Out')}
       </button>
     </div>
   </div>

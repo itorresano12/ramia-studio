@@ -1,6 +1,15 @@
 ---
-// Navbar — Glassmorphism floating pill with i18n switcher + cart
-const currentPath = Astro.url.pathname;
+import { es } from '../../i18n/es';
+import { en } from '../../i18n/en';
+
+interface Props {
+  lang: 'es' | 'en';
+}
+const { lang } = Astro.props;
+const t = lang === 'es' ? es : en;
+
+// Language links depending on current route
+const isEs = lang === 'es';
 ---
 
 <div class="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
@@ -10,7 +19,7 @@ const currentPath = Astro.url.pathname;
               shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
 
     <!-- ── Brand ── -->
-    <a href="/"
+    <a href={isEs ? '/' : '/en'}
        class="font-display tracking-[0.25em] text-base font-medium text-neutral-900
               hover:text-neutral-500 transition-colors duration-200 uppercase select-none shrink-0">
       Ramia
@@ -22,21 +31,21 @@ const currentPath = Astro.url.pathname;
         <a href="#coleccion"
            class="text-[11px] font-body font-medium tracking-[0.18em] uppercase
                   text-neutral-500 hover:text-neutral-900 transition-colors duration-200">
-          Colección
+          {t.nav.collection}
         </a>
       </li>
       <li>
         <a href="#manifiesto"
            class="text-[11px] font-body font-medium tracking-[0.18em] uppercase
                   text-neutral-500 hover:text-neutral-900 transition-colors duration-200">
-          El Manifiesto
+          {t.nav.manifesto}
         </a>
       </li>
       <li>
         <a href="#material"
            class="text-[11px] font-body font-medium tracking-[0.18em] uppercase
                   text-neutral-500 hover:text-neutral-900 transition-colors duration-200">
-          Metacrilato&nbsp;&amp;&nbsp;Titanio
+          {t.nav.materials}
         </a>
       </li>
     </ul>
@@ -46,24 +55,22 @@ const currentPath = Astro.url.pathname;
 
       <!-- Lang switcher -->
       <div class="hidden sm:flex items-center gap-1 text-[10px] font-body font-medium tracking-[0.12em]">
-        <button id="lang-es"
-                class="lang-btn px-2 py-0.5 rounded-full transition-colors duration-150
-                       bg-neutral-900 text-white"
-                data-lang="es" aria-label="Cambiar a español">
+        <a href="/"
+           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
+           aria-label="Cambiar a español">
           ES
-        </button>
+        </a>
         <span class="text-neutral-300 select-none">|</span>
-        <button id="lang-en"
-                class="lang-btn px-2 py-0.5 rounded-full transition-colors duration-150
-                       text-neutral-400 hover:text-neutral-700"
-                data-lang="en" aria-label="Switch to English">
+        <a href="/en"
+           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${!isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
+           aria-label="Switch to English">
           EN
-        </button>
+        </a>
       </div>
 
       <!-- Cart button -->
       <button id="cart-btn"
-              aria-label="Abrir bolsa de compra"
+              aria-label={t.nav.cart}
               class="relative flex items-center text-neutral-600 hover:text-neutral-900
                      transition-colors duration-200 group">
         <!-- Bag icon -->
@@ -90,20 +97,3 @@ const currentPath = Astro.url.pathname;
 
 <!-- Spacer below sticky nav -->
 <div class="h-6" aria-hidden="true"></div>
-
-<script>
-  // ── Lang switcher ──────────────────────────────────────────────
-  const langBtns = document.querySelectorAll<HTMLButtonElement>('.lang-btn');
-  langBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      langBtns.forEach(b => {
-        b.classList.remove('bg-neutral-900', 'text-white');
-        b.classList.add('text-neutral-400');
-      });
-      btn.classList.add('bg-neutral-900', 'text-white');
-      btn.classList.remove('text-neutral-400');
-      // Dispatch event for other components to react
-      document.dispatchEvent(new CustomEvent('langchange', { detail: btn.dataset.lang }));
-    });
-  });
-</script>
