@@ -8,15 +8,15 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Geometry of the Soul'
     },
     slug: 'geometria-del-alma',
-    price: 65.00,
-    weightGrams: 2.8,
+    price: 18.00,
+    weightGrams: 2.6,
     weightComparison: {
       es: 'Pesa menos que una moneda de 10 céntimos',
       en: 'Weighs less than a dime'
     },
     closureType: {
-      es: 'Titanio hipoalergénico de grado médico',
-      en: 'Medical grade hypoallergenic titanium'
+      es: 'Acero inoxidable quirúrgico hipoalergénico',
+      en: 'Hypoallergenic surgical stainless steel'
     },
     closureOptions: ['titanio', 'clip'],
     description: {
@@ -42,20 +42,20 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Echoes of Obsidian'
     },
     slug: 'ecos-de-obsidiana',
-    price: 85.00,
-    weightGrams: 3.5,
+    price: 22.00,
+    weightGrams: 3.2,
     weightComparison: {
       es: 'Pesa menos que una llave estándar',
       en: 'Weighs less than a standard key'
     },
     closureType: {
-      es: 'Acero quirúrgico antialérgico 316L',
-      en: 'Anti-allergic 316L surgical steel'
+      es: 'Acero inoxidable quirúrgico antialérgico',
+      en: 'Anti-allergic surgical stainless steel'
     },
     closureOptions: ['titanio'],
     description: {
-      es: 'Aros escultóricos en metacrilato negro absoluto con acabado pulido a mano. Un clásico reinventado mediante la manipulación térmica del material.',
-      en: 'Sculptural hoops in absolute black acrylic with a hand-polished finish. A classic reinvented through thermal manipulation of the material.'
+      es: 'Aros escultóricos en metacrilato con acabado pulido a mano. Un clásico reinventado mediante la manipulación térmica del material.',
+      en: 'Sculptural hoops in acrylic with a hand-polished finish. A classic reinvented through thermal manipulation of the material.'
     },
     story: {
       es: 'La colección Ecos surge del silencio y la oscuridad elegante. Cada curva es doblada artesanalmente a 160°, haciendo que ninguna pieza sea exactamente igual a la anterior.',
@@ -63,7 +63,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     category: 'aros',
     colorPalette: ['#1a1a2e', '#16213e'],
-    imageStatic: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?q=80&w=900&auto=format&fit=crop',
+    imageStatic: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=900&auto=format&fit=crop',
     videoHover: 'https://cdn.sanity.io/files/placeholder/production/ecos-obsidiana-hover.webm',
     earScaleImage: '/images/products/ecos-de-obsidiana-scale.webp',
     dimensions: '5.0 cm diámetro',
@@ -76,20 +76,20 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Dawn in Tension'
     },
     slug: 'alba-en-tension',
-    price: 70.00,
-    weightGrams: 2.4,
+    price: 25.00,
+    weightGrams: 2.1,
     weightComparison: {
       es: 'Pesa menos que una hoja de papel',
       en: 'Weighs less than a sheet of paper'
     },
     closureType: {
-      es: 'Plata de ley 925 bañada en rodio',
-      en: 'Rhodium-plated 925 sterling silver'
+      es: 'Acero inoxidable quirúrgico',
+      en: 'Surgical stainless steel'
     },
     closureOptions: ['titanio', 'clip'],
     description: {
-      es: 'Estructura minimalista de metacrilato iridiscente sostenida por finos hilos de metal. Cambia de color sutilmente según el ángulo de visión.',
-      en: 'Minimalist structure of iridescent acrylic supported by fine metal threads. It subtly changes color depending on the viewing angle.'
+      es: 'Estructura minimalista de metacrilato iridiscente sostenida por finos hilos. Cambia de color sutilmente según el ángulo de visión.',
+      en: 'Minimalist structure of iridescent acrylic supported by fine threads. It subtly changes color depending on the viewing angle.'
     },
     story: {
       es: 'Diseñados para capturar la esencia del primer rayo de sol. Alba en Tensión es un ejercicio de minimalismo estructural donde lo invisible es tan importante como lo visible.',
@@ -110,15 +110,15 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Flow of Light'
     },
     slug: 'caudal-de-luz',
-    price: 95.00,
-    weightGrams: 3.9,
+    price: 32.00,
+    weightGrams: 3.8,
     weightComparison: {
       es: 'Pesa la mitad que un pendiente tradicional de su tamaño',
       en: 'Weighs half as much as a traditional earring of its size'
     },
     closureType: {
-      es: 'Titanio hipoalergénico de grado médico',
-      en: 'Medical grade hypoallergenic titanium'
+      es: 'Acero inoxidable quirúrgico hipoalergénico',
+      en: 'Hypoallergenic surgical stainless steel'
     },
     closureOptions: ['titanio', 'clip'],
     description: {
@@ -131,7 +131,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     category: 'invitada',
     colorPalette: ['#f0e8e0', '#d8c8b8'],
-    imageStatic: 'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?q=80&w=900&auto=format&fit=crop',
+    imageStatic: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=900&auto=format&fit=crop',
     videoHover: 'https://cdn.sanity.io/files/placeholder/production/caudal-luz-hover.webm',
     earScaleImage: '/images/products/caudal-de-luz-scale.webp',
     dimensions: '8.0 cm × 4.0 cm',
@@ -144,15 +144,15 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Fragmented Essence'
     },
     slug: 'esencia-fragmentada',
-    price: 55.00,
+    price: 15.00,
     weightGrams: 2.2,
     weightComparison: {
       es: 'Imperceptible al llevarlo',
       en: 'Imperceptible when worn'
     },
     closureType: {
-      es: 'Titanio hipoalergénico',
-      en: 'Hypoallergenic titanium'
+      es: 'Acero inoxidable quirúrgico',
+      en: 'Surgical stainless steel'
     },
     closureOptions: ['titanio'],
     description: {
@@ -165,7 +165,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     category: 'esenciales',
     colorPalette: ['#transparent', '#ffffff'],
-    imageStatic: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=900&auto=format&fit=crop',
+    imageStatic: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=900&auto=format&fit=crop',
     videoHover: 'https://cdn.sanity.io/files/placeholder/production/esencia-fragmentada-hover.webm',
     earScaleImage: '/images/products/esencia-fragmentada-scale.webp',
     dimensions: '1.5 cm × 1.5 cm',
@@ -178,20 +178,20 @@ export const MOCK_PRODUCTS: Product[] = [
       en: 'Sculptural Eclipse'
     },
     slug: 'eclipse-escultural',
-    price: 110.00,
-    weightGrams: 3.8,
+    price: 35.00,
+    weightGrams: 3.5,
     weightComparison: {
       es: 'Sorprendentemente ligero para su volumen',
       en: 'Surprisingly light for its volume'
     },
     closureType: {
-      es: 'Titanio hipoalergénico con tope ancho de seguridad',
-      en: 'Hypoallergenic titanium with wide safety stopper'
+      es: 'Acero inoxidable quirúrgico con tope ancho',
+      en: 'Surgical stainless steel with wide stopper'
     },
     closureOptions: ['titanio', 'clip'],
     description: {
-      es: 'Doble círculo superpuesto en metacrilato mate y brillo. Una estructura tridimensional que desafía la gravedad y aporta un dramatismo sofisticado.',
-      en: 'Double overlapping circle in matte and gloss acrylic. A three-dimensional structure that defies gravity and provides sophisticated drama.'
+      es: 'Doble círculo superpuesto en metacrilato. Una estructura tridimensional que desafía la gravedad y aporta un dramatismo sofisticado.',
+      en: 'Double overlapping circle in acrylic. A three-dimensional structure that defies gravity and provides sophisticated drama.'
     },
     story: {
       es: 'El contraste entre el misterio de la sombra y la claridad del brillo. Una joya pensada para las personalidades más audaces que buscan arte portable.',
@@ -199,7 +199,7 @@ export const MOCK_PRODUCTS: Product[] = [
     },
     category: 'maxi',
     colorPalette: ['#000000', '#f5f5f5'],
-    imageStatic: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
+    imageStatic: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=900&auto=format&fit=crop',
     videoHover: 'https://cdn.sanity.io/files/placeholder/production/eclipse-escultural-hover.webm',
     earScaleImage: '/images/products/eclipse-escultural-scale.webp',
     dimensions: '7.0 cm × 5.0 cm',
