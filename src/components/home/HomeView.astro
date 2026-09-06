@@ -105,19 +105,14 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
         <div class="flex items-center gap-4">
           <!-- Label + grams -->
           <div class="w-44 shrink-0 text-right">
-            <p class={`font-body text-xs font-medium ${w.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
+            <p class={`font-body text-[11px] font-semibold tracking-wide ${w.highlight ? 'text-neutral-900' : 'text-neutral-600'}`}>
               {w.label}
             </p>
-            <p class={`font-display text-xl font-light leading-tight ${w.highlight ? 'text-neutral-900' : 'text-neutral-400'}`}>
+            <p class={`font-display text-2xl font-normal leading-tight ${w.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
               {w.grams}g
-            <p class={`font-body text-[11px] font-semibold tracking-wide ${item.highlight ? 'text-neutral-900' : 'text-neutral-600'}`}>
-              {item.label}
-            </p>
-            <p class={`font-display text-2xl font-normal leading-tight ${item.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
-              {item.grams}g
             </p>
             <p class="font-body text-[10px] text-neutral-500 tracking-wide font-medium">
-              {item.note}
+              {w.note}
             </p>
           </div>
 
@@ -126,9 +121,9 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
             <!-- Animated Bar -->
             <div 
               class={`absolute left-0 top-0 h-full rounded-r-full transition-all duration-1000 ease-out origin-left flex items-center
-                ${item.highlight ? 'bg-neutral-900 text-white shadow-md' : 'bg-neutral-400 text-white'}
+                ${w.highlight ? 'bg-neutral-900 text-white shadow-md' : 'bg-neutral-400 text-white'}
               `}
-              style={`width:${(item.grams / maxWeight) * 100}%`}
+              style={`width:${(w.grams / maxWeight) * 100}%`}
             ></div>
           </div>
         </div>
