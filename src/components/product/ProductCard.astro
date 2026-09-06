@@ -28,7 +28,7 @@ const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%,
     <!-- Static image with zoom -->
     <img
       src={product.imageStatic}
-      alt={product.title}
+      alt={product.title.es}
       class="absolute inset-0 w-full h-full object-cover
              transition-all duration-700 ease-out
              group-hover:scale-105 group-hover:opacity-0"
@@ -74,12 +74,12 @@ const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%,
 
     <!-- Closure type -->
     <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-1">
-      {product.closureType}
+      {product.closureType.es}
     </p>
 
     <!-- Title -->
     <h2 class="font-display text-xl font-light text-neutral-900 leading-snug tracking-tight">
-      {product.title}
+      {product.title.es}
     </h2>
 
     <!-- Dimensions -->
@@ -100,7 +100,7 @@ const fallbackBg = gradients[product.id] ?? 'linear-gradient(135deg, #f0ede8 0%,
                px-5 py-2.5 rounded-full
                transition-all duration-200 ease-out
                shadow-sm hover:shadow-md"
-        aria-label={`Añadir ${product.title} a la bolsa`}
+        aria-label={`Añadir ${product.title.es} a la bolsa`}
       >
         Añadir a la Bolsa
       </button>
