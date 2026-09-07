@@ -110,30 +110,21 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
       </p>
     </div>
 
-    <!-- Weight bars -->
-    <div class="flex flex-col gap-5">
+    <!-- Weight bars (Precision Scale) -->
+    <div class="flex flex-col gap-8 max-w-xl mx-auto mt-12">
       {weights.map(w => (
-        <div class="flex items-center gap-4">
-          <!-- Label + grams -->
-          <div class="w-44 shrink-0 text-right">
-            <p class={`font-body text-[11px] font-semibold tracking-wide ${w.highlight ? 'text-neutral-900' : 'text-neutral-600'}`}>
-              {w.label}
-            </p>
-            <p class={`font-display text-2xl font-normal leading-tight ${w.highlight ? 'text-neutral-900' : 'text-neutral-500'}`}>
-              {w.grams}g
-            </p>
-            <p class="font-body text-[10px] text-neutral-500 tracking-wide font-medium">
-              {w.note}
-            </p>
+        <div class="flex flex-col gap-2 relative group">
+          <div class="flex justify-between items-end mb-1">
+            <span class={`font-body text-[11px] tracking-widest uppercase ${w.highlight ? 'text-neutral-900 font-semibold' : 'text-neutral-500'}`}>
+              {w.label} <span class="normal-case text-[10px] tracking-normal text-neutral-400 ml-1">· {w.note}</span>
+            </span>
+            <span class={`font-mono text-sm tracking-wider ${w.highlight ? 'text-neutral-900 font-medium' : 'text-neutral-500'}`}>
+              {w.grams.toFixed(1)} g
+            </span>
           </div>
-
-          <!-- Rail -->
-          <div class="relative w-full h-10 lg:h-12 bg-stone-200 rounded-r-full flex items-center group overflow-hidden shadow-inner">
-            <!-- Animated Bar -->
+          <div class="w-full h-[2px] bg-neutral-200 relative overflow-hidden">
             <div 
-              class={`absolute left-0 top-0 h-full rounded-r-full transition-all duration-1000 ease-out origin-left flex items-center
-                ${w.highlight ? 'bg-neutral-900 text-white shadow-md' : 'bg-neutral-400 text-white'}
-              `}
+              class={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out origin-left ${w.highlight ? 'bg-neutral-900' : 'bg-neutral-400'}`}
               style={`width:${(w.grams / maxWeight) * 100}%`}
             ></div>
           </div>
@@ -142,9 +133,9 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     </div>
 
     <!-- Authority note -->
-    <blockquote class="mt-10 text-center font-display italic text-base text-neutral-600 border-t border-neutral-100 pt-8">
-      "{lang === 'es' ? 'Pesan menos que una moneda de 50 céntimos. Atraer miradas, todas.' : 'They weigh less than a 50-cent coin. They turn heads, every time.'}"
-    </blockquote>
+    <p class="font-body text-xs text-neutral-500 text-center mt-12 mb-4">
+      {lang === 'es' ? 'Diseñados para olvidar que los llevas puestos durante toda la jornada.' : 'Designed to forget you are wearing them throughout the entire day.'}
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════
