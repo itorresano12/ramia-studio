@@ -29,8 +29,17 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      exclude: ['sanity', '@sanity/astro', '@sanity/assist']
-    }
+      include: [
+        'react/compiler-runtime',
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+      ],
+    },
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
   },
   i18n: {
     defaultLocale: 'es',
