@@ -47,7 +47,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       // Free Shipping
       shipping_options.push({
         shipping_rate_data: {
-          type: 'fixed_amount',
+          type: 'fixed_amount' as 'fixed_amount',
           fixed_amount: { amount: 0, currency: 'eur' },
           display_name: lang === 'es' ? 'Envío Estándar Peninsular (Gratis)' : 'Standard Peninsular Shipping (Free)',
           delivery_estimate: {
@@ -60,7 +60,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       // Paid Shipping
       shipping_options.push({
         shipping_rate_data: {
-          type: 'fixed_amount',
+          type: 'fixed_amount' as 'fixed_amount',
           fixed_amount: { amount: 395, currency: 'eur' },
           display_name: lang === 'es' ? 'Envío Estándar Peninsular' : 'Standard Peninsular Shipping',
           delivery_estimate: {
