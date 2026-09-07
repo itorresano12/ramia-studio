@@ -108,12 +108,36 @@ const hasClip = product.closureOptions.includes('clip');
       <!-- Add to Cart Button -->
       <button 
         id="detail-add-cart-btn"
-        class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mb-10 flex items-center justify-center gap-3"
+        class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
         disabled={!product.inStock}
         data-product={JSON.stringify(product)}
       >
         {product.inStock ? `${t.product.addToBag} — ${product.price.toFixed(2)}€` : (isEs ? 'Agotado' : 'Sold Out')}
       </button>
+
+      <!-- Buy Now — Direct Stripe Checkout -->
+      {product.inStock && (
+        <button
+          id="buy-now-btn"
+          class="w-full mt-3 mb-10 border border-neutral-900 text-neutral-900 font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-900 hover:text-white transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+          data-product={JSON.stringify(product)}
+          data-lang={lang}
+        >
+          <span id="buy-now-text">
+            {isEs ? 'Comprar ahora' : 'Buy now'}
+            <span class="ml-1 opacity-50">·</span>
+            {product.price.toFixed(2)}€
+          </span>
+          <span id="buy-now-loader" class="hidden items-center gap-2">
+            <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            {isEs ? 'Conectando con pasarela segura...' : 'Connecting to secure gateway...'}
+          </span>
+        </button>
+      )}
+      {!product.inStock && <div class="mb-10"></div>}
 
       <!-- Accordions -->
       <div class="border-t border-neutral-200 divide-y divide-neutral-200">
@@ -214,6 +238,64 @@ const hasClip = product.closureOptions.includes('clip');
           const product: Product = JSON.parse(rawData);
           const selectedClosure = document.querySelector<HTMLInputElement>('input[name="closure"]:checked')?.value as 'acero' | 'clip' || 'acero';
           addItem(product, selectedClosure);
+        }
+      });
+    }
+
+    // Buy Now — Direct Stripe Checkout Logic
+    const buyNowBtn = document.getElementById('buy-now-btn') as HTMLButtonElement | null;
+    if (buyNowBtn) {
+      const cloned = buyNowBtn.cloneNode(true) as HTMLButtonElement;
+      buyNowBtn.parentNode?.replaceChild(cloned, buyNowBtn);
+
+      cloned.addEventListener('click', async () => {
+        const rawData = cloned.dataset.product;
+        const lang    = cloned.dataset.lang ?? 'es';
+        if (!rawData) return;
+
+        const product: Product = JSON.parse(rawData);
+        const selectedClosure = document.querySelector<HTMLInputElement>('input[name="closure"]:checked')?.value ?? 'acero';
+
+        const textEl   = cloned.querySelector('#buy-now-text')   as HTMLElement | null;
+        const loaderEl = cloned.querySelector('#buy-now-loader') as HTMLElement | null;
+
+        // Show loading state
+        cloned.disabled = true;
+        textEl?.classList.add('hidden');
+        loaderEl?.classList.remove('hidden');
+        loaderEl?.classList.add('flex');
+
+        try {
+          const res = await fetch('/api/checkout', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+              title:    product.title[lang as 'es' | 'en'],
+              price:    product.price,
+              quantity: 1,
+              closure:  selectedClosure,
+              image:    product.imageStatic,
+              lang,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            console.error('[Buy Now] Stripe error:', data.error);
+            cloned.disabled = false;
+            textEl?.classList.remove('hidden');
+            loaderEl?.classList.add('hidden');
+            loaderEl?.classList.remove('flex');
+          }
+        } catch (err) {
+          console.error('[Buy Now] Request failed:', err);
+          cloned.disabled = false;
+          textEl?.classList.remove('hidden');
+          loaderEl?.classList.add('hidden');
+          loaderEl?.classList.remove('flex');
         }
       });
     }
