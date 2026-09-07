@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const isDemo = Astro.url.searchParams.get('demo') === 'true';
 ---
 
 <Layout title="Ramia Studio - Order Success" lang="en">
@@ -16,7 +18,19 @@ import Layout from '../../layouts/Layout.astro';
       <h1 class="font-display text-4xl font-light text-neutral-900 mb-4">
         Thank you for your order!
       </h1>
-      
+
+      <!-- Demo mode notice -->
+      {isDemo && (
+        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs font-body font-medium tracking-wide px-4 py-2 rounded-full mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Demo mode — no real payment was processed
+        </div>
+      )}
+
       <p class="font-body text-neutral-500 mb-8 leading-relaxed">
         Your Ramia Studio piece is on its way.<br/>
         We are preparing your order in our atelier with artisanal care. You will receive a tracking number via email within 24/48h.

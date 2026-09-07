@@ -1,7 +1,6 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import Stripe from 'stripe';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stripe Checkout endpoint — /api/checkout
@@ -11,18 +10,42 @@ import Stripe from 'stripe';
 //   { title, price, quantity, closure, image, lang? }
 //   — OR —
 //   { items: [{ title, price, quantity, closure, image }], lang? }
+//
+// DEMO MODE: activated automatically when STRIPE_SECRET_KEY is absent or
+// still set to the placeholder value. Returns a success redirect to
+// /pedido-completado?demo=true after a simulated 1-second delay.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY ?? 'sk_test_placeholder', {
-  apiVersion: '2024-06-20',
-});
+const STRIPE_KEY = import.meta.env.STRIPE_SECRET_KEY ?? '';
+const IS_DEMO    = !STRIPE_KEY || STRIPE_KEY === 'sk_test_placeholder' || STRIPE_KEY.trim() === '';
 
 export const POST: APIRoute = async ({ request, url }) => {
   try {
     const body = await request.json();
     const lang: 'es' | 'en' = body.lang ?? 'es';
 
-    // ── Normalise: single product OR items array ────────────────────────────
+    const baseUrl = import.meta.env.SITE_URL
+      ?? import.meta.env.PUBLIC_URL
+      ?? url.origin;
+
+    // ── DEMO MODE ──────────────────────────────────────────────────────────
+    if (IS_DEMO) {
+      // Simulate network delay so the loading state is visible
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const demoUrl = `${baseUrl}${lang === 'es' ? '/pedido-completado' : '/en/order-success'}?demo=true`;
+
+      return new Response(
+        JSON.stringify({ url: demoUrl, demo: true }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+
+    // ── STRIPE MODE ────────────────────────────────────────────────────────
+    const { default: Stripe } = await import('stripe');
+    const stripe = new Stripe(STRIPE_KEY, { apiVersion: '2024-06-20' });
+
+    // Normalise: single product OR items array
     const rawItems: Array<{
       title: string;
       price: number;
@@ -46,18 +69,11 @@ export const POST: APIRoute = async ({ request, url }) => {
       );
     }
 
-    // ── Calculate subtotal for shipping threshold ──────────────────────────
     const subtotal = rawItems.reduce((acc, i) => acc + i.price * (i.quantity ?? 1), 0);
-
-    // ── Base URL for redirects ─────────────────────────────────────────────
-    const baseUrl = import.meta.env.SITE_URL
-      ?? import.meta.env.PUBLIC_URL
-      ?? url.origin;
 
     const successUrl = `${baseUrl}${lang === 'es' ? '/pedido-completado' : '/en/order-success'}?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl  = `${baseUrl}${lang === 'es' ? '/' : '/en/'}`;
 
-    // ── Line items ─────────────────────────────────────────────────────────
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = rawItems.map(item => {
       const closureLabel = item.closure
         ? (lang === 'es' ? `Cierre: ${item.closure}` : `Closure: ${item.closure}`)
@@ -79,7 +95,6 @@ export const POST: APIRoute = async ({ request, url }) => {
       };
     });
 
-    // ── Shipping options (free ≥ 40 €, else 3.95 €) ────────────────────────
     const shipping_options: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
       subtotal >= 40
         ? {
@@ -106,7 +121,6 @@ export const POST: APIRoute = async ({ request, url }) => {
           },
     ];
 
-    // ── Create session ─────────────────────────────────────────────────────
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode:         'payment',
@@ -126,7 +140,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       { status: 200, headers: { 'Content-Type': 'application/json' } },
     );
   } catch (err: any) {
-    console.error('[Stripe] checkout error:', err);
+    console.error('[checkout] error:', err);
     return new Response(
       JSON.stringify({ error: err.message ?? 'Internal error' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } },
