@@ -73,13 +73,13 @@ const isEs = lang === 'es';
     </p>
 
     <button id="checkout-btn" class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
-      <span id="checkout-text">{isEs ? "Tramitar Pedido" : "Checkout"}</span>
+      <span id="checkout-text">{isEs ? "Encargar vía WhatsApp" : "Order via WhatsApp"}</span>
       <span id="checkout-loader" class="hidden flex items-center justify-center gap-2">
         <svg class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        {isEs ? "Preparando pago seguro..." : "Preparing secure payment..."}
+        {isEs ? 'Abriendo chat...' : 'Opening chat...'}
       </span>
     </button>
   </footer>
@@ -242,7 +242,7 @@ const isEs = lang === 'es';
         });
       });
     }));
-    // Checkout Integration
+    // WhatsApp Checkout Integration (Concierge)
     const checkoutBtn = document.getElementById('checkout-btn') as HTMLButtonElement;
     const checkoutText = document.getElementById('checkout-text');
     const checkoutLoader = document.getElementById('checkout-loader');
@@ -256,8 +256,23 @@ const isEs = lang === 'es';
       checkoutLoader?.classList.remove('hidden');
       checkoutLoader?.classList.add('flex');
 
+      // WhatsApp Checkout logic
+      let orderList = items.map(i => `- ${i.quantity}x ${isEs ? i.titleEs : i.titleEn} (Cierre: ${i.closureSelected})`).join('\n');
+      const message = `¡Hola Ramia Studio! Me encanta vuestro trabajo. Quiero encargar el siguiente pedido:\n\n${orderList}\n\n¿Tenéis disponibilidad para envío?`;
+      const waUrl = `https://wa.me/34671259996?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, '_blank');
+      
+      setTimeout(() => {
+        checkoutBtn.disabled = false;
+        checkoutText?.classList.remove('hidden');
+        checkoutLoader?.classList.add('hidden');
+        checkoutLoader?.classList.remove('flex');
+      }, 500);
+
+      // --- PRESERVED STRIPE LOGIC (Commented out for now) ---
+      /*
       try {
-        const res = await fetch('/api/create-checkout-session', {
+        const res = await fetch('/api/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items, lang: isEs ? 'es' : 'en' }),
@@ -280,6 +295,7 @@ const isEs = lang === 'es';
         checkoutLoader?.classList.add('hidden');
         checkoutLoader?.classList.remove('flex');
       }
+      */
     });
   });
 </script>

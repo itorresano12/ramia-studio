@@ -124,7 +124,7 @@ const hasClip = product.closureOptions.includes('clip');
           data-lang={lang}
         >
           <span id="buy-now-text">
-            {isEs ? 'Comprar ahora' : 'Buy now'}
+            {isEs ? 'Encargar vía WhatsApp' : 'Order via WhatsApp'}
             <span class="ml-1 opacity-50">·</span>
             {product.price.toFixed(2)}€
           </span>
@@ -265,6 +265,21 @@ const hasClip = product.closureOptions.includes('clip');
         loaderEl?.classList.remove('hidden');
         loaderEl?.classList.add('flex');
 
+        // WhatsApp Checkout logic
+        const message = `¡Hola Ramia Studio! Me encanta vuestro trabajo. Quiero encargar la pieza ${product.title[lang as 'es' | 'en']}, con acabado Brillante y cierre ${selectedClosure}. ¿Tenéis disponibilidad para envío?`;
+        const waUrl = `https://wa.me/34671259996?text=${encodeURIComponent(message)}`;
+        window.open(waUrl, '_blank');
+        
+        // Restore button state after a short delay
+        setTimeout(() => {
+          cloned.disabled = false;
+          textEl?.classList.remove('hidden');
+          loaderEl?.classList.add('hidden');
+          loaderEl?.classList.remove('flex');
+        }, 500);
+
+        // --- PRESERVED STRIPE LOGIC (Commented out for now) ---
+        /*
         try {
           const res = await fetch('/api/checkout', {
             method:  'POST',
@@ -278,9 +293,7 @@ const hasClip = product.closureOptions.includes('clip');
               lang,
             }),
           });
-
           const data = await res.json();
-
           if (data.url) {
             window.location.href = data.url;
           } else {
@@ -297,6 +310,7 @@ const hasClip = product.closureOptions.includes('clip');
           loaderEl?.classList.add('hidden');
           loaderEl?.classList.remove('flex');
         }
+        */
       });
     }
   });
