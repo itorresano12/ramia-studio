@@ -48,7 +48,8 @@ const isEs = lang === 'es';
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
         <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-2">WhatsApp Concierge</a></li>
         <li><a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-white transition-colors">{CONTACT_EMAIL}</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">{isEs ? 'Envíos y devoluciones' : 'Shipping & Returns'}</a></li>
+        <li><a href={isEs ? '/el-estudio' : '/en/studio'} class="hover:text-white transition-colors">{isEs ? 'El Estudio' : 'The Studio'}</a></li>
+        <li><a href={isEs ? '/cuidados' : '/en/care-guide'} class="hover:text-white transition-colors">{isEs ? 'Guía de cuidados' : 'Care guide'}</a></li>
       </ul>
     </div>
 
@@ -56,9 +57,9 @@ const isEs = lang === 'es';
     <div class="md:col-span-1">
       <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-500 mb-6">{isEs ? 'Legales' : 'Legal'}</h4>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
-        <li><a href="#" class="hover:text-white transition-colors">{isEs ? 'Aviso legal' : 'Legal Notice'}</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">{isEs ? 'Política de privacidad' : 'Privacy Policy'}</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">{isEs ? 'Términos de servicio' : 'Terms of Service'}</a></li>
+        <li><a href={isEs ? '/aviso-legal' : '/en/legal-notice'} class="hover:text-white transition-colors">{isEs ? 'Aviso legal' : 'Legal Notice'}</a></li>
+        <li><a href={isEs ? '/privacidad' : '/en/privacy'} class="hover:text-white transition-colors">{isEs ? 'Política de privacidad' : 'Privacy Policy'}</a></li>
+        <li><a href={isEs ? '/terminos' : '/en/terms'} class="hover:text-white transition-colors">{isEs ? 'Términos de servicio' : 'Terms of Service'}</a></li>
       </ul>
     </div>
 
