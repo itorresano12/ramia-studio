@@ -44,6 +44,11 @@ export async function getProducts() {
       dimensions
     }`;
     const sanityProducts = await sanityClient.fetch(query);
+    
+    if (!sanityProducts || sanityProducts.length === 0) {
+      console.log('Sanity configurado pero sin productos. Usando datos simulados.');
+      return MOCK_PRODUCTS;
+    }
 
     // Map to match the app's Product interface structure for compatibility
     return sanityProducts.map((p: any) => ({

@@ -102,12 +102,22 @@ export const product = defineType({
       title: 'Historia Creativa (ES)',
       type: 'text',
       description: 'Generado con Sanity AI Assist basándose en especificaciones y ligereza.',
+      options: {
+        aiAssist: {
+          // @ts-ignore`n          instruction: 'Tono: Boutique de autor, diseño pop contemporáneo, fresco, sin tecnicismos aburridos. Redactar descripciones enfatizando la ausencia de peso y la comodidad en la oreja a partir del peso exacto y los acabados elegidos.'
+        }
+      }
     }),
     defineField({
       name: 'description_en',
       title: 'Creative Story (EN)',
       type: 'text',
       description: 'Auto-translated and adapted by AI.',
+      options: {
+        aiAssist: {
+          // @ts-ignore`n          instruction: 'Generar traducción limpia al inglés de la Historia Creativa (ES). Maintain the brand tone: contemporary pop design boutique, fresh, emphasizing the lightweight comfort based on the exact grams.'
+        }
+      }
     }),
     defineField({
       name: 'care_instructions',
