@@ -1,0 +1,529 @@
+[
+  {
+    "fields": [
+      {
+        "readOnly": true,
+        "hidden": true,
+        "name": "path",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "fieldsets": [
+              {
+                "name": "appearance",
+                "options": {
+                  "collapsible": true,
+                  "collapsed": true
+                }
+              }
+            ],
+            "type": "sanity.assist.instruction",
+            "title": "Instruction"
+          }
+        ],
+        "name": "instructions",
+        "type": "array"
+      }
+    ],
+    "name": "sanity.assist.schemaType.field",
+    "type": "object",
+    "title": "Field prompt"
+  },
+  {
+    "fields": [
+      {
+        "name": "prompt",
+        "type": "sanity.assist.instruction.prompt",
+        "title": "Instruction"
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "fieldset": "appearance"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "fieldset": "appearance"
+      },
+      {
+        "readOnly": "conditional",
+        "name": "userId",
+        "type": "string",
+        "title": "Visibility",
+        "fieldset": "appearance"
+      },
+      {
+        "hidden": true,
+        "name": "createdById",
+        "type": "string",
+        "title": "Created by",
+        "fieldset": "appearance"
+      },
+      {
+        "of": [
+          {
+            "type": "sanity.assist.output.field",
+            "title": "Output field"
+          },
+          {
+            "type": "sanity.assist.output.type",
+            "title": "Output type"
+          }
+        ],
+        "name": "output",
+        "type": "array",
+        "title": "Output filter"
+      }
+    ],
+    "fieldsets": [
+      {
+        "name": "appearance",
+        "options": {
+          "collapsible": true,
+          "collapsed": true
+        }
+      }
+    ],
+    "name": "sanity.assist.instruction",
+    "type": "object",
+    "title": "Instruction"
+  },
+  {
+    "options": {
+      "modal": {
+        "type": "popover"
+      }
+    },
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ]
+          }
+        ],
+        "name": "path",
+        "type": "string",
+        "title": "Field"
+      }
+    ],
+    "name": "sanity.assist.instruction.fieldRef",
+    "type": "object",
+    "title": "Field"
+  },
+  {
+    "of": [
+      {
+        "marks": {
+          "annotations": []
+        },
+        "of": [
+          {
+            "options": {
+              "modal": {
+                "type": "popover"
+              }
+            },
+            "name": "sanity.assist.instruction.fieldRef",
+            "type": "sanity.assist.instruction.fieldRef",
+            "title": "Field"
+          },
+          {
+            "options": {
+              "modal": {
+                "type": "popover",
+                "width": "auto"
+              }
+            },
+            "name": "sanity.assist.instruction.context",
+            "type": "sanity.assist.instruction.context",
+            "title": "AI context"
+          },
+          {
+            "options": {
+              "modal": {
+                "type": "popover",
+                "width": 1
+              }
+            },
+            "name": "sanity.assist.instruction.userInput",
+            "type": "sanity.assist.instruction.userInput",
+            "title": "User input"
+          }
+        ],
+        "styles": [
+          {
+            "value": "normal",
+            "title": "Normal"
+          }
+        ],
+        "type": "block"
+      }
+    ],
+    "name": "sanity.assist.instruction.prompt",
+    "type": "array",
+    "title": "Prompt"
+  },
+  {
+    "options": {
+      "modal": {
+        "type": "popover",
+        "width": 1
+      }
+    },
+    "fields": [
+      {
+        "placeholder": "Provide instruction text",
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "The header above the user input text field",
+        "name": "message",
+        "type": "string",
+        "title": "User input title"
+      },
+      {
+        "rows": 3,
+        "description": "The description above the user input text field",
+        "name": "description",
+        "type": "text",
+        "title": "User input description"
+      }
+    ],
+    "name": "sanity.assist.instruction.userInput",
+    "type": "object",
+    "title": "User input"
+  },
+  {
+    "options": {
+      "modal": {
+        "type": "popover",
+        "width": "auto"
+      }
+    },
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "The referenced context will be inserted into the instruction",
+        "to": [
+          {
+            "liveEdit": true,
+            "type": "assist.instruction.context"
+          }
+        ],
+        "name": "reference",
+        "type": "reference",
+        "title": "Context"
+      }
+    ],
+    "name": "sanity.assist.instruction.context",
+    "type": "object",
+    "title": "AI context"
+  },
+  {
+    "fields": [
+      {
+        "name": "path",
+        "type": "string"
+      }
+    ],
+    "name": "sanity.assist.output.field",
+    "type": "object",
+    "title": "Output field"
+  },
+  {
+    "fields": [
+      {
+        "name": "type",
+        "type": "string"
+      }
+    ],
+    "name": "sanity.assist.output.type",
+    "type": "object",
+    "title": "Output type"
+  },
+  {
+    "liveEdit": true,
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "type": "sanity.assist.schemaType.field",
+            "title": "Field prompt"
+          }
+        ],
+        "name": "fields",
+        "type": "array"
+      }
+    ],
+    "name": "sanity.assist.schemaType.annotations",
+    "type": "object",
+    "title": "AI Document"
+  },
+  {
+    "liveEdit": true,
+    "fields": [
+      {
+        "of": [
+          {
+            "type": "sanity.assist.instructionTask",
+            "title": "Instruction task"
+          }
+        ],
+        "name": "tasks",
+        "type": "array"
+      }
+    ],
+    "name": "sanity.assist.task.status",
+    "type": "object",
+    "title": "Document instruction status"
+  },
+  {
+    "fields": [
+      {
+        "name": "path",
+        "type": "string"
+      },
+      {
+        "name": "instructionKey",
+        "type": "string",
+        "title": "Instruction key"
+      },
+      {
+        "name": "started",
+        "type": "datetime"
+      },
+      {
+        "name": "updated",
+        "type": "datetime"
+      },
+      {
+        "name": "info",
+        "type": "string"
+      }
+    ],
+    "name": "sanity.assist.instructionTask",
+    "type": "object",
+    "title": "Instruction task"
+  },
+  {
+    "liveEdit": true,
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": []
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              }
+            ],
+            "type": "block"
+          }
+        ],
+        "name": "context",
+        "type": "array"
+      }
+    ],
+    "name": "assist.instruction.context",
+    "type": "document",
+    "title": "AI context"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "description": "Ej: Pendientes Monstera",
+        "name": "title",
+        "type": "string",
+        "title": "Nombre de la joya"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ]
+          }
+        ],
+        "name": "price",
+        "type": "number",
+        "title": "Precio (EUR)"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ]
+          }
+        ],
+        "description": "Galería de fotos (principal y detalles).",
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "images",
+        "type": "array",
+        "title": "Imágenes"
+      },
+      {
+        "initialValue": 2.6,
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ]
+          }
+        ],
+        "description": "Peso para el comparador de ligereza (ej: 2.6)",
+        "name": "weightGrams",
+        "type": "number",
+        "title": "Peso unitario (Gramos)"
+      },
+      {
+        "description": "Ej: Espejo plata, Ámbar translúcido, Glitter",
+        "name": "finish",
+        "type": "string",
+        "title": "Acabado del metacrilato"
+      },
+      {
+        "options": {
+          "list": [
+            "Aro de acero quirúrgico",
+            "Plata de ley 925",
+            "Clip sin perforación"
+          ]
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "claspOptions",
+        "type": "array",
+        "title": "Opciones de cierre"
+      },
+      {
+        "options": {
+          "assist": {
+            "instruction": "Analiza la imagen de la joya adjunta en el campo 'images'. Redacta una descripción poética, sofisticada y concisa (3 a 4 líneas) resaltando los acabados de metacrilato, el juego de luz y la ligereza extrema para una marca de joyería de autor europea."
+          }
+        },
+        "description": "Descripción poética y de diseño de la pieza.",
+        "name": "description",
+        "type": "text",
+        "title": "Descripción"
+      },
+      {
+        "description": "Ej: 5.0 cm x 3.0 cm",
+        "name": "dimensions",
+        "type": "string",
+        "title": "Dimensiones"
+      },
+      {
+        "initialValue": true,
+        "description": "Control de disponibilidad (En stock / Agotado)",
+        "name": "inStock",
+        "type": "boolean",
+        "title": "Disponibilidad"
+      }
+    ],
+    "name": "product",
+    "type": "document",
+    "title": "Producto (Ramia)"
+  }
+]

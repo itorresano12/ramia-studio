@@ -5,5 +5,5 @@ export default defineCliConfig({
     projectId: 'xfzft9lx',
     dataset: 'production'
   },
-  studioHost: 'xfzft9lx'
+  studioHost: 'ramiastudio'
 })
