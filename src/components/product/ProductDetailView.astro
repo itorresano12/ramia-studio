@@ -115,29 +115,10 @@ const hasClip = product.closureOptions.includes('clip');
         {product.inStock ? `${t.product.addToBag} — ${product.price.toFixed(2)}€` : (isEs ? 'Agotado' : 'Sold Out')}
       </button>
 
-      <!-- Buy Now — Direct Stripe Checkout -->
-      {product.inStock && (
-        <button
-          id="buy-now-btn"
-          class="w-full mt-3 mb-10 border border-neutral-900 text-neutral-900 font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-900 hover:text-white transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          data-product={JSON.stringify(product)}
-          data-lang={lang}
-        >
-          <span id="buy-now-text">
-            {isEs ? 'Encargar vía WhatsApp' : 'Order via WhatsApp'}
-            <span class="ml-1 opacity-50">·</span>
-            {product.price.toFixed(2)}€
-          </span>
-          <span id="buy-now-loader" class="hidden items-center gap-2">
-            <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-            </svg>
-            {isEs ? 'Conectando con pasarela segura...' : 'Connecting to secure gateway...'}
-          </span>
-        </button>
-      )}
-      {!product.inStock && <div class="mb-10"></div>}
+      <!-- Concierge Microtext -->
+      <p class="text-center font-body text-[10px] text-neutral-500 mt-4 mb-10">
+        {isEs ? 'Atelier Concierge · Cada encargo se formaliza y confirma de forma personalizada vía WhatsApp' : 'Atelier Concierge · Every order is formally confirmed via personalized WhatsApp concierge'}
+      </p>
 
       <!-- Accordions -->
       <div class="border-t border-neutral-200 divide-y divide-neutral-200">
@@ -184,6 +165,25 @@ const hasClip = product.closureOptions.includes('clip');
               : 'Fast delivery in 24/48h within mainland. Free shipping on orders over 40€. You have 14 days for exchanges or returns.'}
           </div>
         </details>
+      </div>
+
+      <!-- Trust Block -->
+      <div class="mt-10 bg-neutral-50/60 rounded-xl p-6 border border-neutral-200/50">
+        <h4 class="font-display text-lg text-neutral-900 mb-4">{isEs ? 'El Compromiso Ramia' : 'The Ramia Commitment'}</h4>
+        <ul class="flex flex-col gap-3 font-body text-xs text-neutral-600 leading-relaxed">
+          <li class="flex items-start gap-3">
+            <span class="text-[8px] text-neutral-400 mt-1">✦</span>
+            <span>{isEs ? 'Ensamblado manual pieza a pieza en taller nacional.' : 'Hand-assembled piece by piece in our national workshop.'}</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-[8px] text-neutral-400 mt-1">✦</span>
+            <span>{isEs ? 'Metacrilato de grado óptico: brillo inalterable y peso inferior a 3g.' : 'Optical grade acrylic: unalterable shine and weight under 3g.'}</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-[8px] text-neutral-400 mt-1">✦</span>
+            <span>{isEs ? 'Fornituras en acero quirúrgico antialérgico o plata de ley 925.' : 'Fittings in anti-allergic surgical steel or 925 sterling silver.'}</span>
+          </li>
+        </ul>
       </div>
 
     </div>

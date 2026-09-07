@@ -65,7 +65,8 @@ const isEs = lang === 'es';
     </div>
     
     <p class="text-[10px] text-neutral-600 font-body mb-6">
-      {isEs ? "IVA incluido. Gastos de envío calculados en el siguiente paso." : "VAT included. Shipping costs calculated at checkout."}
+      {isEs ? "IVA incluido. " : "VAT included. "}
+      <span id="cart-footer-shipping-text">{isEs ? "Gastos de envío calculados en el siguiente paso." : "Shipping costs calculated at checkout."}</span>
       <br/>
       <span class="text-neutral-500 italic font-display text-sm block mt-1">
         {isEs ? "Diseñados para no pesar." : "Designed to be weightless."}
@@ -150,6 +151,7 @@ const isEs = lang === 'es';
       }
     }));
 
+    const footerShippingText = document.getElementById('cart-footer-shipping-text');
     unsubs.push(cartTotal.subscribe(total => {
       if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}€`;
       
@@ -159,10 +161,20 @@ const isEs = lang === 'es';
           shippingMsg.textContent = isEs 
             ? `Faltan ${remaining.toFixed(2)}€ para envío gratuito` 
             : `Add ${remaining.toFixed(2)}€ for free shipping`;
+          if (footerShippingText) {
+            footerShippingText.textContent = isEs 
+              ? "Gastos de envío calculados en el siguiente paso." 
+              : "Shipping costs calculated at checkout.";
+          }
         } else {
           shippingMsg.textContent = isEs 
             ? `¡Tienes envío gratuito asegurado!` 
             : `You have secured free shipping!`;
+          if (footerShippingText) {
+            footerShippingText.textContent = isEs 
+              ? "Envío estándar gratuito aplicado." 
+              : "Free standard shipping applied.";
+          }
         }
       }
     }));
