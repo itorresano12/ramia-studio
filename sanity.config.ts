@@ -6,8 +6,8 @@ import { schemaTypes } from './src/sanity/schemaTypes';
 export default defineConfig({
   name: 'ramia-studio',
   title: 'Ramia Studio',
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'placeholder-id',
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+  projectId: 'xfzft9lx',
+  dataset: 'production',
   basePath: '/studio',
   plugins: [
     structureTool(),
