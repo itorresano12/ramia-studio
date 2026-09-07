@@ -12,7 +12,6 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   integrations: [
-    react(),
     tailwind(),
     sanity({
       projectId: env.PUBLIC_SANITY_PROJECT_ID || 'placeholder-id',
@@ -20,6 +19,7 @@ export default defineConfig({
       useCdn: false,
       studioBasePath: '/studio',
     }),
+    react(),
   ],
   image: {
     domains: ['cdn.sanity.io'],
@@ -29,11 +29,7 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ['react', 'react-dom', 'styled-components'],
-      exclude: ['@sanity/astro', 'sanity']
-    },
-    ssr: {
-      noExternal: ['@sanity/astro', 'sanity']
+      exclude: ['sanity', '@sanity/astro', '@sanity/assist']
     }
   },
   i18n: {
