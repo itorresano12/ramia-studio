@@ -21,10 +21,10 @@ const isEs = lang === 'es';
   <header class="flex items-center justify-between px-6 py-5 border-b border-neutral-200/60">
     <h2 class="font-display text-2xl font-light text-neutral-900">
       {isEs ? "Tu Bolsa" : "Your Bag"}
-      <span id="cart-header-count" class="text-neutral-400 text-lg ml-1">(0)</span>
+      <span id="cart-header-count" class="text-neutral-600 text-lg ml-1">(0)</span>
     </h2>
     <button id="close-cart-btn"
-            class="text-neutral-400 hover:text-neutral-900 transition-colors p-2 -mr-2"
+            class="text-neutral-600 hover:text-neutral-900 transition-colors p-2 -mr-2"
             aria-label={isEs ? "Cerrar bolsa" : "Close bag"}>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 6 6 18M6 6l12 12"/>
@@ -49,7 +49,7 @@ const isEs = lang === 'es';
   
   <!-- Empty State (hidden by default) -->
   <div id="cart-empty-state" class="hidden flex-col items-center justify-center flex-1 px-6 text-center">
-    <p class="font-display italic text-2xl text-neutral-400 mb-4">
+    <p class="font-display italic text-2xl text-neutral-600 mb-4">
       {isEs ? "Tu bolsa está vacía." : "Your bag is empty."}
     </p>
     <button id="continue-shopping-btn" class="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-900 hover:text-neutral-500 transition-colors underline underline-offset-4">
@@ -64,7 +64,7 @@ const isEs = lang === 'es';
       <span id="cart-subtotal" class="font-display text-2xl font-light text-neutral-900">0.00€</span>
     </div>
     
-    <p class="text-[10px] text-neutral-400 font-body mb-6">
+    <p class="text-[10px] text-neutral-600 font-body mb-6">
       {isEs ? "IVA incluido. Gastos de envío calculados en el siguiente paso." : "VAT included. Shipping costs calculated at checkout."}
       <br/>
       <span class="text-neutral-500 italic font-display text-sm block mt-1">
@@ -194,22 +194,22 @@ const isEs = lang === 'es';
             <div>
               <div class="flex justify-between items-start gap-2">
                 <h3 class="font-display text-lg text-neutral-900 leading-tight">${title}</h3>
-                <button class="remove-item-btn text-neutral-400 hover:text-neutral-900 p-1 -mr-1 transition-colors" data-id="${item.id}" aria-label="Remove item">
+                <button class="remove-item-btn text-neutral-600 hover:text-neutral-900 p-1 -mr-1 transition-colors" data-id="${item.id}" aria-label="Remove item">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 6 6 18M6 6l12 12"/>
                   </svg>
                 </button>
               </div>
-              <p class="text-[10px] font-body text-neutral-400 uppercase tracking-widest mt-1">${closureLabel}</p>
+              <p class="text-[10px] font-body text-neutral-600 uppercase tracking-widest mt-1">${closureLabel}</p>
             </div>
             
             <div class="flex justify-between items-end">
               <div class="flex items-center gap-3 border border-neutral-200 rounded-full px-3 py-1 bg-white">
-                <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="minus" aria-label="Decrease quantity">
+                <button class="qty-btn text-neutral-600 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="minus" aria-label="Decrease quantity">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
                 </button>
                 <span class="font-body text-xs font-medium text-neutral-900 min-w-[12px] text-center">${item.quantity}</span>
-                <button class="qty-btn text-neutral-400 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="plus" aria-label="Increase quantity">
+                <button class="qty-btn text-neutral-600 hover:text-neutral-900 transition-colors" data-id="${item.id}" data-action="plus" aria-label="Increase quantity">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 </button>
               </div>

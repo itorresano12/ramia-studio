@@ -71,13 +71,13 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
       <!-- Lang switcher -->
       <div class="hidden sm:flex items-center gap-1 text-[10px] font-body font-medium tracking-[0.12em]">
         <a href={esUrl}
-           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
+           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:text-neutral-700'}`}
            aria-label="Cambiar a español">
           ES
         </a>
         <span class="text-neutral-300 select-none">|</span>
         <a href={enUrl}
-           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${!isEs ? 'bg-neutral-900 text-white' : 'text-neutral-400 hover:text-neutral-700'}`}
+           class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${!isEs ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:text-neutral-700'}`}
            aria-label="Switch to English">
           EN
         </a>

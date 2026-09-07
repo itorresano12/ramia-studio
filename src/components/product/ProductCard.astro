@@ -79,7 +79,7 @@ const hasClip = product.closureOptions.includes('clip');
     {!product.inStock && (
       <div class="absolute inset-0 bg-white/60 backdrop-blur-sm
                   flex items-center justify-center z-20 pointer-events-none">
-        <span class="text-xs tracking-widest uppercase text-neutral-400 font-body font-medium">
+        <span class="text-xs tracking-widest uppercase text-neutral-600 font-body font-medium">
           {lang === 'es' ? 'Agotado' : 'Sold Out'}
         </span>
       </div>
@@ -89,7 +89,7 @@ const hasClip = product.closureOptions.includes('clip');
   <!-- ── Info ── -->
   <div class="flex flex-col gap-1 pt-4 px-2 pb-2">
     <!-- Closure type -->
-    <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-400 font-body font-medium mb-0.5">
+    <p class="text-[10px] tracking-[0.18em] uppercase text-neutral-600 font-body font-medium mb-0.5">
       {product.closureType[lang]}
     </p>
 
@@ -101,7 +101,7 @@ const hasClip = product.closureOptions.includes('clip');
     </a>
 
     <!-- Dimensions -->
-    <p class="text-[11px] text-neutral-400 font-body mt-0.5">
+    <p class="text-[11px] text-neutral-600 font-body mt-0.5">
       {product.dimensions}
     </p>
 

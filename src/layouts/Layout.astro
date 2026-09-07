@@ -8,20 +8,61 @@ interface Props {
   title: string;
   lang: 'es' | 'en';
   productSlug?: string;
+  description?: string;
+  ogImage?: string;
 }
 
-const { title, lang, productSlug } = Astro.props;
+const { 
+  title, 
+  lang, 
+  productSlug, 
+  description = "Ramia Studio — Joyería de diseño contemporáneo en metacrilato. Mucho diseño. Cero peso.",
+  ogImage = "https://images.unsplash.com/photo-1599643478514-46b14245b11c?q=80&w=1200&h=630&auto=format&fit=crop"
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://ramiastudio.com');
+
+// Calculate hreflang paths dynamically
+const esPath = lang === 'es' ? Astro.url.pathname : Astro.url.pathname.replace(/^\/en/, '');
+const enPath = lang === 'en' ? Astro.url.pathname : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`;
+const esURL = new URL(esPath || '/', Astro.site || 'https://ramiastudio.com');
+const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Ramia Studio — Joyas de autor en metacrilato. Ultraligeras, hipoalergénicas, irrepetibles." />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="es" href={esURL} />
+    <link rel="alternate" hreflang="en" href={enURL} />
+    <link rel="alternate" hreflang="x-default" href={esURL} />
+
+    <!-- OpenGraph -->
+    <meta property="og:site_name" content="Ramia Studio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={productSlug ? "product" : "website"} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Google Fonts: Cormorant Garamond (display) + Plus Jakarta Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
