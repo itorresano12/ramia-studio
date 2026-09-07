@@ -33,13 +33,10 @@ const PRODUCT_QUERY = `
     price,
     weightGrams,
     inStock,
-    material,
-    closureTypes,
-    acrylicFinish,
-    description_es,
-    description_en,
-    care_instructions,
-    dimensions { heightCm, widthCm }
+    finish,
+    claspOptions,
+    description,
+    dimensions
   }
 `;
 
@@ -58,36 +55,40 @@ export async function getProducts() {
     }
 
     return results.map((p: any) => ({
-      // ── identity ────────────────────────────────────────────────────────────
       id:    p._id,
       slug:  p.slug,
-      // ── bilingual titles ────────────────────────────────────────────────────
       title: {
-        es: typeof p.title === 'object' ? p.title.es : p.title,
-        en: typeof p.title === 'object' ? p.title.en : p.title,
+        es: p.title,
+        en: p.title, // Default to single title for both langs
       },
-      // ── pricing & weight ────────────────────────────────────────────────────
       price:        p.price,
-      weightGrams:  p.weightGrams,
-      inStock:      p.inStock ?? true,
-      // ── media ───────────────────────────────────────────────────────────────
-      imageStatic:  p.imageStatic ?? '',
-      // ── materials & closures ────────────────────────────────────────────────
-      material:     p.material ?? 'Acero Quirúrgico 316L (Plateado)',
-      closureOptions: p.closureTypes ?? ['Aro Estándar 316L', 'Clip Antialérgico (Sin agujero)'],
-      acrylicFinish:  p.acrylicFinish ?? ['Brillo'],
-      // ── descriptions ────────────────────────────────────────────────────────
-      description: {
-        es: p.description_es ?? 'Pieza artesanal de metacrilato.',
-        en: p.description_en ?? 'Handcrafted acrylic piece.',
+      weightGrams:  p.weightGrams ?? 2.6,
+      weightComparison: {
+        es: 'Súper ligero',
+        en: 'Super light'
       },
-      care_instructions: p.care_instructions ?? '',
-      // ── dimensions ──────────────────────────────────────────────────────────
-      dimensions: p.dimensions
-        ? `${p.dimensions.heightCm} × ${p.dimensions.widthCm} cm`
-        : undefined,
-      // ── catalogue meta ──────────────────────────────────────────────────────
+      closureType: {
+        es: p.claspOptions?.[0] ?? 'Acero hipoalergénico',
+        en: p.claspOptions?.[0] ?? 'Hypoallergenic steel'
+      },
+      closureOptions: p.claspOptions?.some((c: string) => c.toLowerCase().includes('clip')) 
+        ? ['titanio', 'clip'] 
+        : ['titanio'],
+      description: {
+        es: p.description ?? '',
+        en: p.description ?? '', // Adapt single description
+      },
+      story: {
+        es: p.finish ? `Acabado: ${p.finish}` : 'Diseño contemporáneo en metacrilato',
+        en: p.finish ? `Finish: ${p.finish}` : 'Contemporary acrylic design',
+      },
       category: 'earrings',
+      colorPalette: [],
+      imageStatic:  p.imageStatic ?? 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
+      videoHover: '',
+      earScaleImage: '',
+      dimensions: p.dimensions ?? '',
+      inStock:      p.inStock !== false,
     }));
   } catch (err) {
     console.error('[Sanity] Fetch error, falling back to mock catalogue:', err);
