@@ -16,16 +16,21 @@ export const sanityClient = createClient({
   projectId:  PROJECT_ID,
   dataset:    DATASET,
   apiVersion: API_VERSION,
-  useCdn:     true, // fast reads for public storefront data
+  // useCdn: false ensures the SSG build always reads the latest
+  // *published* content directly from the Sanity API, bypassing
+  // Sanity's edge CDN which can have up to 60 s stale cache.
+  useCdn:     false,
 });
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Storefront query — maps Sanity documents → app Product shape
 // Falls back to mock catalogue when dataset is empty or unreachable.
+// NOTE: GROQ's *[_type == "product"] already excludes draft documents
+// (those have _id starting with "drafts."). No extra filter needed.
 // ──────────────────────────────────────────────────────────────────────────────
 
 const PRODUCT_QUERY = `
-  *[_type == "product"] | order(_createdAt asc) {
+  *[_type == "product" && defined(slug.current)] | order(_createdAt asc) {
     _id,
     title,
     "slug": slug.current,

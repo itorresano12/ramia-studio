@@ -2,6 +2,7 @@
 import type { Product } from '../../types/product';
 import { es } from '../../i18n/es';
 import { en } from '../../i18n/en';
+import { Image } from 'astro:assets';
 
 interface Props {
   product: Product;
@@ -41,6 +42,7 @@ const hasClip = product.closureOptions.includes('clip');
              transition-all duration-700 ease-out
              group-hover:scale-105 group-hover:opacity-0"
       loading="lazy"
+      decoding="async"
     />
 
     <!-- Hover video -->

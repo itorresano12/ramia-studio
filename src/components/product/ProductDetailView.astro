@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import type { Product } from '../../types/product';
 import { es } from '../../i18n/es';
 import { en } from '../../i18n/en';
+import { Image } from 'astro:assets';
 
 interface Props {
   product: Product;
@@ -13,9 +14,29 @@ const { product, lang } = Astro.props;
 const t = lang === 'es' ? es : en;
 const isEs = lang === 'es';
 const hasClip = product.closureOptions.includes('clip');
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product.title[lang],
+  "image": product.imageStatic,
+  "description": product.description[lang],
+  "brand": { "@type": "Brand", "name": "Ramia Studio" },
+  "offers": {
+    "@type": "Offer",
+    "url": Astro.url.href,
+    "priceCurrency": "EUR",
+    "price": product.price,
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+  }
+});
 ---
 
 <Layout title={`${product.title[lang]} | Ramia Studio`} lang={lang} productSlug={product.slug}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={schema} />
+  </Fragment>
   <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
     
     <!-- ── Left Column: Media Gallery (7 cols) ── -->
@@ -32,7 +53,14 @@ const hasClip = product.closureOptions.includes('clip');
 
       <!-- Main Image -->
       <div class="relative w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-xl bg-neutral-100">
-        <img src={product.imageStatic} alt={product.title[lang]} class="w-full h-full object-cover" />
+        <img
+          src={product.imageStatic}
+          alt={product.title[lang]}
+          class="w-full h-full object-cover"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
         
         <!-- Hover Video overlay (optional if available) -->
         {product.videoHover && (
@@ -49,7 +77,7 @@ const hasClip = product.closureOptions.includes('clip');
       <!-- Scale Image (if available) -->
       {product.earScaleImage && (
         <div class="w-full aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-100">
-          <img src={product.earScaleImage} alt={`${product.title[lang]} in scale`} class="w-full h-full object-cover" loading="lazy" />
+          <img src={product.earScaleImage} alt={`${product.title[lang]} in scale`} class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
       )}
     </div>
@@ -108,7 +136,7 @@ const hasClip = product.closureOptions.includes('clip');
       <!-- Add to Cart Button -->
       <button 
         id="detail-add-cart-btn"
-        class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+        class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-5 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 js-add-cart-btn"
         disabled={!product.inStock}
         data-product={JSON.stringify(product)}
       >
@@ -188,6 +216,17 @@ const hasClip = product.closureOptions.includes('clip');
 
     </div>
   </main>
+  
+  <!-- Mobile Sticky CTA -->
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-neutral-200 z-40">
+    <button 
+      class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.2em] uppercase text-xs py-4 rounded-full shadow-lg active:scale-[0.98] disabled:opacity-50 flex items-center justify-center js-add-cart-btn"
+      disabled={!product.inStock}
+      data-product={JSON.stringify(product)}
+    >
+      {product.inStock ? `${t.product.addToBag} — ${product.price.toFixed(2)}€` : (isEs ? 'Agotado' : 'Sold Out')}
+    </button>
+  </div>
 </Layout>
 
 <script>
@@ -226,9 +265,8 @@ const hasClip = product.closureOptions.includes('clip');
     });
 
     // Add to Cart Logic
-    const btn = document.getElementById('detail-add-cart-btn');
-    if (btn) {
-      // Clone and replace to prevent duplicate listeners
+    const btns = document.querySelectorAll<HTMLButtonElement>('.js-add-cart-btn');
+    btns.forEach(btn => {
       const newBtn = btn.cloneNode(true) as HTMLButtonElement;
       btn.parentNode?.replaceChild(newBtn, btn);
 
@@ -240,7 +278,7 @@ const hasClip = product.closureOptions.includes('clip');
           addItem(product, selectedClosure);
         }
       });
-    }
+    });
 
     // Buy Now — Direct Stripe Checkout Logic
     const buyNowBtn = document.getElementById('buy-now-btn') as HTMLButtonElement | null;

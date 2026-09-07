@@ -4,6 +4,7 @@ import ProductCard from '../product/ProductCard.astro';
 import { getProducts } from '../../lib/sanity';
 import { es } from '../../i18n/es';
 import { en } from '../../i18n/en';
+import { Image } from 'astro:assets';
 
 interface Props {
   lang: 'es' | 'en';
@@ -88,6 +89,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
           alt={lang === 'es' ? 'Joyería contemporánea en metacrilato' : 'Contemporary acrylic jewelry'}
           class="aspect-[4/5] object-cover rounded-2xl shadow-sm w-full max-w-md bg-neutral-100"
           loading="eager"
+          decoding="async"
           fetchpriority="high"
         />
       </div>
