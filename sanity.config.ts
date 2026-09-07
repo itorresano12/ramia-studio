@@ -8,6 +8,7 @@ export default defineConfig({
   title: 'Ramia Studio',
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'placeholder-id',
   dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+  basePath: '/studio',
   plugins: [
     structureTool(),
     assist({

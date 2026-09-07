@@ -11,12 +11,16 @@ const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 export default defineConfig({
   output: 'static',
   adapter: vercel(),
-  integrations: [tailwind(), sanity({
-    projectId: env.PUBLIC_SANITY_PROJECT_ID || 'placeholder-id',
-    dataset: env.PUBLIC_SANITY_DATASET || 'production',
-    useCdn: false,
-    studioBasePath: '/studio',
-  }), react()],
+  integrations: [
+    react(),
+    tailwind(),
+    sanity({
+      projectId: env.PUBLIC_SANITY_PROJECT_ID || 'placeholder-id',
+      dataset: env.PUBLIC_SANITY_DATASET || 'production',
+      useCdn: false,
+      studioBasePath: '/studio',
+    }),
+  ],
   image: {
     domains: ['cdn.sanity.io'],
   },
@@ -24,10 +28,12 @@ export default defineConfig({
     defaultStrategy: 'hover'
   },
   vite: {
-    build: {
-      rollupOptions: {
-        external: ['styled-components']
-      }
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'styled-components'],
+      exclude: ['@sanity/astro', 'sanity']
+    },
+    ssr: {
+      noExternal: ['@sanity/astro', 'sanity']
     }
   },
   i18n: {
