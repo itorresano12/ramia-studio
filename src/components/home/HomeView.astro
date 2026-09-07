@@ -37,9 +37,9 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
 <Layout title={`Ramia — ${t.hero.title}`} lang={lang}>
 
   <!-- ═══════════════════════════════════════════
-       HERO — Editorial asymmetric header
+       HERO — Editorial logo header
   ══════════════════════════════════════════════ -->
-  <section class="relative overflow-hidden px-6 pt-10 pb-20 text-center">
+  <section class="relative overflow-hidden px-6 pt-10 pb-6 text-center">
 
     <!-- Ambient blob -->
     <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2
@@ -51,20 +51,26 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
          style="background:radial-gradient(ellipse at center,rgba(200,220,240,0.5) 0%,transparent 70%);filter:blur(60px);"
          aria-hidden="true"></div>
 
-    <!-- Pre-label -->
-    <p class="font-body text-[10px] tracking-[0.35em] uppercase text-neutral-400 mb-8 select-none">
-      {t.hero.preTitle}
+    <!-- Official Logo -->
+    <div class="flex justify-center items-center mb-5">
+      <img
+        src="/logo-ramia.jpeg"
+        alt="Ramia Studio"
+        class="h-[55px] sm:h-[75px] md:h-[90px] w-auto max-w-[220px] sm:max-w-[280px] md:max-w-[320px]
+               object-contain mix-blend-multiply select-none"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
+    <!-- Tagline -->
+    <p class="font-display text-2xl sm:text-3xl md:text-4xl font-light text-neutral-900 tracking-tight mb-3">
+      {lang === 'es' ? 'Mucho diseño. Cero peso.' : 'Bold design. Zero weight.'}
     </p>
 
-    <!-- Main title -->
-    <h1 class="font-display font-light leading-[0.9] tracking-[-0.02em]
-               text-[clamp(2.8rem,9vw,7.5rem)] text-neutral-900 mb-7" set:html={t.hero.title.replace('e ingravidez', '<em class="not-italic text-neutral-400">e ingravidez</em>').replace('and weightlessness', '<em class="not-italic text-neutral-400">and weightlessness</em>')}>
-    </h1>
-
-    <!-- Manifesto lines -->
-    <p class="font-display italic text-lg md:text-xl font-light text-neutral-500
-              max-w-xl mx-auto leading-relaxed mb-10">
-      {t.hero.subtitle}
+    <!-- Sub-label -->
+    <p class="font-body text-[10px] tracking-[0.28em] uppercase text-neutral-400 mb-10 select-none">
+      {lang === 'es' ? 'Estudio de diseño en metacrilato · Hecho a mano' : 'Acrylic design studio · Handcrafted'}
     </p>
 
     <!-- Guarantee pills -->
