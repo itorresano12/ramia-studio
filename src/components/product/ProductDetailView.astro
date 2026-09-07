@@ -306,8 +306,8 @@ const schema = JSON.stringify({
         // WhatsApp Checkout logic
         const productName = product.title[lang as 'es' | 'en'];
         const message = lang === 'es'
-          ? `Hola, me interesa la pieza "${productName}". ¿Podríais confirmarme disponibilidad y detallitos del envío? ¡Gracias!`
-          : `Hello, I'm interested in the piece "${productName}". Could you confirm availability and shipping details? Thank you!`;
+          ? `Hola, me interesa la pieza ${productName}`
+          : `Hello, I am interested in the piece ${productName}`;
         const waUrl = `https://api.whatsapp.com/send?phone=34671259996&text=${encodeURIComponent(message)}`;
         window.open(waUrl, '_blank');
         
