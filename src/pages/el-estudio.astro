@@ -1,17 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout title="El Estudio — Ramia Studio" lang="es">
-  <main class="max-w-3xl mx-auto px-6 py-20 min-h-[70vh]">
-    <article class="prose prose-neutral prose-sm sm:prose-base mx-auto font-body text-neutral-600 space-y-6">
-      
-      <h1 class="font-display text-4xl text-neutral-900 mb-8 font-light">El Estudio</h1>
-      <p class="text-lg leading-relaxed text-neutral-800">En Ramia Studio creamos piezas concebidas bajo una premisa innegociable: la joyería más poderosa es la que no se siente.</p>
-      <h2 class="font-display text-2xl text-neutral-900 mt-8 mb-4">Artesanía en Metacrilato</h2>
-      <p>Nuestra producción combina la precisión del <strong>corte láser</strong> con el mimo del <strong>ensamblado manual</strong> en nuestro taller de España. Cada capa, cada pieza de fornitura y cada cierre se montan a mano.</p>
-      <h2 class="font-display text-2xl text-neutral-900 mt-8 mb-4">Cero Peso</h2>
-      <p>El uso del metacrilato nos permite esculpir volúmenes audaces manteniendo pesos inferiores a los 3 gramos. Atrévete con tamaños maxi sin sacrificar tu comodidad.</p>
-  
-    </article>
+  <main class="max-w-5xl mx-auto px-6 py-20 min-h-[70vh]">
+    <!-- Header Editorial -->
+    <header class="text-center max-w-3xl mx-auto mb-16">
+      <h1 class="font-display text-5xl md:text-6xl text-neutral-900 mb-6 font-light tracking-tight">El Estudio</h1>
+      <p class="font-display text-2xl md:text-3xl text-neutral-500 italic mb-8">
+        La ligereza como declaración estética
+      </p>
+      <p class="font-body text-neutral-600 leading-relaxed">
+        En Ramia Studio creamos piezas concebidas bajo una premisa innegociable: la joyería más poderosa es la que no se siente. Diseñamos con audacia arquitectónica para que puedas expresarte sin restricciones de volumen o peso.
+      </p>
+    </header>
+
+    <!-- Highlight Quote Block -->
+    <section class="bg-neutral-50 border border-neutral-100 rounded-2xl p-10 md:p-16 mb-20 text-center">
+      <blockquote class="font-display text-2xl md:text-4xl font-light leading-snug text-neutral-900 mx-auto max-w-4xl">
+        "Nuestra misión es desafiar la gravedad en el diseño de accesorios. Convertir la contundencia visual en absoluta ligereza estructural."
+      </blockquote>
+      <div class="mt-8">
+        <span class="block text-[10px] font-body uppercase tracking-[0.2em] text-neutral-500">Atelier Ramia</span>
+      </div>
+    </section>
+
+    <!-- Grid de Valor (2 Columnas) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 mb-20">
+      <div>
+        <h2 class="font-display text-2xl text-neutral-900 mb-4">Corte Láser de Precisión</h2>
+        <p class="font-body text-neutral-600 leading-relaxed">
+          Cada diseño nace en el entorno digital y cobra vida a través de tecnología láser de vanguardia. Esto nos permite lograr contornos impecables, micro-detalles estructurales y un pulido natural en los cantos del metacrilato que maximiza la refracción de la luz.
+        </p>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl text-neutral-900 mb-4">Ensamblado Manual en Taller</h2>
+        <p class="font-body text-neutral-600 leading-relaxed">
+          La tecnología da paso a la artesanía tradicional en nuestro taller en España. Cada capa cromática, cada aplicación de textura y cada enganche se ensambla pieza a pieza por manos expertas, garantizando un acabado premium y una durabilidad estructural excepcional.
+        </p>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl text-neutral-900 mb-4">Menos de 3 gramos</h2>
+        <p class="font-body text-neutral-600 leading-relaxed">
+          Desafiamos la norma del accesorio pesado. El uso estratégico de metacrilatos ligeros de alta densidad nos permite esculpir volúmenes maxi y siluetas audaces que se mantienen por debajo de los 3 gramos. Atrévete con el gran formato sin sacrificar ni un ápice de tu comodidad diaria.
+        </p>
+      </div>
+      <div>
+        <h2 class="font-display text-2xl text-neutral-900 mb-4">Fornituras Hipoalergénicas</h2>
+        <p class="font-body text-neutral-600 leading-relaxed">
+          Sabemos que la belleza no debe doler. Todos nuestros cierres, pasadores y argollas están forjados en acero inoxidable quirúrgico o titanio grado implantológico. Materiales 100% libres de níquel que previenen irritaciones y garantizan la máxima tolerabilidad dérmica.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA Button -->
+    <div class="text-center">
+      <a href="/" class="inline-flex items-center justify-center bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] sm:text-xs px-10 py-5 rounded-full hover:bg-neutral-800 transition-all shadow-xl hover:shadow-2xl active:scale-[0.98]">
+        Explorar piezas
+      </a>
+    </div>
   </main>
 </Layout>
