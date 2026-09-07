@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Ramia Studio - Pedido Completado" lang="es">
+  <main class="min-h-[80vh] flex items-center justify-center px-6">
+    <div class="max-w-md w-full text-center">
+      <!-- Success Icon -->
+      <div class="w-20 h-20 mx-auto bg-neutral-900 rounded-full flex items-center justify-center mb-8 shadow-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      
+      <h1 class="font-display text-4xl font-light text-neutral-900 mb-4">
+        ¡Gracias por tu compra!
+      </h1>
+      
+      <p class="font-body text-neutral-500 mb-8 leading-relaxed">
+        Tu pieza de Ramia Studio está en camino.<br/>
+        Estamos preparando tu pedido en nuestro taller con mimo artesanal. En 24/48h recibirás el número de seguimiento por correo.
+      </p>
+      
+      <a href="/" class="inline-flex items-center justify-center bg-neutral-100 text-neutral-900 font-body font-medium tracking-[0.18em] uppercase text-xs px-8 py-4 rounded-full hover:bg-neutral-200 transition-colors">
+        Volver a la colección
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { cartItems } from '../stores/cart';
+  // Vaciar carrito tras el pago exitoso
+  cartItems.set([]);
+</script>

@@ -18,6 +18,7 @@
     "@sanity/client": "^8.5.0",
     "astro": "^7.3.1",
     "nanostores": "^1.5.3",
+    "stripe": "^22.6.1",
     "tailwindcss": "^3.4.0"
   },
   "allowScripts": {
