@@ -6,7 +6,7 @@ const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET;
 const apiVersion = import.meta.env.PUBLIC_SANITY_API_VERSION || '2024-01-01';
 
-const isConfigured = projectId && projectId !== 'placeholder_id';
+const isConfigured = projectId && projectId !== 'placeholder-id';
 
 export const sanityClient = isConfigured
   ? createClient({
