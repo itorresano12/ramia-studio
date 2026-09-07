@@ -32,7 +32,18 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     <a href={isEs ? '/' : '/en'}
        class="flex items-center gap-2 shrink-0 group"
        aria-label="Ramia Studio — Inicio">
-      <span class="font-display font-light text-xl uppercase tracking-[0.25em] text-neutral-900 group-hover:text-neutral-500 transition-colors">
+      <img
+        src="/logo.svg"
+        alt="Ramia Studio"
+        width="96"
+        height="28"
+        class="h-7 w-auto object-contain transition-opacity group-hover:opacity-60"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='inline';"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="font-display font-light text-xl uppercase tracking-[0.25em] text-neutral-900 group-hover:text-neutral-500 transition-colors"
+            style="display:none">
         Ramia
       </span>
     </a>

@@ -145,7 +145,7 @@ const schema = JSON.stringify({
 
       <!-- Concierge Microtext -->
       <p class="text-center font-body text-[10px] text-neutral-500 mt-4 mb-10">
-        {isEs ? 'Atelier Concierge · Cada encargo se formaliza y confirma de forma personalizada vía WhatsApp' : 'Atelier Concierge · Every order is formally confirmed via personalized WhatsApp concierge'}
+        {isEs ? 'Atención por WhatsApp · Confirmamos tu pedido de forma personal y cercana' : 'Contact us via WhatsApp · We confirm every order personally'}
       </p>
 
       <!-- Accordions -->
@@ -304,8 +304,11 @@ const schema = JSON.stringify({
         loaderEl?.classList.add('flex');
 
         // WhatsApp Checkout logic
-        const message = `¡Hola Ramia Studio! Me encanta vuestro trabajo. Quiero encargar la pieza ${product.title[lang as 'es' | 'en']}, con acabado Brillante y cierre ${selectedClosure}. ¿Tenéis disponibilidad para envío?`;
-        const waUrl = `https://wa.me/34671259996?text=${encodeURIComponent(message)}`;
+        const productName = product.title[lang as 'es' | 'en'];
+        const message = lang === 'es'
+          ? `Hola, me interesa la pieza "${productName}". ¿Podríais confirmarme disponibilidad y detallitos del envío? ¡Gracias!`
+          : `Hello, I'm interested in the piece "${productName}". Could you confirm availability and shipping details? Thank you!`;
+        const waUrl = `https://api.whatsapp.com/send?phone=34671259996&text=${encodeURIComponent(message)}`;
         window.open(waUrl, '_blank');
         
         // Restore button state after a short delay
