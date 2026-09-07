@@ -32,13 +32,13 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     <a href={isEs ? '/' : '/en'}
        class="flex items-center gap-2 shrink-0 group"
        aria-label="Ramia Studio — Inicio">
-      <!-- Logo SVG: hidden by default, shown via onload when file exists -->
+      <!-- Logo Image: hidden by default, shown via onload when file exists -->
       <img
-        src="/logo.svg"
+        src="/logo.png"
         alt="Ramia Studio"
-        width="96"
-        height="28"
-        class="h-7 w-auto object-contain transition-opacity group-hover:opacity-60"
+        width="120"
+        height="32"
+        class="h-7 md:h-8 w-auto object-contain transition-opacity group-hover:opacity-60"
         style="display:none"
         onload="this.style.display='inline';this.nextElementSibling.style.display='none';"
         loading="eager"
