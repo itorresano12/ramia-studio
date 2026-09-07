@@ -32,12 +32,9 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     <a href={isEs ? '/' : '/en'}
        class="flex items-center gap-2 shrink-0 group"
        aria-label="Ramia Studio — Inicio">
-      <img
-        src="/logo-ramia.jpeg"
-        alt="Ramia"
-        class="h-7 w-auto object-contain mix-blend-multiply transition-opacity duration-200 group-hover:opacity-70"
-        loading="eager"
-      />
+      <span class="font-display font-light text-xl uppercase tracking-[0.25em] text-neutral-900 group-hover:text-neutral-500 transition-colors">
+        Ramia
+      </span>
     </a>
 
     <!-- ── Centre nav (desktop) ── -->
