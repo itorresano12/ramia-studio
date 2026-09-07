@@ -65,6 +65,12 @@ export const product = defineType({
       title: 'Descripción',
       type: 'text',
       description: 'Descripción poética y de diseño de la pieza.',
+      options: {
+        // @ts-expect-error - Sanity Assist options
+        assist: {
+          instruction: "Analiza la imagen de la joya adjunta en el campo 'images'. Redacta una descripción poética, sofisticada y concisa (3 a 4 líneas) resaltando los acabados de metacrilato, el juego de luz y la ligereza extrema para una marca de joyería de autor europea."
+        }
+      }
     }),
     defineField({
       name: 'dimensions',
