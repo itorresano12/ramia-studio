@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../product/ProductCard.astro';
-import { MOCK_PRODUCTS } from '../../lib/mock-products';
+import { getProducts } from '../../lib/sanity';
 import { es } from '../../i18n/es';
 import { en } from '../../i18n/en';
 
@@ -11,6 +11,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = lang === 'es' ? es : en;
+
+const products = await getProducts();
 
 const guarantees = [
   { label: t.guarantees.titanium },
@@ -63,10 +65,11 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
       />
     </div>
 
-    <!-- Tagline -->
-    <p class="font-display text-2xl sm:text-3xl md:text-4xl font-light text-neutral-900 tracking-tight mb-3">
+    <!-- Tagline (H1 semántico) -->
+    <h1 class="font-display text-2xl sm:text-3xl md:text-4xl font-light text-neutral-900 tracking-tight mb-3">
+      <span class="sr-only">Ramia Studio &middot; </span>
       {lang === 'es' ? 'Mucho diseño. Cero peso.' : 'Bold design. Zero weight.'}
-    </p>
+    </h1>
 
     <!-- Sub-label -->
     <p class="font-body text-[10px] tracking-[0.28em] uppercase text-neutral-400 mb-10 select-none">
@@ -150,7 +153,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     <!-- Section label -->
     <div class="text-center mb-8">
       <p class="font-body text-[10px] tracking-[0.3em] uppercase text-neutral-400">
-        {t.nav.collection}&ensp;·&ensp;{MOCK_PRODUCTS.length}&nbsp;{lang === 'es' ? 'piezas disponibles' : 'pieces available'}
+        {t.nav.collection}&ensp;·&ensp;{products.length}&nbsp;{lang === 'es' ? 'piezas disponibles' : 'pieces available'}
       </p>
     </div>
 
@@ -172,7 +175,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
 
     <!-- Grid -->
     <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {MOCK_PRODUCTS.map(product => (
+      {products.map((product: any) => (
         <ProductCard product={product} lang={lang} />
       ))}
     </div>

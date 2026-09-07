@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Ramia Studio — 404 No Encontrado" lang="es">
+  <main class="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
+    <!-- Icon -->
+    <div class="mb-8 opacity-60">
+      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="15" y1="9" x2="9" y2="15" />
+        <line x1="9" y1="9" x2="15" y2="15" />
+      </svg>
+    </div>
+
+    <!-- Title (H1) -->
+    <h1 class="font-display text-4xl md:text-5xl font-light text-neutral-900 mb-6">
+      404 &middot; Pieza no encontrada
+    </h1>
+
+    <!-- Description -->
+    <p class="font-body text-neutral-500 max-w-md mx-auto mb-10 leading-relaxed text-sm md:text-base">
+      Lo sentimos, la página que buscas no existe. Es posible que el enlace esté roto o que la pieza haya vuelto a nuestro taller creativo para ser rediseñada.
+    </p>
+
+    <!-- Call to action -->
+    <a href="/"
+       class="inline-flex items-center justify-center bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] sm:text-xs px-8 py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
+      Volver a la colección
+    </a>
+  </main>
+</Layout>
