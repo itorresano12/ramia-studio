@@ -22,11 +22,11 @@ const guarantees = [
 ];
 
 const filters = [
-  { id: 'all',      label: t.filters.all },
-  { id: 'earrings', label: t.filters.earrings },
-  { id: 'necklaces', label: t.filters.necklaces },
-  { id: 'charms',   label: t.filters.charms },
-  { id: 'clip',     label: t.filters.clip.split(' ')[0] + ' ✦' },
+  { id: 'all',        label: t.filters.all },
+  { id: 'pendientes', label: t.filters.earrings },
+  { id: 'colgantes',  label: t.filters.necklaces },
+  { id: 'charms',     label: t.filters.charms },
+  { id: 'packs',      label: 'Packs' },
 ];
 
 const weights = [
@@ -178,7 +178,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     <!-- Empty state -->
     <p id="empty-state"
        class="hidden text-center font-display italic text-neutral-600 text-lg py-20">
-      {lang === 'es' ? 'No hay piezas en esta categoría.' : 'There are no pieces in this category.'}
+      {lang === 'es' ? 'Nuevas piezas en camino. Próximamente.' : 'New pieces on the way. Coming soon.'}
     </p>
   </section>
 
@@ -200,7 +200,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
      COLLECTION FILTER — client-side JS
 ══════════════════════════════════════════════ -->
 <script>
-  type FilterId = 'all' | 'earrings' | 'necklaces' | 'charms' | 'clip';
+  type FilterId = 'all' | 'pendientes' | 'colgantes' | 'charms' | 'packs';
 
   document.addEventListener('astro:page-load', () => {
     const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
@@ -226,11 +226,9 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
       let visible = 0;
       cards.forEach(card => {
         const category = card.dataset.category as string;
-        const hasClip  = card.dataset.clip === 'true';
 
         const show =
           filterId === 'all' ||
-          (filterId === 'clip' && hasClip) ||
           category === filterId;
 
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';

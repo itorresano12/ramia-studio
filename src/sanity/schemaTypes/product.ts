@@ -26,6 +26,21 @@ export const product = defineType({
       validation: (Rule: any) => Rule.required().min(0),
     }),
     defineField({
+      name: 'category',
+      title: 'Categoría',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Pendientes', value: 'pendientes' },
+          { title: 'Colgantes', value: 'colgantes' },
+          { title: 'Charms', value: 'charms' },
+          { title: 'Packs', value: 'packs' }
+        ],
+      },
+      validation: (Rule: any) => Rule.required(),
+      initialValue: 'pendientes',
+    }),
+    defineField({
       name: 'images',
       title: 'Imágenes',
       type: 'array',

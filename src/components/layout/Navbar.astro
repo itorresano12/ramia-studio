@@ -125,13 +125,13 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
       if (!navbar) return;
       if (window.scrollY > SCROLL_THRESHOLD) {
         navbar.classList.add(
-          'backdrop-blur-md', 'bg-white/80',
+          'backdrop-blur-md', 'bg-white/95',
           'border-neutral-200/60', 'shadow-sm'
         );
         navbar.classList.remove('border-transparent', 'bg-transparent', 'shadow-none');
       } else {
         navbar.classList.remove(
-          'backdrop-blur-md', 'bg-white/80',
+          'backdrop-blur-md', 'bg-white/95',
           'border-neutral-200/60', 'shadow-sm'
         );
         navbar.classList.add('border-transparent', 'bg-transparent', 'shadow-none');

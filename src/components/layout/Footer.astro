@@ -11,7 +11,7 @@ const t = lang === 'es' ? es : en;
 const isEs = lang === 'es';
 ---
 
-<footer class="bg-[#121212] border-t border-neutral-800/80 text-neutral-100 py-16 px-6 sm:px-12 rounded-t-3xl mt-auto">
+<footer class="bg-neutral-900 border-t border-neutral-800 text-neutral-100 py-16 px-6 sm:px-12 rounded-t-3xl mt-auto">
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
     
     <!-- Brand -->
@@ -36,7 +36,7 @@ const isEs = lang === 'es';
     <div class="md:col-span-1">
       <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Estudio' : 'Studio'}</h4>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
-        <li><a href={isEs ? '/' : '/en'} class="hover:text-white transition-colors">{t.nav.collection}</a></li>
+        <li><a href={isEs ? '/#coleccion' : '/en/#coleccion'} class="hover:text-white transition-colors">{t.nav.collection}</a></li>
         <li><a href={isEs ? '/el-estudio' : '/en/studio'} class="hover:text-white transition-colors">{isEs ? 'El Estudio' : 'The Studio'}</a></li>
         <li><a href={isEs ? '/cuidados' : '/en/care-guide'} class="hover:text-white transition-colors">{isEs ? 'Guía de cuidados' : 'Care guide'}</a></li>
       </ul>

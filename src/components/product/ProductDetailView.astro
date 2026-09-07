@@ -70,7 +70,7 @@ const schema = JSON.stringify({
 
         <!-- Floating Weight Badge -->
         <div class="absolute bottom-6 right-6 backdrop-blur-xl bg-white/70 border border-white/50 text-neutral-900 text-xs font-body font-medium tracking-widest uppercase px-4 py-2 rounded-full shadow-lg">
-          {product.weightGrams}g &bull; {t.guarantees.ultralight.split(' ')[0]}
+          {product.weightGrams}g &bull; {lang === 'es' ? 'Ultraligero' : 'Ultralight'}
         </div>
       </div>
       
