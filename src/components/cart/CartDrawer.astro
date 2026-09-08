@@ -5,6 +5,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const isEs = lang === 'es';
+const enableStripe = import.meta.env.PUBLIC_ENABLE_STRIPE === 'true';
 ---
 
 <!-- Overlay -->
@@ -73,16 +74,24 @@ const isEs = lang === 'es';
       </span>
     </p>
 
-    <button id="checkout-btn" class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
-      <span id="checkout-text">{isEs ? "Encargar vía WhatsApp" : "Order via WhatsApp"}</span>
-      <span id="checkout-loader" class="hidden flex items-center justify-center gap-2">
-        <svg class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        {isEs ? 'Abriendo chat...' : 'Opening chat...'}
-      </span>
-    </button>
+    <div class="flex flex-col gap-3">
+      {enableStripe && (
+        <button id="stripe-checkout-btn" class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
+          {isEs ? "Pagar con tarjeta" : "Pay with card"}
+        </button>
+      )}
+      
+      <button id="checkout-btn" class={`w-full font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full transition-colors active:scale-[0.98] ${enableStripe ? 'bg-transparent border border-neutral-300 text-neutral-900 hover:bg-neutral-50' : 'bg-neutral-900 text-white shadow-lg hover:bg-neutral-800'}`}>
+        <span id="checkout-text">{isEs ? "Encargar vía WhatsApp" : "Order via WhatsApp"}</span>
+        <span id="checkout-loader" class="hidden flex items-center justify-center gap-2">
+          <svg class="animate-spin h-3 w-3 currentColor" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {isEs ? 'Abriendo chat...' : 'Opening chat...'}
+        </span>
+      </button>
+    </div>
   </footer>
 
 </aside>
@@ -269,9 +278,14 @@ const isEs = lang === 'es';
       checkoutLoader?.classList.add('flex');
 
       // WhatsApp Checkout logic
-      let orderList = items.map(i => `- ${i.quantity}x ${isEs ? i.titleEs : i.titleEn} (Cierre: ${i.closureSelected})`).join('\n');
-      const message = `¡Hola Ramia Studio! Me encanta vuestro trabajo. Quiero encargar el siguiente pedido:\n\n${orderList}\n\n¿Tenéis disponibilidad para envío?`;
-      const waUrl = `https://wa.me/34671259996?text=${encodeURIComponent(message)}`;
+      const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2);
+      let orderList = items.map(i => `- ${i.quantity}x ${isEs ? i.titleEs : i.titleEn} (${i.price.toFixed(2)}€)`).join('\n');
+      
+      const message = isEs
+        ? `¡Hola Ramia Studio! Quiero formalizar el siguiente encargo:\n${orderList}\nTotal estimado: ${total}€\n¿Tenéis disponibilidad para proceder con el envío?`
+        : `Hello Ramia Studio! I'd like to place the following order:\n${orderList}\nEstimated total: ${total}€\nDo you have availability to proceed with shipping?`;
+        
+      const waUrl = `https://api.whatsapp.com/send?phone=34671259996&text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
       
       setTimeout(() => {
