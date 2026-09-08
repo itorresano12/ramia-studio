@@ -1,4 +1,4 @@
----
+﻿---
 import { ClientRouter } from 'astro:transitions';
 import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -86,81 +86,87 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
     <!-- Universal Mailto Intercept -->
     <script>
       function setupMailtoIntercept() {
-        document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
-          // Evitar duplicar listeners en navegaciones con View Transitions
-          const anchor = link as HTMLAnchorElement;
-          if (anchor.dataset.hasMailtoListener) return;
-          anchor.dataset.hasMailtoListener = 'true';
+        const mailtoLinks = document.querySelectorAll('a[href^="mailto:"]');
+        
+        function handleMailtoClick(e) {
+          e.preventDefault();
+          e.stopPropagation();
 
-          anchor.addEventListener('click', async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+          const link = e.currentTarget;
+          const rawHref = link.getAttribute('href') || '';
+          const email = rawHref.replace(/^mailto:/i, '').split('?')[0].trim();
+          if (!email) return;
 
-            const rawHref = anchor.getAttribute('href') || '';
-            const email = rawHref.replace(/^mailto:/i, '').split('?')[0].trim();
-            if (!email) return;
+          const isEs = document.documentElement.lang === 'es';
+          const successMsg = isEs ? '¡¡CORREO COPIADO!' : 'COPIED TO CLIPBOARD';
 
-            let copied = false;
-
-            // Intento 1: API moderna de portapapeles
-            if (navigator.clipboard && window.isSecureContext) {
-              try {
-                await navigator.clipboard.writeText(email);
-                copied = true;
-              } catch (err) {
-                copied = false;
-              }
-            }
-
-            // Intento 2: Fallback clásico para móviles / contextos restrictivos
-            if (!copied) {
-              try {
-                const textarea = document.createElement('textarea');
-                textarea.value = email;
-                textarea.style.position = 'fixed';
-                textarea.style.left = '-9999px';
-                textarea.style.top = '0';
-                textarea.setAttribute('readonly', '');
-                document.body.appendChild(textarea);
-                textarea.select();
-                textarea.setSelectionRange(0, textarea.value.length);
-                copied = document.execCommand('copy');
-                document.body.removeChild(textarea);
-              } catch (err) {
-                copied = false;
-              }
-            }
-
-            // Si falla la copia por completo, recurrir al comportamiento nativo
-            if (!copied) {
-              window.location.href = `mailto:${email}`;
-              return;
-            }
-
-            // Feedback visual elegante: Toast animado
-            const isEn = window.location.pathname.startsWith('/en');
-            const existingToast = document.getElementById('ramia-toast');
-            if (existingToast) existingToast.remove();
-
-            const toast = document.createElement('div');
+          function showToast() {
+            let toast = document.getElementById('ramia-toast');
+            if (toast) toast.remove();
+            
+            toast = document.createElement('div');
             toast.id = 'ramia-toast';
-            toast.textContent = isEn ? 'COPIED TO CLIPBOARD' : '¡CORREO COPIADO!';
-            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-[11px] tracking-widest uppercase px-5 py-2.5 rounded-full shadow-2xl z-50 transition-all duration-300 pointer-events-none opacity-0 translate-y-2';
+            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-[11px] tracking-widest uppercase px-5 py-2.5 rounded-full shadow-2xl z-[9999] transition-all duration-300 opacity-0 translate-y-4';
+            toast.textContent = successMsg;
             document.body.appendChild(toast);
 
-            requestAnimationFrame(() => {
-              toast.classList.remove('opacity-0', 'translate-y-2');
-            });
+            void toast.offsetWidth;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
 
             setTimeout(() => {
-              toast.classList.add('opacity-0', 'translate-y-2');
+              toast.classList.remove('opacity-100', 'translate-y-0');
+              toast.classList.add('opacity-0', 'translate-y-4');
               setTimeout(() => toast.remove(), 300);
-            }, 2000);
-          });
+            }, 2500);
+          }
+
+          function fallbackCopy() {
+            try {
+              const textArea = document.createElement('textarea');
+              textArea.value = email;
+              textArea.style.top = '0';
+              textArea.style.left = '0';
+              textArea.style.position = 'fixed';
+              textArea.style.opacity = '0';
+              document.body.appendChild(textArea);
+              textArea.focus();
+              textArea.select();
+              const successful = document.execCommand('copy');
+              document.body.removeChild(textArea);
+              
+              if (successful) {
+                showToast();
+              } else {
+                window.location.href = rawHref;
+              }
+            } catch (err) {
+              window.location.href = rawHref;
+            }
+          }
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(email)
+              .then(showToast)
+              .catch(fallbackCopy);
+          } else {
+            fallbackCopy();
+          }
+        }
+
+        mailtoLinks.forEach((link) => {
+          if (link.dataset.hasMailtoListener) return;
+          link.dataset.hasMailtoListener = 'true';
+          
+          link.addEventListener('click', handleMailtoClick);
+          link.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleMailtoClick(e);
+          }, { passive: false });
         });
       }
 
-      // Soporte para carga inicial y navegación interna de Astro
+      // Soporte para carga inicial y navegaciÃ³n interna de Astro
       document.addEventListener('DOMContentLoaded', setupMailtoIntercept);
       document.addEventListener('astro:page-load', setupMailtoIntercept);
     </script>
@@ -168,7 +174,7 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
 </html>
 
 <style is:global>
-  /* ── Base reset ── */
+  /* â”€â”€ Base reset â”€â”€ */
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -196,7 +202,7 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
     -moz-osx-font-smoothing: grayscale;
     min-height: 100dvh;
 
-    /* ── Ambient light background — organic aurora on acrylic ── */
+    /* â”€â”€ Ambient light background â€” organic aurora on acrylic â”€â”€ */
     background-image:
       radial-gradient(ellipse 80% 50% at 20% 10%,  rgba(230,222,210,0.45) 0%, transparent 60%),
       radial-gradient(ellipse 60% 40% at 80% 5%,   rgba(210,218,230,0.30) 0%, transparent 55%),
@@ -205,7 +211,9 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
       radial-gradient(ellipse 40% 60% at 5%  70%,  rgba(220,228,235,0.20) 0%, transparent 55%);
   }
 
-  /* ── Typography helpers ── */
+  /* â”€â”€ Typography helpers â”€â”€ */
   .font-display { font-family: var(--font-display); }
   .font-body    { font-family: var(--font-body); }
 </style>
+
+

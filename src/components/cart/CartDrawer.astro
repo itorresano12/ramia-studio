@@ -27,7 +27,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
 
 <!-- Drawer -->
 <aside id="cart-drawer"
-       class="fixed inset-y-0 right-0 max-w-md w-full bg-white/90 backdrop-blur-2xl border-l border-neutral-200/80 shadow-2xl z-50 translate-x-full transition-transform duration-500 ease-out h-[100dvh] max-h-[100dvh] flex flex-col"
+       class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 translate-x-full transition-transform duration-500 ease-out flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden"
        aria-label={isEs ? "Tu Bolsa" : "Your Bag"}>
        
   <!-- Header -->
@@ -55,66 +55,31 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     </div>
   </div>
 
-  <!-- Cart Items Scroll Area -->
-  <div class="flex-1 overflow-y-auto min-h-0 overscroll-contain p-4 md:px-6 md:py-6" id="cart-items-container">
-    <!-- Items injected via JS -->
+  <!-- Items list -->
+  <div class="flex-1 overflow-y-auto p-4 min-h-0 overscroll-contain" id="cart-items-container">
+    <!-- Populated via JS -->
   </div>
-  
-  <!-- Empty State (hidden by default) -->
-  <div id="cart-empty-state" class="hidden flex-col items-center justify-center flex-1 min-h-0 px-6 text-center">
-    <div class="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mb-6">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-400">
-        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 0 1-8 0"/>
+
+  <!-- Empty state -->
+  <div id="cart-empty-state" class="hidden flex-1 flex-col items-center justify-center p-8 text-center min-h-[30vh]">
+    <div class="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24" class="text-neutral-400">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-    <p class="font-body text-neutral-500 tracking-wider text-sm uppercase mb-6">
-      {isEs ? "Tu bolsa estÃ¡ vacÃ­a" : "Your bag is empty"}
-    </p>
-    <button id="continue-shopping-btn" class="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-900 border-b border-neutral-900 pb-1 hover:text-neutral-500 hover:border-neutral-500 transition-colors">
-      {isEs ? "Continuar explorando" : "Continue exploring"}
+    <p class="font-display italic text-lg text-neutral-600 mb-8">{isEs ? "Tu bolsa está vacía.." : "Your bag is empty."}</p>
+    <button id="continue-shopping-btn" class="text-xs font-body tracking-[0.2em] uppercase border border-neutral-900 px-8 py-3 hover:bg-neutral-900 hover:text-white transition-colors duration-300">
+      {isEs ? "Descubrir Colección" : "Discover Collection"}
     </button>
   </div>
 
-  <!-- Cross Sell Section -->
-  <div id="cart-cross-sell" class="hidden shrink-0 px-6 py-5 border-t border-neutral-100 bg-neutral-50/50">
-    <p class="font-body text-[10px] uppercase tracking-widest text-neutral-500 mb-4 text-center">
-      {isEs ? "Combina perfectamente con" : "Pairs perfectly with"}
-    </p>
-    <div id="cross-sell-items" class="flex flex-col gap-3">
-      {crossSellProducts.map(p => (
-        <div class="cross-sell-item hidden flex items-center gap-4 bg-white p-3 rounded-2xl shadow-sm border border-neutral-200/50" data-id={p.id}>
-          <a href={isEs ? `/producto/${p.slug}` : `/en/product/${p.slug}`} class="shrink-0 w-16 h-20 rounded-xl overflow-hidden bg-neutral-100">
-            <img src={`${p.imageStatic}&w=100`} alt={p.title[lang]} class="w-full h-full object-cover" loading="lazy" />
-          </a>
-          <div class="flex-1 min-w-0 flex flex-col justify-center">
-            <a href={isEs ? `/producto/${p.slug}` : `/en/product/${p.slug}`}>
-              <h4 class="font-display text-sm text-neutral-900 truncate group-hover:text-neutral-500 transition-colors">{p.title[lang]}</h4>
-            </a>
-            <span class="font-body text-[10px] text-neutral-500 tracking-widest mt-1 uppercase">{p.weightGrams}g</span>
-          </div>
-          <button
-            class="cross-sell-add shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-900 hover:bg-neutral-900 hover:text-white transition-colors"
-            data-product={JSON.stringify(p)}
-            aria-label={isEs ? `AÃ±adir ${p.title[lang]}` : `Add ${p.title[lang]}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14m-7-7h14"/>
-            </svg>
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
-
   <!-- Footer -->
-  <footer id="cart-footer" class="shrink-0 border-t border-neutral-100 bg-white p-4 pb-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+  <footer id="cart-footer" class="shrink-0 bg-white border-t border-neutral-100 p-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
     <div class="flex items-center justify-between mb-4">
       <span class="font-body text-sm text-neutral-500 uppercase tracking-widest">{isEs ? "Subtotal" : "Subtotal"}</span>
-      <span id="cart-subtotal" class="font-display text-2xl font-light text-neutral-900 tracking-wider">0.00â‚¬</span>
+      <span class="font-display text-2xl font-light text-neutral-900" id="cart-subtotal">0.00â‚¬</span>
     </div>
-    
     <p class="text-[10px] text-neutral-600 font-body mb-6">
       {isEs ? "IVA incluido. " : "VAT included. "}
       <span id="cart-footer-shipping-text">{isEs ? "Gastos de envÃ­o calculados en el siguiente paso." : "Shipping costs calculated at checkout."}</span>
@@ -124,26 +89,19 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
       </span>
     </p>
 
-    <div class="flex flex-col gap-3">
-      {enableStripe && (
-        <button id="stripe-checkout-btn" class="w-full bg-neutral-900 text-white font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full hover:bg-neutral-800 transition-colors shadow-lg active:scale-[0.98]">
-          {isEs ? "Pagar con tarjeta" : "Pay with card"}
-        </button>
-      )}
-      
-      <button id="checkout-btn" class={`w-full font-body font-medium tracking-[0.18em] uppercase text-[10px] py-4 rounded-full transition-colors active:scale-[0.98] ${enableStripe ? 'bg-transparent border border-neutral-300 text-neutral-900 hover:bg-neutral-50' : 'bg-neutral-900 text-white shadow-lg hover:bg-neutral-800'}`}>
-        <span id="checkout-text">{isEs ? "Encargar vÃ­a WhatsApp" : "Order via WhatsApp"}</span>
-        <span id="checkout-loader" class="hidden flex items-center justify-center gap-2">
-          <svg class="animate-spin h-3 w-3 currentColor" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          {isEs ? 'Abriendo chat...' : 'Opening chat...'}
-        </span>
-      </button>
-    </div>
+    <button id="checkout-btn"
+            class="w-full bg-neutral-900 text-white font-body text-xs tracking-[0.2em] uppercase py-4 rounded-full
+                   hover:bg-neutral-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+      <span class="checkout-text">{isEs ? "Encargar vÃ­a WhatsApp" : "Order via WhatsApp"}</span>
+      <span class="checkout-loader hidden items-center justify-center gap-2">
+        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {isEs ? "Procesando..." : "Processing..."}
+      </span>
+    </button>
   </footer>
-
 </aside>
 
 <script>
@@ -155,11 +113,9 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     const lang = document.documentElement.lang;
     const isEs = lang === 'es';
 
-    // Clean up previous subscriptions
     unsubs.forEach(unsub => unsub());
     unsubs = [];
 
-    // DOM Elements
     const overlay = document.getElementById('cart-overlay');
     const drawer = document.getElementById('cart-drawer');
     const closeBtn = document.getElementById('close-cart-btn');
@@ -172,50 +128,51 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     const footer = document.getElementById('cart-footer');
     
     const shippingMsg = document.getElementById('shipping-msg');
+    const footerShippingText = document.getElementById('cart-footer-shipping-text');
     const shippingProgress = document.getElementById('shipping-progress');
 
-    // Drawer Toggle Logic
     unsubs.push(isCartOpen.subscribe(open => {
       if (open) {
-        overlay?.classList.remove('opacity-0', 'pointer-events-none');
-        overlay?.classList.add('opacity-100', 'pointer-events-auto');
-        drawer?.classList.remove('translate-x-full');
-        document.body.style.overflow = 'hidden';
+        overlay?.classList.remove('hidden');
+        setTimeout(() => {
+          overlay?.classList.remove('opacity-0');
+          drawer?.classList.remove('translate-x-full');
+        }, 10);
       } else {
-        overlay?.classList.add('opacity-0', 'pointer-events-none');
-        overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+        overlay?.classList.add('opacity-0');
         drawer?.classList.add('translate-x-full');
-        document.body.style.overflow = '';
+        setTimeout(() => {
+          overlay?.classList.add('hidden');
+        }, 500);
       }
     }));
 
-    closeBtn?.addEventListener('click', closeCart);
     overlay?.addEventListener('click', closeCart);
-    continueBtn?.addEventListener('click', closeCart);
+    closeBtn?.addEventListener('click', closeCart);
+    continueBtn?.addEventListener('click', () => {
+      closeCart();
+      window.location.href = isEs ? '/#coleccion' : '/en#coleccion';
+    });
 
-    // Derived state subscriptions
     unsubs.push(cartCount.subscribe(count => {
       if (headerCount) headerCount.textContent = `(${count})`;
-      
       if (count === 0) {
         itemsContainer?.classList.add('hidden');
         footer?.classList.add('hidden');
         emptyState?.classList.remove('hidden');
-        emptyState?.classList.add('flex');
       } else {
         itemsContainer?.classList.remove('hidden');
         footer?.classList.remove('hidden');
         emptyState?.classList.add('hidden');
-        emptyState?.classList.remove('flex');
       }
     }));
 
-    const footerShippingText = document.getElementById('cart-footer-shipping-text');
     unsubs.push(cartTotal.subscribe(total => {
       if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}â‚¬`;
       
-      const remaining = freeShippingThreshold - total;
-      if (shippingMsg) {
+      if (shippingMsg && shippingProgress) {
+        const remaining = freeShippingThreshold - total;
+        
         if (remaining > 0) {
           shippingMsg.textContent = isEs 
             ? `Faltan ${remaining.toFixed(2)}â‚¬ para envÃ­o gratuito` 
@@ -251,7 +208,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
       items.forEach(item => {
         const title = isEs ? item.titleEs : item.titleEn;
         const closureLabel = item.closureSelected === 'clip' 
-          ? (isEs ? 'OpciÃ³n Clip' : 'Clip Option')
+          ? (isEs ? 'OpciÃƒÂ³n Clip' : 'Clip Option')
           : (isEs ? 'Acero Inoxidable' : 'Stainless Steel');
 
         const itemEl = document.createElement('div');
@@ -284,7 +241,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 </button>
               </div>
-              <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}â‚¬</span>
+              <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}Ã¢â€šÂ¬</span>
             </div>
           </div>
         `;
@@ -415,4 +372,6 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     });
   });
 </script>
+
+
 
