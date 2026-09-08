@@ -1,9 +1,11 @@
 import { createClient } from '@sanity/client';
 import { MOCK_PRODUCTS } from './mock-products';
 
+import { autoTranslateTitle, autoTranslateFinish, autoTranslateDescription } from './i18nAuto';
+
 // ──────────────────────────────────────────────────────────────────────────────
 // Sanity client — headless, for storefront queries only.
-// Sanity Studio runs independently at https://rami-studio.sanity.studio
+// Sanity Studio runs independently at https://ramia-studio.sanity.studio
 // ──────────────────────────────────────────────────────────────────────────────
 
 const PROJECT_ID  = import.meta.env.PUBLIC_SANITY_PROJECT_ID  || 'xfzft9lx';
@@ -16,24 +18,13 @@ export const sanityClient = createClient({
   projectId:  PROJECT_ID,
   dataset:    DATASET,
   apiVersion: API_VERSION,
-  // useCdn: false ensures the SSG build always reads the latest
-  // *published* content directly from the Sanity API, bypassing
-  // Sanity's edge CDN which can have up to 60 s stale cache.
   useCdn:     false,
 });
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Storefront query — maps Sanity documents → app Product shape
-// Falls back to mock catalogue when dataset is empty or unreachable.
-// NOTE: GROQ's *[_type == "product"] already excludes draft documents
-// (those have _id starting with "drafts."). No extra filter needed.
-// ──────────────────────────────────────────────────────────────────────────────
 
 const PRODUCT_QUERY = `
   *[_type == "product" && defined(slug.current)] {
     _id,
     title,
-    title_en,
     "slug": slug.current,
     "imageStatic": images[0].asset->url,
     "imageAlt": images[0].altText,
@@ -42,10 +33,8 @@ const PRODUCT_QUERY = `
     weightGrams,
     inStock,
     finish,
-    finish_en,
     claspOptions,
     description,
-    description_en,
     dimensions
   }
 `;
@@ -69,7 +58,7 @@ export async function getProducts() {
       slug:  p.slug,
       title: {
         es: p.title,
-        en: p.title_en || p.title,
+        en: autoTranslateTitle(p.title),
       },
       price:        p.price,
       weightGrams:  p.weightGrams ?? 2.6,
@@ -86,11 +75,11 @@ export async function getProducts() {
         : ['titanio'],
       description: {
         es: p.description ?? '',
-        en: p.description_en || (p.description ?? ''),
+        en: autoTranslateDescription(p.description ?? ''),
       },
       story: {
         es: p.finish ? `Acabado: ${p.finish}` : 'Diseño contemporáneo en metacrilato',
-        en: p.finish_en ? `Finish: ${p.finish_en}` : (p.finish ? `Finish: ${p.finish}` : 'Contemporary acrylic design'),
+        en: p.finish ? `Finish: ${autoTranslateFinish(p.finish)}` : 'Contemporary acrylic design',
       },
       category: p.category ?? 'pendientes',
       colorPalette: [],

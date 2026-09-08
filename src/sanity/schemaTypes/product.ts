@@ -13,18 +13,6 @@ export const product = defineType({
       description: 'Ej: Pendientes Monstera',
     }),
     defineField({
-      name: 'title_en',
-      title: 'Nombre en Inglés (English Title)',
-      type: 'string',
-      description: 'Traducción del nombre (ej: Monstera Earrings).',
-      options: {
-        // @ts-expect-error - Sanity Assist options
-        assist: {
-          instruction: 'Translate the "title" field to English, maintaining a premium contemporary jewelry tone. Do not use quotes.'
-        }
-      }
-    }),
-    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -88,18 +76,6 @@ export const product = defineType({
       description: 'Ej: Espejo plata, Ámbar translúcido, Glitter',
     }),
     defineField({
-      name: 'finish_en',
-      title: 'Acabado / Material en Inglés',
-      type: 'string',
-      description: 'Ej: Silver mirror, Translucent amber, Glitter',
-      options: {
-        // @ts-expect-error - Sanity Assist options
-        assist: {
-          instruction: 'Translate the "finish" field to English, using terms appropriate for high-end contemporary acrylic jewelry.'
-        }
-      }
-    }),
-    defineField({
       name: 'claspOptions',
       title: 'Opciones de cierre',
       type: 'array',
@@ -117,24 +93,6 @@ export const product = defineType({
       title: 'Descripción',
       type: 'text',
       description: 'Descripción poética y de diseño de la pieza.',
-      options: {
-        // @ts-expect-error - Sanity Assist options
-        assist: {
-          instruction: "Analiza la imagen de la joya adjunta en el campo 'images'. Redacta una descripción poética, sofisticada y concisa (3 a 4 líneas) resaltando los acabados de metacrilato, el juego de luz y la ligereza extrema para una marca de joyería de autor europea."
-        }
-      }
-    }),
-    defineField({
-      name: 'description_en',
-      title: 'Descripción en Inglés',
-      type: 'text',
-      description: 'Versión internacional de la descripción.',
-      options: {
-        // @ts-expect-error - Sanity Assist options
-        assist: {
-          instruction: "Translate the 'description' field perfectly into English. Ensure a highly sophisticated, editorial tone for a contemporary luxury acrylic jewelry brand. Use keywords like 'contemporary acrylic jewelry' and 'lightweight handcrafted pieces'."
-        }
-      }
     }),
     defineField({
       name: 'dimensions',
