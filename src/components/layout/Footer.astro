@@ -78,29 +78,4 @@ const isEs = lang === 'es';
   </div>
 </footer>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll('.copy-email-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // Only prevent default if we can copy
-        if (navigator.clipboard && window.isSecureContext) {
-          e.preventDefault();
-          const target = e.currentTarget as HTMLElement;
-          const email = target.dataset.email;
-          const copiedText = target.dataset.copied || 'Copiado';
-          const textSpan = target.querySelector('.email-text');
-          
-          if (email && textSpan) {
-            navigator.clipboard.writeText(email).then(() => {
-              const originalText = textSpan.textContent;
-              textSpan.textContent = copiedText;
-              setTimeout(() => {
-                textSpan.textContent = originalText;
-              }, 2000);
-            });
-          }
-        }
-      });
-    });
-  });
-</script>
+

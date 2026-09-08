@@ -82,6 +82,54 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
     <Footer lang={lang} />
     <CartDrawer lang={lang} />
     <CookieBanner lang={lang} />
+
+    <!-- Universal Mailto Intercept -->
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            if (navigator.clipboard && window.isSecureContext) {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              const target = e.currentTarget as HTMLElement;
+              const href = target.getAttribute('href') || '';
+              const email = href.replace('mailto:', '');
+              
+              if (email) {
+                navigator.clipboard.writeText(email).then(() => {
+                  const isEs = document.documentElement.lang === 'es';
+                  const copiedText = isEs ? '¡Copiado!' : 'Copied!';
+                  
+                  // Use a dataset attribute to store original HTML if not already stored
+                  if (!target.dataset.originalHtml) {
+                    target.dataset.originalHtml = target.innerHTML;
+                  }
+                  
+                  // Keep original width to avoid layout jumps
+                  const originalWidth = target.offsetWidth;
+                  if (originalWidth > 0) {
+                    target.style.width = `${originalWidth}px`;
+                  }
+                  target.style.display = 'inline-block';
+                  target.style.textAlign = 'center';
+                  
+                  // Update text temporarily
+                  target.textContent = copiedText;
+                  
+                  setTimeout(() => {
+                    target.innerHTML = target.dataset.originalHtml || '';
+                    target.style.width = '';
+                    target.style.display = '';
+                    target.style.textAlign = '';
+                  }, 2000);
+                });
+              }
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
 
