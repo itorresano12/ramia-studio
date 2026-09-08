@@ -107,3 +107,13 @@ export function autoTranslateDescription(descEs: string, titleEs: string = ''): 
     
   return out;
 }
+
+export function autoTranslateClosure(closureEs: string): string {
+  if (!closureEs) return closureEs;
+  const lower = closureEs.toLowerCase().trim();
+  if (lower.includes('acero quir')) return 'Surgical steel hoop';
+  if (lower.includes('plata de ley')) return '925 Sterling silver';
+  if (lower.includes('clip sin perforaci')) return 'Non-pierced clip';
+  if (lower.includes('acero hipoalerg')) return 'Hypoallergenic steel';
+  return closureEs;
+}

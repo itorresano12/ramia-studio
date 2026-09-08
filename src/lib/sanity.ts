@@ -1,7 +1,7 @@
 import { createClient } from '@sanity/client';
 import { MOCK_PRODUCTS } from './mock-products';
 
-import { autoTranslateTitle, autoTranslateFinish, autoTranslateDescription } from './i18nAuto';
+import { autoTranslateTitle, autoTranslateFinish, autoTranslateDescription, autoTranslateClosure } from './i18nAuto';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Sanity client — headless, for storefront queries only.
@@ -68,7 +68,7 @@ export async function getProducts() {
       },
       closureType: {
         es: p.claspOptions?.[0] ?? 'Acero hipoalergénico',
-        en: p.claspOptions?.[0] ?? 'Hypoallergenic steel'
+        en: autoTranslateClosure(p.claspOptions?.[0] ?? 'Acero hipoalergénico')
       },
       closureOptions: p.claspOptions?.some((c: string) => c.toLowerCase().includes('clip')) 
         ? ['titanio', 'clip'] 
