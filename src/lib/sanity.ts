@@ -90,7 +90,9 @@ export async function getProducts() {
       },
       category: p.category ?? 'pendientes',
       colorPalette: [],
-      imageStatic:  p.imageStatic ?? 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
+      imageStatic: p.imageStatic 
+        ? `${p.imageStatic}?auto=format&q=80` 
+        : 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
       videoHover: '',
       earScaleImage: '',
       dimensions: p.dimensions ?? '',

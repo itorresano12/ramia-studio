@@ -36,7 +36,9 @@ const hasClip = product.closureOptions.includes('clip');
 
     <!-- Static image -->
     <img
-      src={product.imageStatic}
+      src={`${product.imageStatic}&w=800`}
+      srcset={`${product.imageStatic}&w=400 400w, ${product.imageStatic}&w=800 800w`}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       alt={product.title[lang]}
       class="absolute inset-0 w-full h-full object-cover
              transition-all duration-700 ease-out
