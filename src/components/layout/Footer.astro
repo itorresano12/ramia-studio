@@ -46,7 +46,7 @@ const isEs = lang === 'es';
     <div class="md:col-span-1">
       <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Taller & Ayuda' : 'Atelier & Help'}</h4>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
-        <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-2">Atención por WhatsApp</a></li>
+        <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-2">{isEs ? 'Atención por WhatsApp' : 'WhatsApp Support'}</a></li>
         <li><a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-white transition-colors">{CONTACT_EMAIL}</a></li>
       </ul>
     </div>
