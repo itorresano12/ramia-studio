@@ -23,11 +23,8 @@ const isEs = lang === 'es';
         {isEs ? 'Estudio de diseño creativo y joyería en metacrilato. Piezas artesanales diseñadas y montadas en España.' : 'Creative design studio and acrylic jewelry. Artisanal pieces designed and assembled in Spain.'}
       </p>
       <div class="flex gap-4">
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" aria-label="Instagram">
+        <a href="https://www.instagram.com/ramia.studio/" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" aria-label="Instagram">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
-        </a>
-        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" aria-label="TikTok">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
         </a>
       </div>
     </div>
@@ -76,7 +73,8 @@ const isEs = lang === 'es';
       © {new Date().getFullYear()} RAMIA STUDIO. {isEs ? 'TODOS LOS DERECHOS RESERVADOS.' : 'ALL RIGHTS RESERVED.'}
     </p>
     <p>
-      {isEs ? 'Diseño: Iván Torresano' : 'Design by Iván Torresano'}
+      {isEs ? 'Diseño: ' : 'Design by '}
+      <a href="https://github.com/itorresano12" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-700">Iván Torresano</a>
     </p>
   </div>
 </footer>
