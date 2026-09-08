@@ -33,6 +33,7 @@ const PRODUCT_QUERY = `
   *[_type == "product" && defined(slug.current)] {
     _id,
     title,
+    title_en,
     "slug": slug.current,
     "imageStatic": images[0].asset->url,
     "imageAlt": images[0].altText,
@@ -41,8 +42,10 @@ const PRODUCT_QUERY = `
     weightGrams,
     inStock,
     finish,
+    finish_en,
     claspOptions,
     description,
+    description_en,
     dimensions
   }
 `;
@@ -66,7 +69,7 @@ export async function getProducts() {
       slug:  p.slug,
       title: {
         es: p.title,
-        en: p.title, // Default to single title for both langs
+        en: p.title_en || p.title,
       },
       price:        p.price,
       weightGrams:  p.weightGrams ?? 2.6,
@@ -83,11 +86,11 @@ export async function getProducts() {
         : ['titanio'],
       description: {
         es: p.description ?? '',
-        en: p.description ?? '', // Adapt single description
+        en: p.description_en || (p.description ?? ''),
       },
       story: {
         es: p.finish ? `Acabado: ${p.finish}` : 'Diseño contemporáneo en metacrilato',
-        en: p.finish ? `Finish: ${p.finish}` : 'Contemporary acrylic design',
+        en: p.finish_en ? `Finish: ${p.finish_en}` : (p.finish ? `Finish: ${p.finish}` : 'Contemporary acrylic design'),
       },
       category: p.category ?? 'pendientes',
       colorPalette: [],
