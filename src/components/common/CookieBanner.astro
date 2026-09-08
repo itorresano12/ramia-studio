@@ -1,0 +1,70 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+const isEs = lang === 'es';
+---
+
+<aside id="cookie-banner" class="fixed bottom-0 inset-x-0 pb-4 px-4 sm:px-6 md:pb-6 md:px-8 z-[100] translate-y-full transition-transform duration-700 ease-out flex justify-center pointer-events-none" aria-label="Cookie consent">
+  <div class="pointer-events-auto max-w-4xl w-full bg-neutral-900 text-white rounded-2xl shadow-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div class="font-body text-sm text-neutral-300 flex-1">
+      <h3 class="text-white font-medium text-base mb-2">{isEs ? 'Privacidad y Cookies' : 'Privacy & Cookies'}</h3>
+      <p class="leading-relaxed text-[13px]">
+        {isEs 
+          ? 'Utilizamos cookies técnicas estrictamente necesarias para el funcionamiento del carrito de compra y la experiencia básica del taller. De momento, no utilizamos rastreadores de terceros.'
+          : 'We use strictly necessary technical cookies to ensure the shopping cart and basic studio experience function properly. We currently do not use third-party trackers.'}
+        <a href={isEs ? '/privacidad' : '/en/privacy'} class="underline underline-offset-4 decoration-neutral-600 hover:text-white transition-colors ml-1">
+          {isEs ? 'Leer política' : 'Read policy'}
+        </a>
+      </p>
+    </div>
+    
+    <div class="flex flex-col sm:flex-row w-full md:w-auto gap-3 shrink-0">
+      <button id="btn-cookies-necessary" class="px-6 py-3 font-body text-[11px] font-medium tracking-[0.1em] uppercase border border-neutral-700 text-neutral-300 rounded-full hover:bg-neutral-800 hover:text-white transition-colors">
+        {isEs ? 'Solo necesarias' : 'Strictly necessary'}
+      </button>
+      <button id="btn-cookies-all" class="px-6 py-3 font-body text-[11px] font-medium tracking-[0.1em] uppercase bg-white text-neutral-900 rounded-full hover:bg-neutral-200 transition-colors">
+        {isEs ? 'Aceptar todas' : 'Accept all'}
+      </button>
+    </div>
+  </div>
+</aside>
+
+<script>
+  // Runs immediately on the client
+  document.addEventListener('astro:page-load', () => {
+    const banner = document.getElementById('cookie-banner');
+    const btnNecessary = document.getElementById('btn-cookies-necessary');
+    const btnAll = document.getElementById('btn-cookies-all');
+    
+    if (!banner || !btnNecessary || !btnAll) return;
+    
+    const CONSENT_KEY = 'ramia_cookie_consent';
+    const currentConsent = localStorage.getItem(CONSENT_KEY);
+    
+    if (!currentConsent) {
+      // Small delay to allow initial page render, then slide up
+      setTimeout(() => {
+        banner.classList.remove('translate-y-full');
+      }, 1000);
+    } else {
+      // If we already had consent and it was 'all', we could initialize GA4/Pixel here.
+      if (currentConsent === 'all') {
+        window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: { consent: 'all' } }));
+      }
+    }
+    
+    const acceptCookies = (level: 'necessary' | 'all') => {
+      localStorage.setItem(CONSENT_KEY, level);
+      banner.classList.add('translate-y-full');
+      
+      // Dispatch event for future third-party scripts to listen to
+      window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: { consent: level } }));
+    };
+    
+    btnNecessary.addEventListener('click', () => acceptCookies('necessary'));
+    btnAll.addEventListener('click', () => acceptCookies('all'));
+  });
+</script>

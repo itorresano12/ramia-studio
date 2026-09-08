@@ -44,7 +44,20 @@ export const product = defineType({
       name: 'images',
       title: 'Imágenes',
       type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'altText',
+              title: 'Texto alternativo (SEO/Accesibilidad)',
+              type: 'string',
+              description: 'Describe brevemente la foto para Google Imágenes y lectores de pantalla.',
+            }
+          ]
+        }
+      ],
       description: 'Galería de fotos (principal y detalles).',
       validation: (Rule: any) => Rule.min(1),
     }),

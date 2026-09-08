@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
 import CartDrawer from '../components/cart/CartDrawer.astro';
+import CookieBanner from '../components/common/CookieBanner.astro';
 
 interface Props {
   title: string;
@@ -80,6 +81,7 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
     <slot />
     <Footer lang={lang} />
     <CartDrawer lang={lang} />
+    <CookieBanner lang={lang} />
   </body>
 </html>
 

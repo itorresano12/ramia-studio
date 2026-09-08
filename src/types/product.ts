@@ -27,6 +27,7 @@ export interface Product {
   category: 'earrings' | 'necklaces' | 'charms' | 'all';
   colorPalette: string[];
   imageStatic: string;
+  imageAlt?: string;
   videoHover: string;
   earScaleImage: string;
   dimensions: string;

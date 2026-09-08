@@ -30,11 +30,12 @@ export const sanityClient = createClient({
 // ──────────────────────────────────────────────────────────────────────────────
 
 const PRODUCT_QUERY = `
-  *[_type == "product" && defined(slug.current)] | order(_createdAt asc) {
+  *[_type == "product" && defined(slug.current)] {
     _id,
     title,
     "slug": slug.current,
     "imageStatic": images[0].asset->url,
+    "imageAlt": images[0].altText,
     price,
     category,
     weightGrams,
@@ -93,6 +94,7 @@ export async function getProducts() {
       imageStatic: p.imageStatic 
         ? `${p.imageStatic}?auto=format&q=80` 
         : 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
+      imageAlt: p.imageAlt ?? '',
       videoHover: '',
       earScaleImage: '',
       dimensions: p.dimensions ?? '',
