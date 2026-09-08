@@ -85,50 +85,84 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
 
     <!-- Universal Mailto Intercept -->
     <script>
-      document.addEventListener('astro:page-load', () => {
-        document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-          link.addEventListener('click', (e) => {
+      function setupMailtoIntercept() {
+        document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+          // Evitar duplicar listeners en navegaciones con View Transitions
+          const anchor = link as HTMLAnchorElement;
+          if (anchor.dataset.hasMailtoListener) return;
+          anchor.dataset.hasMailtoListener = 'true';
+
+          anchor.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const rawHref = anchor.getAttribute('href') || '';
+            const email = rawHref.replace(/^mailto:/i, '').split('?')[0].trim();
+            if (!email) return;
+
+            let copied = false;
+
+            // Intento 1: API moderna de portapapeles
             if (navigator.clipboard && window.isSecureContext) {
-              e.preventDefault();
-              e.stopPropagation();
-              
-              const target = e.currentTarget as HTMLElement;
-              const href = target.getAttribute('href') || '';
-              const email = href.replace('mailto:', '');
-              
-              if (email) {
-                navigator.clipboard.writeText(email).then(() => {
-                  const isEs = document.documentElement.lang === 'es';
-                  const copiedText = isEs ? '¡Copiado!' : 'Copied!';
-                  
-                  // Create floating toast
-                  let toast = document.getElementById('mailto-toast');
-                  if (!toast) {
-                    toast = document.createElement('div');
-                    toast.id = 'mailto-toast';
-                    toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-white font-body text-xs tracking-wider uppercase px-6 py-3 rounded-full shadow-2xl z-[100] pointer-events-none transition-all duration-300 opacity-0 translate-y-4';
-                    document.body.appendChild(toast);
-                  }
-                  
-                  toast.textContent = copiedText;
-                  
-                  // Show
-                  requestAnimationFrame(() => {
-                    toast.classList.remove('opacity-0', 'translate-y-4');
-                    toast.classList.add('opacity-100', 'translate-y-0');
-                  });
-                  
-                  // Hide after 2s
-                  setTimeout(() => {
-                    toast.classList.remove('opacity-100', 'translate-y-0');
-                    toast.classList.add('opacity-0', 'translate-y-4');
-                  }, 2000);
-                });
+              try {
+                await navigator.clipboard.writeText(email);
+                copied = true;
+              } catch (err) {
+                copied = false;
               }
             }
+
+            // Intento 2: Fallback clásico para móviles / contextos restrictivos
+            if (!copied) {
+              try {
+                const textarea = document.createElement('textarea');
+                textarea.value = email;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                textarea.style.top = '0';
+                textarea.setAttribute('readonly', '');
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, textarea.value.length);
+                copied = document.execCommand('copy');
+                document.body.removeChild(textarea);
+              } catch (err) {
+                copied = false;
+              }
+            }
+
+            // Si falla la copia por completo, recurrir al comportamiento nativo
+            if (!copied) {
+              window.location.href = `mailto:${email}`;
+              return;
+            }
+
+            // Feedback visual elegante: Toast animado
+            const isEn = window.location.pathname.startsWith('/en');
+            const existingToast = document.getElementById('ramia-toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'ramia-toast';
+            toast.textContent = isEn ? 'COPIED TO CLIPBOARD' : '¡CORREO COPIADO!';
+            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-[11px] tracking-widest uppercase px-5 py-2.5 rounded-full shadow-2xl z-50 transition-all duration-300 pointer-events-none opacity-0 translate-y-2';
+            document.body.appendChild(toast);
+
+            requestAnimationFrame(() => {
+              toast.classList.remove('opacity-0', 'translate-y-2');
+            });
+
+            setTimeout(() => {
+              toast.classList.add('opacity-0', 'translate-y-2');
+              setTimeout(() => toast.remove(), 300);
+            }, 2000);
           });
         });
-      });
+      }
+
+      // Soporte para carga inicial y navegación interna de Astro
+      document.addEventListener('DOMContentLoaded', setupMailtoIntercept);
+      document.addEventListener('astro:page-load', setupMailtoIntercept);
     </script>
   </body>
 </html>
