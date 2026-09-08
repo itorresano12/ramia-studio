@@ -19,11 +19,11 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
    FIXED NAV - Always frosted/opaque
   ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧
 -->
-<div id="navbar-wrapper" class="fixed top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
+<div id="navbar-wrapper" class="fixed top-4 inset-x-0 z-50 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
   <nav id="navbar"
-       class="navbar pointer-events-auto flex items-center justify-between
-              px-5 py-3 rounded-full border border-neutral-200/50 
-              bg-[#FAF8F5]/95 backdrop-blur-md shadow-sm"
+       class="navbar pointer-events-auto relative flex items-center justify-between
+              px-5 py-3 rounded-full border border-neutral-200/60 
+              bg-[#FAF8F5] shadow-sm z-50"
   >
 
     <!-- ── Brand ── -->
@@ -105,8 +105,36 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
         </span>
       </button>
 
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn"
+              class="md:hidden relative flex items-center text-neutral-600 hover:text-neutral-900 transition-colors ml-1"
+              aria-label="Menu">
+        <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
     </div>
   </nav>
+
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu-dropdown" class="absolute top-full mt-2 left-4 right-4 bg-[#FAF8F5] shadow-xl border border-neutral-200/60 rounded-3xl p-6 flex flex-col gap-6 opacity-0 pointer-events-none -translate-y-2 transition-all duration-300 z-40">
+    <a href={isEs ? '/#coleccion' : '/en#coleccion'} class="mobile-nav-link text-xs font-body font-medium tracking-[0.18em] uppercase text-neutral-900 text-center hover:text-neutral-500">
+      {t.nav.collection}
+    </a>
+    <a href={isEs ? '/el-estudio' : '/en/studio'} class="mobile-nav-link text-xs font-body font-medium tracking-[0.18em] uppercase text-neutral-900 text-center hover:text-neutral-500">
+      {lang === 'es' ? 'El Taller' : 'The Atelier'}
+    </a>
+    
+    <!-- Lang switcher Mobile -->
+    <div class="flex items-center justify-center gap-2 mt-2 pt-6 border-t border-neutral-200/60">
+      <a href={esUrl} class={`text-[10px] font-body tracking-[0.18em] px-3 py-1 rounded-full ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-500 border border-neutral-200'}`}>ES</a>
+      <a href={enUrl} class={`text-[10px] font-body tracking-[0.18em] px-3 py-1 rounded-full ${!isEs ? 'bg-neutral-900 text-white' : 'text-neutral-500 border border-neutral-200'}`}>EN</a>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -136,5 +164,36 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
         }
       }
     }));
+
+    // ✧ Mobile Menu ✧
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const menuDropdown = document.getElementById('mobile-menu-dropdown');
+    const menuIconOpen = document.getElementById('menu-icon-open');
+    const menuIconClose = document.getElementById('menu-icon-close');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        menuDropdown?.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+        menuDropdown?.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+        menuIconOpen?.classList.add('hidden');
+        menuIconClose?.classList.remove('hidden');
+      } else {
+        menuDropdown?.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+        menuDropdown?.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+        menuIconOpen?.classList.remove('hidden');
+        menuIconClose?.classList.add('hidden');
+      }
+    }
+
+    menuBtn?.addEventListener('click', toggleMenu);
+    
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMenuOpen) toggleMenu();
+      });
+    });
   });
 </script>
