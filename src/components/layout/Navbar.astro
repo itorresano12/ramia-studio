@@ -15,17 +15,15 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
 ---
 
 <!--
-  ═══════════════════════════════════════════════
-   STICKY NAV — transparent on load, activates at 120px scroll
-  ═══════════════════════════════════════════════
+  ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧
+   FIXED NAV - Always frosted/opaque
+  ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧
 -->
-<div id="navbar-wrapper" class="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
+<div id="navbar-wrapper" class="fixed top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
   <nav id="navbar"
        class="navbar pointer-events-auto flex items-center justify-between
-              px-5 py-3 rounded-full border
-              transition-all duration-300 ease-out
-              border-transparent bg-transparent
-              shadow-none"
+              px-5 py-3 rounded-full border border-neutral-200/50 
+              bg-[#FAF8F5]/95 backdrop-blur-md shadow-sm"
   >
 
     <!-- ── Brand ── -->
@@ -111,9 +109,6 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
   </nav>
 </div>
 
-<!-- Spacer below sticky nav -->
-<div class="h-4" aria-hidden="true"></div>
-
 <script>
   import { openCart, cartCount } from '../../stores/cart';
 
@@ -123,32 +118,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     navbarUnsubs.forEach(unsub => unsub());
     navbarUnsubs = [];
 
-    // ── Scroll-triggered activation ──
-    const navbar = document.getElementById('navbar');
-    const SCROLL_THRESHOLD = 120;
-
-    function updateNavbar() {
-      if (!navbar) return;
-      if (window.scrollY > SCROLL_THRESHOLD) {
-        navbar.classList.add(
-          'backdrop-blur-md', 'bg-white/95',
-          'border-neutral-200/60', 'shadow-sm'
-        );
-        navbar.classList.remove('border-transparent', 'bg-transparent', 'shadow-none');
-      } else {
-        navbar.classList.remove(
-          'backdrop-blur-md', 'bg-white/95',
-          'border-neutral-200/60', 'shadow-sm'
-        );
-        navbar.classList.add('border-transparent', 'bg-transparent', 'shadow-none');
-      }
-    }
-
-    // Run immediately in case page loads mid-scroll
-    updateNavbar();
-    window.addEventListener('scroll', updateNavbar, { passive: true });
-
-    // ── Cart ──
+    // ✧ Cart ✧
     const cartBtn = document.getElementById('cart-btn');
     const cartBadge = document.getElementById('cart-count');
 
