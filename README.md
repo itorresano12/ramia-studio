@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+﻿# Ramia Studio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+**High-End Contemporary Acrylic Jewelry E-Commerce**
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Ramia Studio is a modern, ultra-lightweight static storefront designed for contemporary acrylic jewelry. Engineered for absolute minimal client-side bloat, instant page transitions, and effortless editorial rendering.
 
-## 🚀 Project Structure
+## Architecture & Tech Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Astro**: Static Site Generation (SSG) with Island Architecture and View Transitions for a SPA-like navigation experience.
+- **Tailwind CSS**: Custom editorial design system with minimalist utilities.
+- **Sanity**: Mono-locale Headless CMS acting as the single source of truth for the product catalog.
+- **Custom Build-Time i18n Engine**: Zero-Touch static heuristic translation (ES -> EN) operating seamlessly without schema duplication in the CMS.
+- **Vercel Edge**: High-performance CDN deployment.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Key Engineering Highlights
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- **Zero-Bloat Client Runtime**: Native dialog drawer management with dynamic \dvh\ viewport calculations and safe-area adaptation for flawless mobile ergonomics.
+- **Universal Mailto Interceptor**: An async robust clipboard interception strategy with \document.execCommand\ fallback and localized, floating animated toasts.
+- **Core Web Vitals Optimization**: A strict focus on pre-rendered static assets, highly-optimized responsive imagery, sub-3s LCP, and zero cumulative layout shifts.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Getting Started
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Prerequisites
+- Node.js (v18+)
+- npm
 
-## 🧞 Commands
+### Local Development
 
-All commands are run from the root of the project, from a terminal:
+1. **Clone the repository:**
+   \\\ash
+   git clone https://github.com/itorresano12/ramia-studio.git
+   cd ramia-studio
+   \\\
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+2. **Install dependencies:**
+   \\\ash
+   npm install
+   \\\
 
-## 👀 Want to learn more?
+3. **Environment Variables:**
+   Copy the example environment file and fill in the necessary keys.
+   \\\ash
+   cp .env.example .env
+   \\\
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+4. **Start the local development server:**
+   \\\ash
+   npm run dev
+   \\\
+
+### Building for Production
+
+To run the full static generation and build the production assets:
+\\\ash
+npm run build
+\\\
+
+## Credits
+
+**Design & Engineering:** Iván Torresano
