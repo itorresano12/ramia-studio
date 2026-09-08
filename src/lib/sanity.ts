@@ -75,7 +75,7 @@ export async function getProducts() {
         : ['titanio'],
       description: {
         es: p.description ?? '',
-        en: autoTranslateDescription(p.description ?? ''),
+        en: autoTranslateDescription(p.description ?? '', p.title),
       },
       story: {
         es: p.finish ? `Acabado: ${p.finish}` : 'Diseño contemporáneo en metacrilato',

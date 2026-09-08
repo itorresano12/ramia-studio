@@ -101,27 +101,27 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
                   const isEs = document.documentElement.lang === 'es';
                   const copiedText = isEs ? '¡Copiado!' : 'Copied!';
                   
-                  // Use a dataset attribute to store original HTML if not already stored
-                  if (!target.dataset.originalHtml) {
-                    target.dataset.originalHtml = target.innerHTML;
+                  // Create floating toast
+                  let toast = document.getElementById('mailto-toast');
+                  if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'mailto-toast';
+                    toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-white font-body text-xs tracking-wider uppercase px-6 py-3 rounded-full shadow-2xl z-[100] pointer-events-none transition-all duration-300 opacity-0 translate-y-4';
+                    document.body.appendChild(toast);
                   }
                   
-                  // Keep original width to avoid layout jumps
-                  const originalWidth = target.offsetWidth;
-                  if (originalWidth > 0) {
-                    target.style.width = `${originalWidth}px`;
-                  }
-                  target.style.display = 'inline-block';
-                  target.style.textAlign = 'center';
+                  toast.textContent = copiedText;
                   
-                  // Update text temporarily
-                  target.textContent = copiedText;
+                  // Show
+                  requestAnimationFrame(() => {
+                    toast.classList.remove('opacity-0', 'translate-y-4');
+                    toast.classList.add('opacity-100', 'translate-y-0');
+                  });
                   
+                  // Hide after 2s
                   setTimeout(() => {
-                    target.innerHTML = target.dataset.originalHtml || '';
-                    target.style.width = '';
-                    target.style.display = '';
-                    target.style.textAlign = '';
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-4');
                   }, 2000);
                 });
               }

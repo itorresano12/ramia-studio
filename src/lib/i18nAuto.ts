@@ -32,6 +32,9 @@ export function autoTranslateFinish(finishEs: string): string {
     'ámbar translúcido': 'Translucent amber',
     'ambar translucido': 'Translucent amber',
     'metacrilato lila pulido': 'Polished lilac acrylic',
+    'metacrilato lila pastel': 'Pastel lilac acrylic',
+    'metacrilato rojo translúcido': 'Translucent red acrylic',
+    'acrílico pastel satinado': 'Satin pastel acrylic',
     'glitter': 'Glitter',
     'nácar': 'Mother of pearl',
     'carey': 'Tortoiseshell'
@@ -60,10 +63,25 @@ export function autoTranslateFinish(finishEs: string): string {
   return out.charAt(0).toUpperCase() + out.slice(1);
 }
 
-export function autoTranslateDescription(descEs: string): string {
+export function autoTranslateDescription(descEs: string, titleEs: string = ''): string {
   if (!descEs) return descEs;
   
-  // Poetic contemporary jewelry replacements
+  // Exact translations for the specific collection
+  const tLower = titleEs.toLowerCase();
+  if (tLower.includes('aura hippocampus')) {
+    return "Marine-inspired organic silhouette in hand-polished acrylic. Lilac tones with soft light reflections and an ultralight structure mounted on hypoallergenic fittings.";
+  }
+  if (tLower.includes('nova star')) {
+    return "Celestial geometry with high-definition laser cutting. Eye-catching statement piece designed to bring immediate luminosity to the face with zero weight on the lobe.";
+  }
+  if (tLower.includes('bruma pastel')) {
+    return "Powdery hues and clean architectural lines. Handcrafted from optical-grade acrylic with a lightweight assembly engineered for comfortable, all-day wear.";
+  }
+  if (tLower.includes('carmen carmín') || tLower.includes('carmen carmin')) {
+    return "Bold, deep red statement piece with a semi-translucent vitreous gloss finish. The ideal contrast accent to elevate any everyday look without sacrificing maximum comfort.";
+  }
+
+  // Poetic contemporary jewelry replacements for general fallbacks
   let out = descEs
     .replace(/metacrilato/gi, 'acrylic')
     .replace(/ligereza extrema/gi, 'extreme lightness')
