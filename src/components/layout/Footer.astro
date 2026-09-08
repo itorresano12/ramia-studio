@@ -47,7 +47,14 @@ const isEs = lang === 'es';
       <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Taller & Ayuda' : 'Atelier & Help'}</h4>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
         <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-2">{isEs ? 'Atención por WhatsApp' : 'WhatsApp Support'}</a></li>
-        <li><a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-white transition-colors">{CONTACT_EMAIL}</a></li>
+        <li>
+          <a href={`mailto:${CONTACT_EMAIL}`} 
+             class="copy-email-btn hover:text-white transition-colors flex items-center gap-2"
+             data-email={CONTACT_EMAIL}
+             data-copied={isEs ? 'Copiado' : 'Copied'}>
+            <span class="email-text">{CONTACT_EMAIL}</span>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -70,3 +77,30 @@ const isEs = lang === 'es';
     </p>
   </div>
 </footer>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.copy-email-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        // Only prevent default if we can copy
+        if (navigator.clipboard && window.isSecureContext) {
+          e.preventDefault();
+          const target = e.currentTarget as HTMLElement;
+          const email = target.dataset.email;
+          const copiedText = target.dataset.copied || 'Copiado';
+          const textSpan = target.querySelector('.email-text');
+          
+          if (email && textSpan) {
+            navigator.clipboard.writeText(email).then(() => {
+              const originalText = textSpan.textContent;
+              textSpan.textContent = copiedText;
+              setTimeout(() => {
+                textSpan.textContent = originalText;
+              }, 2000);
+            });
+          }
+        }
+      });
+    });
+  });
+</script>

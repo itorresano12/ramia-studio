@@ -46,14 +46,14 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </header>
 
   <!-- Progress Bar -->
-  <div class="px-6 py-4 bg-neutral-50/50 border-b border-neutral-200/60">
-    <p id="shipping-msg" class="text-[11px] font-body font-medium tracking-wide text-neutral-600 mb-2 uppercase">
-      <!-- Injected via JS -->
-    </p>
-    <div class="h-1.5 w-full bg-neutral-200 rounded-full overflow-hidden">
-      <div id="shipping-progress" class="h-full bg-neutral-900 transition-all duration-700 ease-out" style="width: 0%"></div>
+    <div class="px-6 py-5 bg-neutral-50/80 border-b border-neutral-100">
+      <p id="shipping-msg" class="font-body text-[11px] uppercase tracking-widest text-neutral-900 text-center mb-3">
+        <!-- Injected via JS -->
+      </p>
+      <div class="h-0.5 w-full bg-neutral-200 rounded-full overflow-hidden">
+        <div id="shipping-progress" class="h-full bg-neutral-900 transition-all duration-500 ease-out" style="width: 0%"></div>
+      </div>
     </div>
-  </div>
 
   <!-- Cart Items Scroll Area -->
   <div class="flex-1 overflow-y-auto px-6 py-6" id="cart-items-container">
@@ -100,10 +100,10 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </div>
 
   <!-- Footer -->
-  <footer id="cart-footer" class="border-t border-neutral-200/60 bg-white/50 px-6 py-6 backdrop-blur-md">
+  <footer id="cart-footer" class="border-t border-neutral-200/60 bg-white/50 px-6 pt-6 pb-10 backdrop-blur-md">
     <div class="flex items-center justify-between mb-4">
       <span class="font-body text-sm text-neutral-500 uppercase tracking-widest">{isEs ? "Subtotal" : "Subtotal"}</span>
-      <span id="cart-subtotal" class="font-display text-2xl font-light text-neutral-900">0.00€</span>
+      <span id="cart-subtotal" class="font-display text-2xl font-light text-neutral-900 tracking-wider">0.00€</span>
     </div>
     
     <p class="text-[10px] text-neutral-600 font-body mb-6">
