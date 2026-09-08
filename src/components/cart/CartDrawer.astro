@@ -1,4 +1,6 @@
 ---
+import { getProducts } from '../../lib/sanity';
+
 interface Props {
   lang: 'es' | 'en';
 }
@@ -6,6 +8,16 @@ interface Props {
 const { lang } = Astro.props;
 const isEs = lang === 'es';
 const enableStripe = import.meta.env.PUBLIC_ENABLE_STRIPE === 'true';
+
+const allProducts = await getProducts();
+const crossSellProducts = allProducts.slice(0, 3).map(p => ({
+  id: p.id,
+  title: p.title,
+  price: p.price,
+  imageStatic: p.imageStatic,
+  slug: p.slug,
+  weightGrams: p.weightGrams
+}));
 ---
 
 <!-- Overlay -->
@@ -56,6 +68,35 @@ const enableStripe = import.meta.env.PUBLIC_ENABLE_STRIPE === 'true';
     <button id="continue-shopping-btn" class="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-neutral-900 hover:text-neutral-500 transition-colors underline underline-offset-4">
       {isEs ? "Explorar la colección" : "Explore the collection"}
     </button>
+  </div>
+
+  <!-- Cross-Selling Section -->
+  <div id="cross-sell-container" class="hidden px-6 py-4 bg-neutral-50/50 border-t border-neutral-100">
+    <h4 class="font-body text-[10px] tracking-[0.15em] uppercase text-neutral-400 mb-3">
+      {isEs ? "Completa tu look" : "Complete your look"}
+    </h4>
+    <div class="flex flex-col gap-3">
+      {crossSellProducts.map((p, index) => (
+        <div class="cross-sell-item hidden flex items-center justify-between group" data-product-id={p.id}>
+          <a href={isEs ? `/producto/${p.slug}` : `/en/product/${p.slug}`} class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="w-12 h-12 rounded-lg bg-neutral-100 overflow-hidden shrink-0">
+              <img src={`${p.imageStatic}&w=100`} alt={isEs ? p.title.es : p.title.en} class="w-full h-full object-cover" loading="lazy" decoding="async" />
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-body text-xs text-neutral-900 truncate">{isEs ? p.title.es : p.title.en}</span>
+              <span class="font-display text-sm text-neutral-500">{p.price.toFixed(2)}€</span>
+            </div>
+          </a>
+          <button 
+            class="add-cross-sell-btn shrink-0 w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-600 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
+            data-product={JSON.stringify(p)}
+            aria-label={isEs ? "Añadir a la bolsa" : "Add to bag"}
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"></path></svg>
+          </button>
+        </div>
+      ))}
+    </div>
   </div>
 
   <!-- Footer -->
@@ -262,7 +303,47 @@ const enableStripe = import.meta.env.PUBLIC_ENABLE_STRIPE === 'true';
           }
         });
       });
+
+      // Cross-Selling Logic
+      const crossSellContainer = document.getElementById('cross-sell-container');
+      const crossSellItems = document.querySelectorAll('.cross-sell-item');
+      
+      let visibleCount = 0;
+      const itemIdsInCart = items.map(i => i.productId);
+      
+      crossSellItems.forEach(el => {
+        const pid = (el as HTMLElement).dataset.productId;
+        if (pid && !itemIdsInCart.includes(pid) && visibleCount < 2) {
+            el.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            el.classList.add('hidden');
+        }
+      });
+      
+      if (visibleCount > 0 && items.length > 0) {
+          crossSellContainer?.classList.remove('hidden');
+      } else {
+          crossSellContainer?.classList.add('hidden');
+      }
     }));
+
+    // Attach listeners for Cross-Sell Add Buttons
+    document.querySelectorAll('.add-cross-sell-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const productData = target.dataset.product;
+        if (productData) {
+          import('../../stores/cart').then(({ addItem }) => {
+            const p = JSON.parse(productData);
+            // Mock missing fields for addItem
+            const fullProduct = { ...p, title: p.title }; 
+            addItem(fullProduct, 'acero');
+          });
+        }
+      });
+    });
+
     // WhatsApp Checkout Integration (Concierge)
     const checkoutBtn = document.getElementById('checkout-btn') as HTMLButtonElement;
     const checkoutText = document.getElementById('checkout-text');
