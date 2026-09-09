@@ -27,7 +27,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
 
 <!-- Drawer -->
 <aside id="cart-drawer"
-       class="fixed inset-y-0 right-0 w-full sm:max-w-md bg-white z-50 flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden translate-x-full transition-transform duration-500 ease-out"
+       class="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-white flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden shadow-2xl transition-transform duration-300 translate-x-full"
        aria-label={isEs ? "Tu Bolsa" : "Your Bag"}>
        
   <!-- Header -->
@@ -75,7 +75,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </div>
 
   <!-- Footer -->
-  <footer id="cart-footer" class="shrink-0 bg-white border-t border-neutral-200 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+  <footer id="cart-footer" class="shrink-0 bg-white border-t border-neutral-100 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
     <div class="flex items-center justify-between mb-4">
       <span class="font-body text-sm text-neutral-500 uppercase tracking-widest">{isEs ? "Subtotal" : "Subtotal"}</span>
       <span class="font-display text-2xl font-light text-neutral-900" id="cart-subtotal">0.00€</span>
@@ -89,8 +89,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     </p>
 
     <button id="checkout-btn"
-            class="w-full bg-neutral-900 text-white font-body text-xs tracking-[0.2em] uppercase py-4 rounded-full
-                   hover:bg-neutral-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+            class="w-full py-4 text-xs font-semibold tracking-widest uppercase bg-neutral-900 text-white flex items-center justify-center hover:bg-neutral-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
       <span class="checkout-text">{isEs ? "Encargar vía WhatsApp" : "Order via WhatsApp"}</span>
       <span class="checkout-loader hidden items-center justify-center gap-2">
         <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -134,12 +133,16 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
 
     unsubs.push(isCartOpen.subscribe(open => {
       if (open) {
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
         overlay?.classList.remove('hidden');
         setTimeout(() => {
           overlay?.classList.remove('opacity-0');
           drawer?.classList.remove('translate-x-full');
         }, 10);
       } else {
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
         overlay?.classList.add('opacity-0');
         drawer?.classList.add('translate-x-full');
         setTimeout(() => {
