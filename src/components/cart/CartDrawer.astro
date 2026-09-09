@@ -1,4 +1,4 @@
-﻿---
+---
 import { getProducts } from '../../lib/sanity';
 
 interface Props {
@@ -22,16 +22,16 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
 
 <!-- Overlay -->
 <div id="cart-overlay" 
-     class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-500 ease-out"
+     class="fixed inset-0 bg-black/40 z-50 opacity-0 pointer-events-none transition-opacity duration-300 ease-out"
      aria-hidden="true"></div>
 
 <!-- Drawer -->
 <aside id="cart-drawer"
-       class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 translate-x-full transition-transform duration-500 ease-out flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden"
+       class="fixed inset-y-0 right-0 w-full sm:max-w-md bg-white z-50 flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden translate-x-full transition-transform duration-500 ease-out"
        aria-label={isEs ? "Tu Bolsa" : "Your Bag"}>
        
   <!-- Header -->
-  <header class="shrink-0 flex items-center justify-between px-6 py-5 border-b border-neutral-200/60">
+  <header class="shrink-0 px-6 py-4 border-b border-neutral-100 flex items-center justify-between">
     <h2 class="font-display text-2xl font-light text-neutral-900">
       {isEs ? "Tu Bolsa" : "Your Bag"}
       <span id="cart-header-count" class="text-neutral-600 text-lg ml-1">(0)</span>
@@ -46,7 +46,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </header>
 
   <!-- Progress Bar -->
-  <div class="shrink-0 px-6 py-5 bg-neutral-50/80 border-b border-neutral-100">
+  <div class="shrink-0 px-6 py-3 bg-neutral-50">
     <p id="shipping-msg" class="font-body text-[11px] uppercase tracking-widest text-neutral-900 text-center mb-3">
       <!-- Injected via JS -->
     </p>
@@ -56,7 +56,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </div>
 
   <!-- Items list -->
-  <div class="flex-1 overflow-y-auto p-4 min-h-0 overscroll-contain" id="cart-items-container">
+  <div class="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 overscroll-contain" id="cart-items-container">
     <!-- Populated via JS -->
   </div>
 
@@ -75,24 +75,23 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   </div>
 
   <!-- Footer -->
-  <footer id="cart-footer" class="shrink-0 bg-white border-t border-neutral-100 p-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+  <footer id="cart-footer" class="shrink-0 bg-white border-t border-neutral-200 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
     <div class="flex items-center justify-between mb-4">
       <span class="font-body text-sm text-neutral-500 uppercase tracking-widest">{isEs ? "Subtotal" : "Subtotal"}</span>
-      <span class="font-display text-2xl font-light text-neutral-900" id="cart-subtotal">0.00â‚¬</span>
+      <span class="font-display text-2xl font-light text-neutral-900" id="cart-subtotal">0.00€</span>
     </div>
     <p class="text-[10px] text-neutral-600 font-body mb-6">
-      {isEs ? "IVA incluido. " : "VAT included. "}
-      <span id="cart-footer-shipping-text">{isEs ? "Gastos de envÃ­o calculados en el siguiente paso." : "Shipping costs calculated at checkout."}</span>
+      <span id="cart-footer-shipping-text">{isEs ? "IVA incluido. Envío estándar calculado en el checkout." : "VAT included. Shipping calculated at checkout."}</span>
       <br/>
       <span class="text-neutral-500 italic font-display text-sm block mt-1">
-        {isEs ? "DiseÃ±ados para no pesar." : "Designed to be weightless."}
+        {isEs ? "Diseñados para no pesar." : "Designed to be weightless."}
       </span>
     </p>
 
     <button id="checkout-btn"
             class="w-full bg-neutral-900 text-white font-body text-xs tracking-[0.2em] uppercase py-4 rounded-full
                    hover:bg-neutral-800 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-      <span class="checkout-text">{isEs ? "Encargar vÃ­a WhatsApp" : "Order via WhatsApp"}</span>
+      <span class="checkout-text">{isEs ? "Encargar vía WhatsApp" : "Order via WhatsApp"}</span>
       <span class="checkout-loader hidden items-center justify-center gap-2">
         <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -112,6 +111,8 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
   document.addEventListener('astro:page-load', () => {
     const lang = document.documentElement.lang;
     const isEs = lang === 'es';
+
+    const formatPrice = (amount: number) => new Intl.NumberFormat(isEs ? 'es-ES' : 'en-IE', { style: 'currency', currency: 'EUR' }).format(amount);
 
     unsubs.forEach(unsub => unsub());
     unsubs = [];
@@ -168,28 +169,28 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
     }));
 
     unsubs.push(cartTotal.subscribe(total => {
-      if (subtotalEl) subtotalEl.textContent = `${total.toFixed(2)}â‚¬`;
+      if (subtotalEl) subtotalEl.textContent = formatPrice(total);
       
       if (shippingMsg && shippingProgress) {
         const remaining = freeShippingThreshold - total;
         
         if (remaining > 0) {
           shippingMsg.textContent = isEs 
-            ? `Faltan ${remaining.toFixed(2)}â‚¬ para envÃ­o gratuito` 
-            : `Add ${remaining.toFixed(2)}â‚¬ for free shipping`;
+            ? `FALTAN ${formatPrice(remaining)} PARA ENVÍO GRATUITO` 
+            : `ADD ${formatPrice(remaining)} FOR FREE SHIPPING`;
           if (footerShippingText) {
             footerShippingText.textContent = isEs 
-              ? "Gastos de envÃ­o calculados en el siguiente paso." 
-              : "Shipping costs calculated at checkout.";
+              ? "IVA incluido. Envío estándar calculado en el checkout." 
+              : "VAT included. Shipping calculated at checkout.";
           }
         } else {
           shippingMsg.textContent = isEs 
-            ? `Â¡Tienes envÃ­o gratuito asegurado!` 
-            : `You have secured free shipping!`;
+            ? `¡TIENES ENVÍO GRATUITO ASEGURADO!` 
+            : `YOU HAVE SECURED FREE SHIPPING!`;
           if (footerShippingText) {
             footerShippingText.textContent = isEs 
-              ? "EnvÃ­o estÃ¡ndar gratuito aplicado." 
-              : "Free standard shipping applied.";
+              ? "IVA incluido. Envío estándar gratuito aplicado." 
+              : "VAT included. Free standard shipping applied.";
           }
         }
       }
@@ -208,7 +209,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
       items.forEach(item => {
         const title = isEs ? item.titleEs : item.titleEn;
         const closureLabel = item.closureSelected === 'clip' 
-          ? (isEs ? 'OpciÃƒÂ³n Clip' : 'Clip Option')
+          ? (isEs ? 'Opción Clip' : 'Clip Option')
           : (isEs ? 'Acero Inoxidable' : 'Stainless Steel');
 
         const itemEl = document.createElement('div');
@@ -241,7 +242,7 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
                 </button>
               </div>
-              <span class="font-display text-lg text-neutral-900">${(item.price * item.quantity).toFixed(2)}Ã¢â€šÂ¬</span>
+              <span class="font-display text-lg text-neutral-900">${formatPrice(item.price * item.quantity)}</span>
             </div>
           </div>
         `;
@@ -325,12 +326,12 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
       checkoutLoader?.classList.add('flex');
 
       // WhatsApp Checkout logic
-      const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2);
-      let orderList = items.map(i => `- ${i.quantity}x ${isEs ? i.titleEs : i.titleEn} (${i.price.toFixed(2)}â‚¬)`).join('\n');
+      const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      let orderList = items.map(i => `- ${i.quantity}x ${isEs ? i.titleEs : i.titleEn} (${formatPrice(i.price)})`).join('\n');
       
       const message = isEs
-        ? `Â¡Hola Ramia Studio! Quiero formalizar el siguiente encargo:\n${orderList}\nTotal estimado: ${total}â‚¬\nÂ¿TenÃ©is disponibilidad para proceder con el envÃ­o?`
-        : `Hello Ramia Studio! I'd like to place the following order:\n${orderList}\nEstimated total: ${total}â‚¬\nDo you have availability to proceed with shipping?`;
+        ? `¡Hola Ramia Studio! Quiero formalizar el siguiente encargo:\n${orderList}\nTotal estimado: ${formatPrice(total)}\n¿Tenéis disponibilidad para proceder con el envío?`
+        : `Hello Ramia Studio! I'd like to place the following order:\n${orderList}\nEstimated total: ${formatPrice(total)}\nDo you have availability to proceed with shipping?`;
         
       const waUrl = `https://api.whatsapp.com/send?phone=34671259996&text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');

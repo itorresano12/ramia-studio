@@ -1,4 +1,4 @@
----
+﻿---
 import { es } from '../../i18n/es';
 import { en } from '../../i18n/en';
 
@@ -15,21 +15,21 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
 ---
 
 <!--
-  ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧
+  âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§
    FIXED NAV - Always frosted/opaque
-  ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧
+  âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§
 -->
-<div id="navbar-wrapper" class="fixed top-4 inset-x-0 z-50 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
+<div id="navbar-wrapper" class="sticky top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4 sm:px-6 pointer-events-none">
   <nav id="navbar"
        class="navbar pointer-events-auto relative flex items-center justify-between
               px-5 py-3 rounded-full border border-neutral-200/60 
-              bg-[#FAF8F5] shadow-sm z-50"
+              bg-[#FAF8F5] shadow-sm"
   >
 
-    <!-- ── Brand ── -->
+    <!-- â”€â”€ Brand â”€â”€ -->
     <a href={isEs ? '/' : '/en'}
        class="flex items-center gap-2 shrink-0 group"
-       aria-label="Ramia Studio — Inicio">
+       aria-label="Ramia Studio â€” Inicio">
       <!-- Logo Image: hidden by default, shown via onload when file exists -->
       <img
         src="/logo.png"
@@ -48,7 +48,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
       </span>
     </a>
 
-    <!-- ── Centre nav (desktop) ── -->
+    <!-- â”€â”€ Centre nav (desktop) â”€â”€ -->
     <ul class="hidden md:flex items-center gap-7">
       <li>
         <a href={isEs ? '/#coleccion' : '/en#coleccion'}
@@ -66,14 +66,14 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
       </li>
     </ul>
 
-    <!-- ── Right controls ── -->
+    <!-- â”€â”€ Right controls â”€â”€ -->
     <div class="flex items-center gap-4 shrink-0">
 
       <!-- Lang switcher -->
       <div class="hidden sm:flex items-center gap-1 text-[10px] font-body font-medium tracking-[0.12em]">
         <a href={esUrl}
            class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:text-neutral-700'}`}
-           aria-label="Cambiar a español">
+           aria-label="Cambiar a espaÃ±ol">
           ES
         </a>
         <span class="text-neutral-300 select-none">|</span>
@@ -146,7 +146,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     navbarUnsubs.forEach(unsub => unsub());
     navbarUnsubs = [];
 
-    // ✧ Cart ✧
+    // âœ§ Cart âœ§
     const cartBtn = document.getElementById('cart-btn');
     const cartBadge = document.getElementById('cart-count');
 
@@ -165,7 +165,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
       }
     }));
 
-    // ✧ Mobile Menu ✧
+    // âœ§ Mobile Menu âœ§
     const menuBtn = document.getElementById('mobile-menu-btn');
     const menuDropdown = document.getElementById('mobile-menu-dropdown');
     const menuIconOpen = document.getElementById('menu-icon-open');
@@ -197,3 +197,4 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     });
   });
 </script>
+
