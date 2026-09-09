@@ -26,13 +26,13 @@ const hasClip = product.closureOptions.includes('clip');
 ---
 
 <article
-  class="product-card group relative h-full flex flex-col bg-white rounded-3xl p-3 border border-neutral-200/70 shadow-sm hover:shadow-md transition-all duration-300"
+  class="product-card group relative h-full w-full max-w-full min-w-0 flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100/80 p-4 transition-all duration-300 hover:shadow-md"
   data-category={product.category}
   data-clip={hasClip ? 'true' : 'false'}
 >
   <!-- ── Media ── -->
   <a href={lang === 'es' ? `/producto/${product.slug}` : `/en/product/${product.slug}`}
-     class="relative w-full overflow-hidden block rounded-2xl" style={`aspect-ratio:4/5; background:${fallbackBg};`}>
+     class="relative w-full aspect-square overflow-hidden rounded-xl bg-neutral-100 mb-4 block" style={`background:${fallbackBg};`}>
 
     <!-- Static image -->
     <img
@@ -40,7 +40,7 @@ const hasClip = product.closureOptions.includes('clip');
       srcset={`${product.imageStatic}&w=400 400w, ${product.imageStatic}&w=800 800w`}
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       alt={product.imageAlt || product.title[lang]}
-      class="absolute inset-0 w-full h-full object-cover
+      class="w-full h-full object-cover object-center block absolute inset-0
              transition-all duration-700 ease-out
              group-hover:scale-105 group-hover:opacity-0"
       loading="lazy"
@@ -110,15 +110,12 @@ const hasClip = product.closureOptions.includes('clip');
     </p>
 
     <!-- Price + CTA -->
-    <div class="mt-auto flex items-center justify-between pt-4 gap-3">
-      <span class="font-display text-2xl font-light text-neutral-900 tracking-tight">
-        {product.price.toFixed(2)}<span class="text-base ml-0.5">€</span>
+    <div class="mt-auto pt-3 flex items-center justify-between gap-2 w-full min-w-0 flex-wrap">
+      <span class="text-base sm:text-lg font-serif text-neutral-900 shrink-0">
+        {product.price.toFixed(2)}<span class="text-sm ml-0.5">€</span>
       </span>
       <button
-        class="add-to-cart-btn flex-shrink-0 text-[10px] font-body font-medium tracking-[0.18em] uppercase
-               bg-neutral-900 text-white hover:bg-neutral-700 active:scale-95
-               px-5 py-2.5 rounded-full transition-all duration-200 ease-out
-               shadow-sm hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
+        class="add-to-cart-btn shrink-0 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-neutral-900 hover:bg-neutral-800 text-white text-[11px] sm:text-xs font-semibold tracking-wider uppercase rounded-full transition-colors whitespace-nowrap shadow-sm hover:shadow-md active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label={`${t.product.addToBag} - ${product.title[lang]}`}
         disabled={!product.inStock}
         data-product={JSON.stringify(product)}
