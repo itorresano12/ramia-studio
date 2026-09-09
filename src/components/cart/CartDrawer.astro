@@ -22,12 +22,12 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
 
 <!-- Overlay -->
 <div id="cart-overlay" 
-     class="fixed inset-0 bg-black/40 z-50 opacity-0 pointer-events-none transition-opacity duration-300 ease-out"
+     class="fixed inset-0 bg-black/50 z-50 opacity-0 pointer-events-none transition-opacity duration-300 ease-out"
      aria-hidden="true"></div>
 
 <!-- Drawer -->
 <aside id="cart-drawer"
-       class="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-white flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden shadow-2xl transition-transform duration-300 translate-x-full"
+       class="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-white flex flex-col h-[100dvh] max-h-[100dvh] overflow-hidden shadow-2xl transition-transform duration-300 translate-x-full invisible pointer-events-none"
        aria-label={isEs ? "Tu Bolsa" : "Your Bag"}>
        
   <!-- Header -->
@@ -136,18 +136,24 @@ const crossSellProducts = allProducts.slice(0, 3).map(p => ({
         document.body.style.overflow = 'hidden';
         document.body.style.touchAction = 'none';
         overlay?.classList.remove('hidden');
+        drawer?.classList.remove('invisible', 'pointer-events-none');
+        drawer?.classList.add('visible', 'pointer-events-auto');
         setTimeout(() => {
           overlay?.classList.remove('opacity-0');
           drawer?.classList.remove('translate-x-full');
+          drawer?.classList.add('translate-x-0');
         }, 10);
       } else {
         document.body.style.overflow = '';
         document.body.style.touchAction = '';
         overlay?.classList.add('opacity-0');
+        drawer?.classList.remove('translate-x-0');
         drawer?.classList.add('translate-x-full');
         setTimeout(() => {
           overlay?.classList.add('hidden');
-        }, 500);
+          drawer?.classList.remove('visible', 'pointer-events-auto');
+          drawer?.classList.add('invisible', 'pointer-events-none');
+        }, 300);
       }
     }));
 
