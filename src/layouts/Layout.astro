@@ -31,7 +31,7 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
 ---
 
 <!doctype html>
-<html lang={lang} class="overflow-x-hidden w-full relative max-w-full">
+<html lang={lang} class="w-full max-w-full overflow-x-clip">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,7 +76,7 @@ const enURL = new URL(enPath, Astro.site || 'https://ramiastudio.com');
     <ClientRouter />
     <slot name="head" />
   </head>
-  <body class="bg-[#FAF8F5] pt-20 md:pt-24 flex flex-col min-h-screen overflow-x-hidden w-full relative max-w-full">
+  <body class="bg-[#FAF8F5] pt-20 md:pt-24 flex flex-col min-h-screen w-full max-w-full overflow-x-clip">
     <Navbar lang={lang} productSlug={productSlug} />
     <slot />
     <Footer lang={lang} />

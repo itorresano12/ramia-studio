@@ -153,12 +153,11 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     </div>
 
     <!-- Filter pills -->
-    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 px-4 max-w-full sm:flex-wrap sm:justify-center mb-10">
+    <div class="w-full max-w-full overflow-x-auto no-scrollbar flex items-center gap-2 px-4 py-2 sm:flex-wrap sm:justify-center mb-10">
       {filters.map(f => (
         <button
-          class="filter-btn shrink-0 text-[10px] font-body font-medium tracking-[0.15em]
-                 uppercase px-4 py-2 rounded-full border transition-all duration-200
-                 whitespace-nowrap
+          class="filter-btn shrink-0 whitespace-nowrap text-xs px-4 py-2 font-body font-medium tracking-[0.15em]
+                 uppercase rounded-full border transition-all duration-200
                  border-transparent bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
           data-filter={f.id}
           aria-label={f.label}
@@ -169,7 +168,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     </div>
 
     <!-- Grid -->
-    <div id="product-grid" class="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 box-border overflow-hidden">
+    <div id="product-grid" class="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 box-border">
       {products.map((product: any) => (
         <ProductCard product={product} lang={lang} />
       ))}
