@@ -19,11 +19,9 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
    FIXED NAV - Always frosted/opaque
   âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§ âœ§
 -->
-<div id="navbar-wrapper" class="sticky top-4 inset-x-0 z-40 mx-auto w-[92%] sm:w-auto md:max-w-2xl lg:max-w-3xl pointer-events-none">
+<div id="navbar-wrapper" class="sticky top-6 z-40 mx-auto w-[92%] md:w-full md:max-w-2xl lg:max-w-3xl px-4 pointer-events-none">
   <nav id="navbar"
-       class="navbar pointer-events-auto relative flex items-center justify-between
-              px-4 py-2 md:px-7 md:py-3 rounded-full border border-neutral-200/60 
-              bg-[#FAF8F5] shadow-sm"
+       class="navbar pointer-events-auto relative w-full bg-white/90 backdrop-blur-md border border-neutral-200/70 shadow-sm rounded-full px-5 py-2.5 md:px-8 md:py-3.5 flex items-center justify-between"
   >
 
     <!-- ── Brand ── -->
@@ -43,24 +41,22 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
         decoding="async"
       />
       <!-- Fallback text: always visible until logo.svg loads -->
-      <span class="font-display font-light text-xl md:text-2xl uppercase tracking-[0.25em] text-neutral-900 group-hover:text-neutral-500 transition-colors">
+      <span class="text-xl md:text-2xl lg:text-3xl font-display md:font-serif tracking-[0.25em] md:tracking-tight text-neutral-900 uppercase md:normal-case group-hover:text-neutral-500 transition-colors">
         Ramia
       </span>
     </a>
 
     <!-- ── Centre nav (desktop) ── -->
-    <ul class="hidden md:flex items-center gap-3 md:gap-8">
+    <ul class="hidden md:flex items-center gap-6 md:gap-10">
       <li>
         <a href={isEs ? '/#coleccion' : '/en#coleccion'}
-           class="text-xs md:text-sm font-body font-medium tracking-widest uppercase
-                  text-neutral-500 hover:text-neutral-900 transition-colors duration-200">
+           class="text-xs md:text-sm font-body font-medium tracking-[0.18em] uppercase text-neutral-600 hover:text-black transition-colors">
           {t.nav.collection}
         </a>
       </li>
       <li>
         <a href={isEs ? '/el-estudio' : '/en/studio'}
-           class="text-xs md:text-sm font-body font-medium tracking-widest uppercase
-                  text-neutral-500 hover:text-neutral-900 transition-colors duration-200">
+           class="text-xs md:text-sm font-body font-medium tracking-[0.18em] uppercase text-neutral-600 hover:text-black transition-colors">
           {lang === 'es' ? 'El Taller' : 'The Atelier'}
         </a>
       </li>
@@ -70,7 +66,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     <div class="flex items-center gap-4 shrink-0">
 
       <!-- Lang switcher -->
-      <div class="hidden sm:flex items-center gap-1 text-[10px] font-body font-medium tracking-[0.12em]">
+      <div class="hidden sm:flex items-center gap-1 text-[10px] md:text-sm font-body font-medium tracking-[0.12em]">
         <a href={esUrl}
            class={`px-2 py-0.5 rounded-full transition-colors duration-150 ${isEs ? 'bg-neutral-900 text-white' : 'text-neutral-600 hover:text-neutral-700'}`}
            aria-label="Cambiar a español">
@@ -92,13 +88,13 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4"
              stroke-linecap="round" stroke-linejoin="round"
-             class="w-4 h-4 md:w-5 md:h-5">
+             class="w-5 h-5 md:w-6 md:h-6">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
         <span id="cart-count"
-              class="absolute -top-1.5 -right-1.5 min-w-[16px] md:min-w-[18px] h-4 md:h-5 px-1
+              class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] md:min-w-[20px] md:h-[20px] px-1
                      rounded-full bg-neutral-900 text-white text-[10px] md:text-xs
                      font-medium font-body flex items-center justify-center
                      leading-none hidden">
