@@ -62,18 +62,18 @@ const hasClip = product.closureOptions.includes('clip');
          aria-hidden="true"></div>
 
     <!-- Weight badge -->
-    <div class="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none">
-      <span class="inline-flex items-center gap-1.5 backdrop-blur-md bg-white/90
-                   border border-neutral-200/50 text-neutral-800
-                   text-[10px] font-body font-medium tracking-[0.12em] uppercase
-                   px-3 py-1.5 rounded-full shadow-sm select-none">
+    <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 pointer-events-none">
+      <span class="inline-flex items-center gap-1 backdrop-blur-md bg-white/90
+                    border border-neutral-200/50 text-neutral-800
+                    text-[8.5px] sm:text-[10px] font-body font-medium tracking-wider uppercase
+                    px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-xs select-none">
         {product.weightGrams}g&ensp;·&ensp;{lang === 'es' ? 'Ultraligero' : 'Ultralight'}
       </span>
       {hasClip && (
         <span class="inline-flex items-center gap-1 backdrop-blur-md bg-white/90
-                     border border-neutral-200/50 text-neutral-800
-                     text-[9px] font-body font-medium tracking-[0.12em] uppercase
-                     px-2.5 py-1 rounded-full shadow-sm select-none">
+                      border border-neutral-200/50 text-neutral-800
+                      text-[8px] sm:text-[9px] font-body font-medium tracking-wider uppercase
+                      px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-full shadow-xs select-none">
           ✦ {t.filters.clip.split('(')[0].trim()}
         </span>
       )}
