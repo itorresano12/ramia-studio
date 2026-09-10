@@ -17,10 +17,21 @@ const isEs = lang === 'es';
     <!-- Brand -->
     <div class="md:col-span-1">
       <a 
-        href={isEs ? "/" : "/en"} 
-        class="inline-block mb-4 group" 
-        aria-label="Ramia Studio - Inicio"
+        href={isEs ? '/' : '/en'} 
+        class="inline-flex items-center gap-2 group mb-4" 
+        aria-label="Ramia Studio — Inicio"
       >
+        <img
+          src="/logo.png"
+          alt="Ramia Studio"
+          width="120"
+          height="32"
+          class="h-6 md:h-7 w-auto object-contain filter brightness-0 invert transition-opacity group-hover:opacity-75"
+          style="display:none"
+          onload="this.style.display='inline';this.nextElementSibling.style.display='none';"
+          loading="lazy"
+          decoding="async"
+        />
         <span class="font-display tracking-[0.25em] text-xl font-medium text-white uppercase group-hover:text-neutral-300 transition-colors">
           Ramia
         </span>
@@ -37,7 +48,7 @@ const isEs = lang === 'es';
 
     <!-- Taller -->
     <div class="md:col-span-1">
-      <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Taller' : 'Atelier'}</h4>
+      <p class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6 font-medium">{isEs ? 'Taller' : 'Atelier'}</p>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
         <li><a href={isEs ? '/#coleccion' : '/en/#coleccion'} class="hover:text-white transition-colors">{t.nav.collection}</a></li>
         <li><a href={isEs ? '/el-estudio' : '/en/studio'} class="hover:text-white transition-colors">{isEs ? 'El Taller' : 'The Atelier'}</a></li>
@@ -47,7 +58,7 @@ const isEs = lang === 'es';
 
     <!-- Taller y Ayuda -->
     <div class="md:col-span-1">
-      <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Taller & Ayuda' : 'Atelier & Help'}</h4>
+      <p class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6 font-medium">{isEs ? 'Taller & Ayuda' : 'Atelier & Help'}</p>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
         <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-2">{isEs ? 'Atención por WhatsApp' : 'WhatsApp Support'}</a></li>
         <li>
@@ -63,7 +74,7 @@ const isEs = lang === 'es';
 
     <!-- Notas Legales -->
     <div class="md:col-span-1">
-      <h4 class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6">{isEs ? 'Legales' : 'Legal'}</h4>
+      <p class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6 font-medium">{isEs ? 'Legales' : 'Legal'}</p>
       <ul class="flex flex-col gap-4 font-body text-sm text-neutral-300">
         <li><a href={isEs ? '/aviso-legal' : '/en/legal-notice'} class="hover:text-white transition-colors">{isEs ? 'Aviso legal' : 'Legal Notice'}</a></li>
         <li><a href={isEs ? '/privacidad' : '/en/privacy'} class="hover:text-white transition-colors">{isEs ? 'Política de privacidad' : 'Privacy Policy'}</a></li>
@@ -80,15 +91,14 @@ const isEs = lang === 'es';
     </p>
     <p>
       {isEs ? 'Diseño: ' : 'Design by '}
-<a 
-  href="https://www.linkedin.com/in/ivan-torresano-canalejas-990b64187/" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  class="hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-700"
->
-  Iván Torresano
-</a>
+      <a 
+        href="https://www.linkedin.com/in/ivan-torresano-canalejas-990b64187/" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-700"
+      >
+        Iván Torresano
+      </a>
     </p>
   </div>
 </footer>
-
