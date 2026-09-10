@@ -84,7 +84,7 @@ export async function getProducts() {
       category: p.category ?? 'pendientes',
       colorPalette: [],
       imageStatic: p.imageStatic 
-        ? `${p.imageStatic}?auto=format&q=80` 
+        ? `${p.imageStatic}?auto=format&w=1000&q=75` 
         : 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
       imageAlt: p.imageAlt ?? '',
       videoHover: '',
