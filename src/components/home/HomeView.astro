@@ -174,6 +174,15 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
       ))}
     </div>
 
+    <!-- Botón Cargar Más -->
+    <div class="text-center mt-12 mb-8" id="load-more-container">
+      <button 
+        id="load-more-btn"
+        class="font-body text-xs tracking-[0.2em] uppercase px-8 py-3.5 rounded-full border border-neutral-300 text-neutral-800 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-300 shadow-sm">
+        {lang === 'es' ? 'Mostrar más piezas' : 'Show more pieces'}
+      </button>
+    </div>
+
     <!-- Empty state -->
     <p id="empty-state"
        class="hidden text-center font-display italic text-neutral-600 text-lg py-20">
@@ -202,64 +211,87 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
   type FilterId = 'all' | 'pendientes' | 'colgantes' | 'charms' | 'packs';
 
   document.addEventListener('astro:page-load', () => {
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const cards      = document.querySelectorAll<HTMLElement>('.product-card');
-    const emptyState = document.getElementById('empty-state');
+    const filterBtns        = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards             = document.querySelectorAll<HTMLElement>('#product-grid > *');
+    const emptyState        = document.getElementById('empty-state');
+    const loadMoreBtn       = document.getElementById('load-more-btn');
+    const loadMoreContainer = document.getElementById('load-more-container');
 
+    const BATCH_SIZE = 8;
+    let visibleCount = BATCH_SIZE;
     let activeFilter: FilterId = 'all';
 
-    function applyFilter(filterId: FilterId) {
-      activeFilter = filterId;
+    function updateCatalog() {
+      const matchingCards: HTMLElement[] = [];
 
-      // Update button styles
-      filterBtns.forEach(btn => {
-        const isActive = btn.dataset.filter === filterId;
-        btn.classList.toggle('bg-neutral-900',  isActive);
-        btn.classList.toggle('text-white',       isActive);
-        btn.classList.toggle('bg-neutral-100', !isActive);
-        btn.classList.toggle('text-neutral-700',  !isActive);
-        btn.classList.toggle('hover:bg-neutral-200', !isActive);
+      // Identificar tarjetas de la categoría seleccionada
+      cards.forEach(card => {
+        const category = (card.dataset.category || '').toLowerCase();
+        const matches = activeFilter === 'all' || category === activeFilter;
+        if (matches) matchingCards.push(card);
       });
 
-      // Show/hide cards
-      let visible = 0;
+      // Mostrar hasta el límite visible y animar
       cards.forEach(card => {
-        const category = card.dataset.category as string;
-
-        const show =
-          filterId === 'all' ||
-          category === filterId;
+        const isMatch = matchingCards.includes(card);
+        const indexInMatches = matchingCards.indexOf(card);
+        const show = isMatch && indexInMatches < visibleCount;
 
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
         if (show) {
-          card.style.opacity    = '1';
-          card.style.transform  = 'scale(1)';
-          card.style.pointerEvents = 'auto';
-          card.style.display    = 'flex';
-          visible++;
+          card.style.display = 'flex';
+          requestAnimationFrame(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+            card.style.pointerEvents = 'auto';
+          });
         } else {
-          card.style.opacity    = '0';
-          card.style.transform  = 'scale(0.97)';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.97)';
           card.style.pointerEvents = 'none';
-          // Collapse after transition
           setTimeout(() => {
-            if (activeFilter !== 'all' && !card.style.opacity.startsWith('1')) {
-              card.style.display = 'none';
-            }
-          }, 320);
+            if (card.style.opacity === '0') card.style.display = 'none';
+          }, 300);
         }
       });
 
+      // Mensaje de categoría vacía
       if (emptyState) {
-        emptyState.classList.toggle('hidden', visible > 0);
+        emptyState.classList.toggle('hidden', matchingCards.length > 0);
+      }
+
+      // Ocultar el botón si no quedan piezas por destapar
+      if (loadMoreContainer) {
+        loadMoreContainer.classList.toggle('hidden', matchingCards.length <= visibleCount);
       }
     }
 
-    if (filterBtns.length > 0) {
-      // Set first button active on load
-      applyFilter('all');
+    function applyFilter(filterId: FilterId) {
+      activeFilter = filterId;
+      visibleCount = BATCH_SIZE; // Reinicia la tanda a 8 al cambiar de pestaña
 
+      filterBtns.forEach(btn => {
+        const isActive = btn.dataset.filter === filterId;
+        btn.classList.toggle('bg-neutral-900',       isActive);
+        btn.classList.toggle('text-white',            isActive);
+        btn.classList.toggle('bg-neutral-100',      !isActive);
+        btn.classList.toggle('text-neutral-700',     !isActive);
+        btn.classList.toggle('hover:bg-neutral-200', !isActive);
+      });
+
+      updateCatalog();
+    }
+
+    // Evento botón "Cargar más"
+    loadMoreBtn?.addEventListener('click', () => {
+      visibleCount += BATCH_SIZE;
+      updateCatalog();
+    });
+
+    // Inicialización y eventos de filtro
+    if (filterBtns.length > 0) {
+      applyFilter('all');
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           applyFilter(btn.dataset.filter as FilterId);
@@ -268,9 +300,3 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     }
   });
 </script>
-
-<style>
-  /* Hide scrollbar on filter row */
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
-  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-</style>
