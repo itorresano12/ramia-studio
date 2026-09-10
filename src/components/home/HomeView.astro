@@ -42,45 +42,45 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
   <!-- ═══════════════════════════════════════════
        HERO — 2-Column Editorial
   ══════════════════════════════════════════════ -->
-  <section class="relative overflow-hidden pt-32 pb-16 px-6 max-w-7xl mx-auto">
-    <!-- Ambient blob -->
-    <div class="hidden sm:block pointer-events-none absolute -top-24 left-1/4 -translate-x-1/2 w-[800px] h-[500px] rounded-full opacity-20"
-         style="background:radial-gradient(ellipse at center,rgba(200,188,240,0.6) 0%,transparent 68%);filter:blur(72px);"
-         aria-hidden="true"></div>
+<section class="relative overflow-hidden pt-6 pb-12 md:pt-16 md:pb-20 px-6 max-w-7xl mx-auto">
+  <!-- Ambient blob -->
+  <div class="hidden sm:block pointer-events-none absolute -top-24 left-1/4 -translate-x-1/2 w-[800px] h-[500px] rounded-full opacity-20"
+       style="background:radial-gradient(ellipse at center,rgba(200,188,240,0.6) 0%,transparent 68%);filter:blur(72px);"
+       aria-hidden="true"></div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-center min-h-[500px]">
+  <div class="grid md:grid-cols-2 gap-12 items-center min-h-[500px]">
+    
+    <!-- Columna Izquierda (Narrativa) -->
+    <div class="flex flex-col text-left justify-center z-10">
+      <p class="font-body text-[10px] tracking-[0.28em] uppercase text-neutral-600 mb-4 select-none">
+        {lang === 'es' ? 'ESTUDIO DE DISEÑO EN METACRILATO — CORTE LÁSER & ARTESANÍA' : 'ACRYLIC DESIGN STUDIO — LASER CUT & CRAFTSMANSHIP'}
+      </p>
       
-      <!-- Columna Izquierda (Narrativa) -->
-      <div class="flex flex-col text-left justify-center pt-32 pb-16 px-6 md:px-0 z-10 min-h-[380px]">
-        <p class="font-body text-[10px] tracking-[0.28em] uppercase text-neutral-600 mb-6 select-none">
-          {lang === 'es' ? 'ESTUDIO DE DISEÑO EN METACRILATO — CORTE LÁSER & ARTESANÍA' : 'ACRYLIC DESIGN STUDIO — LASER CUT & CRAFTSMANSHIP'}
-        </p>
-        
-        <h1 class="font-display text-4xl sm:text-5xl lg:text-7xl font-light text-neutral-900 tracking-tight mb-8 leading-[1.1]">
-          <span class="sr-only">Ramia Studio &middot; </span>
-          {lang === 'es' ? 'Mucho diseño.' : 'Bold design.'}<br/>
-          {lang === 'es' ? 'Cero peso.' : 'Zero weight.'}
-        </h1>
-        
-        <p class="font-body text-neutral-600 leading-relaxed mb-10 max-w-md text-sm md:text-base">
-          {lang === 'es' 
-            ? 'Nuestras piezas desafían la gravedad. Diseños escultóricos y audaces que puedes llevar todo el día con absoluta comodidad gracias a la extrema ligereza del metacrilato.'
-            : 'Our pieces defy gravity. Sculptural and bold designs you can wear all day in absolute comfort thanks to the extreme lightness of acrylic.'}
-        </p>
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-7xl font-light text-neutral-900 tracking-tight mb-6 leading-[1.1]">
+        <span class="sr-only">Ramia Studio &middot; </span>
+        {lang === 'es' ? 'Mucho diseño.' : 'Bold design.'}<br/>
+        {lang === 'es' ? 'Cero peso.' : 'Zero weight.'}
+      </h1>
+      
+      <p class="font-body text-neutral-600 leading-relaxed mb-8 max-w-md text-sm md:text-base">
+        {lang === 'es' 
+          ? 'Nuestras piezas desafían la gravedad. Diseños escultóricos y audaces que puedes llevar todo el día con absoluta comodidad gracias a la extrema ligereza del metacrilato.'
+          : 'Our pieces defy gravity. Sculptural and bold designs you can wear all day in absolute comfort thanks to the extreme lightness of acrylic.'}
+      </p>
 
-        <!-- Guarantee pills -->
-        <div class="flex flex-wrap items-center gap-3">
-          {guarantees.map(g => (
-            <span class="inline-flex items-center gap-2 bg-neutral-50/50
-                         border border-neutral-200 text-xs font-body
-                         text-neutral-600 px-3 py-1 rounded-full
-                         shadow-sm select-none">
-              <span class="text-neutral-300 text-[8px]">✦</span>
-              {g.label}
-            </span>
-          ))}
-        </div>
+      <!-- Guarantee pills -->
+      <div class="flex flex-wrap items-center gap-3">
+        {guarantees.map(g => (
+          <span class="inline-flex items-center gap-2 bg-neutral-50/50
+                       border border-neutral-200 text-xs font-body
+                       text-neutral-600 px-3 py-1 rounded-full
+                       shadow-sm select-none">
+            <span class="text-neutral-300 text-[8px]">✦</span>
+            {g.label}
+          </span>
+        ))}
       </div>
+    </div>
 
       <!-- Columna Derecha (Impacto Visual) -->
       <div class="w-full relative z-10 flex justify-center md:justify-end mt-8 md:mt-0">
