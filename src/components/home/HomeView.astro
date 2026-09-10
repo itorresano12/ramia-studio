@@ -212,7 +212,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
 
   document.addEventListener('astro:page-load', () => {
     const filterBtns        = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const cards             = document.querySelectorAll<HTMLElement>('#product-grid > *');
+    const cards             = document.querySelectorAll<HTMLElement>('.product-card');
     const emptyState        = document.getElementById('empty-state');
     const loadMoreBtn       = document.getElementById('load-more-btn');
     const loadMoreContainer = document.getElementById('load-more-container');
@@ -240,7 +240,7 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
         if (show) {
-          card.style.display = 'flex';
+          card.style.display = '';
           requestAnimationFrame(() => {
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
