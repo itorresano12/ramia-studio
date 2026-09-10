@@ -13,7 +13,7 @@ const isEs = lang === 'es';
 
 <footer class="bg-neutral-900 border-t border-neutral-800 text-neutral-100 py-16 px-6 sm:px-12 rounded-t-3xl mt-auto">
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-8">
-    
+  
     <!-- Brand -->
     <div class="md:col-span-1">
       <a 
@@ -26,15 +26,9 @@ const isEs = lang === 'es';
           alt="Ramia Studio"
           width="120"
           height="32"
-          class="h-6 md:h-7 w-auto object-contain filter brightness-0 invert transition-opacity group-hover:opacity-75"
-          style="display:none"
-          onload="this.style.display='inline';this.nextElementSibling.style.display='none';"
-          loading="lazy"
+          class="h-7 w-auto object-contain filter brightness-0 invert transition-opacity group-hover:opacity-75"
           decoding="async"
         />
-        <span class="font-display tracking-[0.25em] text-xl font-medium text-white uppercase group-hover:text-neutral-300 transition-colors">
-          Ramia
-        </span>
       </a>
       <p class="font-body text-xs text-neutral-400 leading-relaxed mb-4">
         {isEs ? 'Estudio de diseño creativo y joyería en metacrilato. Piezas artesanales diseñadas y montadas en España.' : 'Creative design studio and acrylic jewelry. Artisanal pieces designed and assembled in Spain.'}
@@ -45,7 +39,6 @@ const isEs = lang === 'es';
         </a>
       </div>
     </div>
-
     <!-- Taller -->
     <div class="md:col-span-1">
       <p class="font-body text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-6 font-medium">{isEs ? 'Taller' : 'Atelier'}</p>
