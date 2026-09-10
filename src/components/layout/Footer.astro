@@ -16,9 +16,15 @@ const isEs = lang === 'es';
     
     <!-- Brand -->
     <div class="md:col-span-1">
-      <h3 class="font-display tracking-[0.25em] text-xl font-medium text-white uppercase mb-4">
-        Ramia
-      </h3>
+      <a 
+        href={isEs ? "/" : "/en"} 
+        class="inline-block mb-4 group" 
+        aria-label="Ramia Studio - Inicio"
+      >
+        <span class="font-display tracking-[0.25em] text-xl font-medium text-white uppercase group-hover:text-neutral-300 transition-colors">
+          Ramia
+        </span>
+      </a>
       <p class="font-body text-xs text-neutral-400 leading-relaxed mb-4">
         {isEs ? 'Estudio de diseño creativo y joyería en metacrilato. Piezas artesanales diseñadas y montadas en España.' : 'Creative design studio and acrylic jewelry. Artisanal pieces designed and assembled in Spain.'}
       </p>
@@ -74,7 +80,14 @@ const isEs = lang === 'es';
     </p>
     <p>
       {isEs ? 'Diseño: ' : 'Design by '}
-      <a href="https://github.com/itorresano12" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-700">Iván Torresano</a>
+<a 
+  href="https://www.linkedin.com/in/ivan-torresano-canalejas-990b64187/" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  class="hover:text-neutral-200 transition-colors underline underline-offset-4 decoration-neutral-700"
+>
+  Iván Torresano
+</a>
     </p>
   </div>
 </footer>
