@@ -21,7 +21,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
 -->
 <div id="navbar-wrapper" class="sticky top-6 z-40 mx-auto w-[92%] md:w-full md:max-w-6xl lg:max-w-7xl px-4 sm:px-8 pointer-events-none">
   <nav id="navbar"
-       class="navbar pointer-events-auto relative w-full bg-white/90 backdrop-blur-md border border-neutral-200/70 shadow-sm rounded-full px-6 py-3 md:px-8 md:py-4 flex items-center justify-between"
+       class="navbar pointer-events-auto relative z-50 w-full bg-white/90 backdrop-blur-md border border-neutral-200/70 shadow-sm rounded-full px-6 py-3 md:px-8 md:py-4 flex items-center justify-between"
   >
 
     <!-- ── Brand ── -->
@@ -117,8 +117,15 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     </div>
   </nav>
 
+  <!-- Mobile Menu Backdrop Scrim -->
+  <div
+    id="mobile-menu-backdrop"
+    class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300 ease-out md:hidden"
+    aria-hidden="true"
+  ></div>
+
   <!-- Mobile Menu Dropdown -->
-  <div id="mobile-menu-dropdown" class="absolute top-full mt-2 left-4 right-4 bg-[#FAF8F5] shadow-xl border border-neutral-200/60 rounded-3xl p-6 flex flex-col gap-6 opacity-0 pointer-events-none -translate-y-2 transition-all duration-300 z-40">
+  <div id="mobile-menu-dropdown" class="absolute top-full mt-2 left-4 right-4 bg-[#FAF8F5] shadow-xl border border-neutral-200/60 rounded-3xl p-6 flex flex-col gap-6 opacity-0 pointer-events-none -translate-y-2 transition-all duration-300 z-50">
     <a href={isEs ? '/#coleccion' : '/en#coleccion'} class="mobile-nav-link text-xs font-body font-medium tracking-[0.18em] uppercase text-neutral-900 text-center hover:text-neutral-500">
       {t.nav.collection}
     </a>
@@ -165,6 +172,7 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     // âœ§ Mobile Menu âœ§
     const menuBtn = document.getElementById('mobile-menu-btn');
     const menuDropdown = document.getElementById('mobile-menu-dropdown');
+    const menuBackdrop = document.getElementById('mobile-menu-backdrop');
     const menuIconOpen = document.getElementById('menu-icon-open');
     const menuIconClose = document.getElementById('menu-icon-close');
     const mobileLinks = document.querySelectorAll('.mobile-nav-link');
@@ -173,11 +181,15 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     function toggleMenu() {
       isMenuOpen = !isMenuOpen;
       if (isMenuOpen) {
+        menuBackdrop?.classList.remove('opacity-0', 'pointer-events-none');
+        menuBackdrop?.classList.add('opacity-100', 'pointer-events-auto');
         menuDropdown?.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
         menuDropdown?.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
         menuIconOpen?.classList.add('hidden');
         menuIconClose?.classList.remove('hidden');
       } else {
+        menuBackdrop?.classList.add('opacity-0', 'pointer-events-none');
+        menuBackdrop?.classList.remove('opacity-100', 'pointer-events-auto');
         menuDropdown?.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
         menuDropdown?.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
         menuIconOpen?.classList.remove('hidden');
@@ -186,6 +198,9 @@ const enUrl = productSlug ? `/en/product/${productSlug}` : '/en';
     }
 
     menuBtn?.addEventListener('click', toggleMenu);
+    menuBackdrop?.addEventListener('click', () => {
+      if (isMenuOpen) toggleMenu();
+    });
     
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
