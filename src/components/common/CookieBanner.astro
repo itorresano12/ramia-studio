@@ -7,11 +7,11 @@ const { lang } = Astro.props;
 const isEs = lang === 'es';
 ---
 
-<aside id="cookie-banner" class="fixed bottom-0 inset-x-0 pb-4 px-4 sm:px-6 md:pb-6 md:px-8 z-[100] translate-y-full transition-transform duration-700 ease-out flex justify-center pointer-events-none" aria-label="Cookie consent">
-  <div class="pointer-events-auto max-w-4xl w-full bg-neutral-900 text-white rounded-2xl shadow-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-    <div class="font-body text-sm text-neutral-300 flex-1">
-      <h3 class="text-white font-medium text-base mb-2">{isEs ? 'Privacidad y Cookies' : 'Privacy & Cookies'}</h3>
-      <p class="leading-relaxed text-[13px]">
+<aside id="cookie-banner" class="fixed bottom-0 inset-x-0 pb-3 px-3 sm:px-6 md:pb-6 md:px-8 z-[100] translate-y-full transition-transform duration-700 ease-out flex justify-center pointer-events-none" aria-label="Cookie consent">
+  <div class="pointer-events-auto max-w-4xl w-full bg-neutral-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 md:gap-6 border border-neutral-800">
+    <div class="font-body text-xs sm:text-sm text-neutral-300 flex-1">
+      <h3 class="text-white font-medium text-xs sm:text-sm md:text-base mb-1 md:mb-1.5">{isEs ? 'Privacidad y Cookies' : 'Privacy & Cookies'}</h3>
+      <p class="leading-snug sm:leading-relaxed text-[11px] sm:text-[13px] text-neutral-300">
         {isEs 
           ? 'Utilizamos cookies técnicas estrictamente necesarias para el funcionamiento del carrito de compra y la experiencia básica del taller. De momento, no utilizamos rastreadores de terceros.'
           : 'We use strictly necessary technical cookies to ensure the shopping cart and basic studio experience function properly. We currently do not use third-party trackers.'}
@@ -21,11 +21,11 @@ const isEs = lang === 'es';
       </p>
     </div>
     
-    <div class="flex flex-col sm:flex-row w-full md:w-auto gap-3 shrink-0">
-      <button id="btn-cookies-necessary" class="px-6 py-3 font-body text-[11px] font-medium tracking-[0.1em] uppercase border border-neutral-700 text-neutral-300 rounded-full hover:bg-neutral-800 hover:text-white transition-colors">
+    <div class="flex flex-row w-full md:w-auto gap-2 sm:gap-3 shrink-0 pt-1 md:pt-0">
+      <button id="btn-cookies-necessary" class="flex-1 md:flex-initial text-center px-3.5 py-2 sm:px-5 sm:py-2.5 font-body text-[10px] sm:text-[11px] font-medium tracking-[0.08em] uppercase border border-neutral-700 text-neutral-300 rounded-full hover:bg-neutral-800 hover:text-white transition-colors whitespace-nowrap">
         {isEs ? 'Solo necesarias' : 'Strictly necessary'}
       </button>
-      <button id="btn-cookies-all" class="px-6 py-3 font-body text-[11px] font-medium tracking-[0.1em] uppercase bg-white text-neutral-900 rounded-full hover:bg-neutral-200 transition-colors">
+      <button id="btn-cookies-all" class="flex-1 md:flex-initial text-center px-4 py-2 sm:px-5 sm:py-2.5 font-body text-[10px] sm:text-[11px] font-medium tracking-[0.08em] uppercase bg-white text-neutral-900 rounded-full hover:bg-neutral-200 transition-colors whitespace-nowrap shadow-xs">
         {isEs ? 'Aceptar todas' : 'Accept all'}
       </button>
     </div>

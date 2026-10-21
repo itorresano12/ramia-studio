@@ -112,12 +112,12 @@ const hasClip = product.closureOptions.includes('clip');
     </p>
 
     <!-- Price + CTA -->
-    <div class="mt-auto pt-3 flex items-center justify-between gap-2 w-full min-w-0 flex-wrap">
+    <div class="mt-auto pt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 w-full min-w-0">
       <span class="text-base sm:text-lg font-serif text-neutral-900 shrink-0">
         {product.price.toFixed(2)}<span class="text-sm ml-0.5">€</span>
       </span>
       <button
-        class="add-to-cart-btn shrink-0 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-neutral-900 hover:bg-neutral-800 text-white text-[11px] sm:text-xs font-semibold tracking-wider uppercase rounded-full transition-colors whitespace-nowrap shadow-sm hover:shadow-md active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="add-to-cart-btn w-full sm:w-auto shrink-0 min-h-[44px] px-3.5 sm:px-4 py-2.5 sm:py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white text-[10.5px] sm:text-xs font-medium sm:font-semibold tracking-wider uppercase rounded-full transition-all duration-200 flex items-center justify-center whitespace-nowrap shadow-xs hover:shadow-md active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label={`${t.product.addToBag} - ${product.title[lang]}`}
         disabled={!product.inStock}
         data-product={JSON.stringify(product)}

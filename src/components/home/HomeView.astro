@@ -153,10 +153,10 @@ const maxWeight = Math.max(...weights.map(w => w.grams));
     </div>
 
     <!-- Filter pills -->
-    <div class="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto no-scrollbar flex items-center gap-2.5 py-2 sm:flex-wrap sm:justify-center mb-8 scroll-smooth after:content-[''] after:w-4 after:shrink-0">
+    <div class="-mx-4 px-5 sm:mx-0 sm:px-0 overflow-x-auto no-scrollbar flex items-center gap-3 sm:gap-2.5 py-2 sm:flex-wrap sm:justify-center mb-8 scroll-smooth after:content-[''] after:w-6 after:shrink-0">
       {filters.map(f => (
         <button
-          class="filter-btn shrink-0 whitespace-nowrap text-xs px-4 py-2 font-body font-medium tracking-[0.15em]
+          class="filter-btn shrink-0 whitespace-nowrap text-xs px-6 sm:px-4 py-2.5 sm:py-2 font-body font-medium tracking-[0.15em]
                  uppercase rounded-full border transition-all duration-200
                  border-transparent bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
           data-filter={f.id}
